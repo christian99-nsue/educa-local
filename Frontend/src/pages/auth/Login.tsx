@@ -29,7 +29,7 @@ const Login = () => {
 
       // 🔀 Redirección por rol
       if (user.rol === "Estudiante") {
-        navigate("/dashboard");
+        navigate("/");
       } else {
         navigate("/admin");
       }
