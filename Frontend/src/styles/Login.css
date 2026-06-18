@@ -126,13 +126,6 @@ svg {
   background: #ffffff;
   background-blend-mode: normal;
   box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
-  /*
-  flex: 1;
-  padding: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  */
 }
 
 .lang {
@@ -145,17 +138,6 @@ svg {
   border: 1px solid #b7b7b7;
   background: #ffffff;
   background-blend-mode: normal;
-  /*
-
-  position: absolute;
-  top: 20px;
-  height: 25px;
-  border: 1px;
-  width: 450px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-bottom: 20px; */
 }
 
 .lang svg {
@@ -222,14 +204,6 @@ form h5 {
   border: 1px solid #cac8c8;
   background: #ffffff;
   background-blend-mode: normal;
-
-  /*
-  display: flex;
-  align-items: center;
-  border: 1px solid #ddd;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 15px; */
 }
 
 .input-box svg {
@@ -445,6 +419,9 @@ button:hover {
   width: 500px;
 }
 
+.social {
+  grid-template-columns: repeat(3, 1fr);
+}
 .register a {
   color: #b300ff;
   font-family: "Dai Banna SIL";
@@ -456,6 +433,12 @@ button:hover {
   fill: #b300ff;
   width: 12px;
   height: 12px;
-  left: 265px;
-  top: 2px;
+  position: relative;
+  top: 3.5px;
+}
+
+.google-container {
+  display: flex;
+  position: relative;
+  top: 365px;
 }
