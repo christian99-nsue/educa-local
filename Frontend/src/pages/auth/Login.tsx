@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useTranslation } from "react-i18next";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useMsal } from "@azure/msal-react";
+import {
+  isMicrosoftAuthConfigured,
+  microsoftLoginRequest,
+} from "../../authConfig";
 import "../../styles/Login.css";
 
 // IMAGES
@@ -10,15 +15,32 @@ import logo from "../../assets/images/Libro1.1.png";
 import illustration from "../../assets/images/IMG3.1.png";
 
 const Login = () => {
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [correo, setCorreo] = useState("");
-  const [contraseña, setContraseña] = useState("");
-  const [mostrarContraseña, setMostrarContraseña] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation();
+  const { instance } = useMsal();
+
+  type Centro = {
+    rol?: string;
+    rol_en_centro?: string;
+  };
+
+  type LoginResponse = {
+    token: string;
+    centros: Centro[];
+    user?: {
+      id: number;
+      email: string;
+      code?: string;
+    };
+  };
 
   const loginWithGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      const res = await fetch("http://localhost:3306/auth/google", {
+      const res = await fetch("http://localhost:3001/auth/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,31 +69,71 @@ const Login = () => {
     i18n.changeLanguage(e.target.value);
   };
 
-  const handleLogin = async () => {
-    console.log(correo, contraseña);
+  const handleRedirectByRole = (rol: string) => {
+    if (rol === "admin") navigate("/admin/dashboard");
+    else if (rol === "profesor") navigate("/profesor/dashboard");
+    else navigate("/alumno/dashboard");
+  };
+
+  const finishLogin = (data: LoginResponse) => {
+    const { token, centros, user } = data;
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("centros", JSON.stringify(centros));
+    if (user) localStorage.setItem("user", JSON.stringify(user));
+
+    if (centros.length > 1) {
+      navigate("/select-centro");
+    } else {
+      const rol = centros[0].rol_en_centro ?? centros[0].rol ?? "alumno";
+      handleRedirectByRole(rol);
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(identifier, password);
     try {
-      const res = await axios.post("http://localhost:3306/login", {
-        correo,
-        contraseña,
+      const res = await axios.post("http://localhost:3001/api/auth/login", {
+        identifier,
+        password,
       });
 
-      const { token, user } = res.data;
-
-      // 💾 Guardar sesión
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-
-      // 🔀 Redirección por rol
-      if (user.rol === "Estudiante") {
-        navigate("/");
-      } else {
-        navigate("/admin");
-      }
+      finishLogin(res.data);
 
       console.log("RESPUESTA:", res.data);
-    } catch (error) {
+    } catch (err: unknown) {
+      const axiosError = err as AxiosError<{ message?: string }>;
       console.log(error);
-      alert("Correo o contraseña incorrectos");
+      setError(axiosError.response?.data?.message || "Error inesperado");
+    }
+  };
+
+  const handleMicrosoftLogin = async () => {
+    if (!isMicrosoftAuthConfigured) {
+      setError(
+        "Configura VITE_MICROSOFT_CLIENT_ID para iniciar sesión con Microsoft.",
+      );
+      return;
+    }
+
+    try {
+      setError("");
+      const microsoftResponse = await instance.loginPopup(
+        microsoftLoginRequest,
+      );
+
+      const res = await axios.post("http://localhost:3001/api/auth/microsoft", {
+        idToken: microsoftResponse.idToken,
+      });
+
+      finishLogin(res.data);
+    } catch (err: unknown) {
+      const axiosError = err as AxiosError<{ message?: string }>;
+      setError(
+        axiosError.response?.data?.message ||
+          "No se pudo iniciar sesión con Microsoft",
+      );
     }
   };
 
@@ -123,8 +185,8 @@ const Login = () => {
             <input
               type="text"
               placeholder="tu@email.com"
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
             />
           </div>
           {/* PASSWORD */}
@@ -134,14 +196,14 @@ const Login = () => {
               <path d="M256 160L256 224L384 224L384 160C384 124.7 355.3 96 320 96C284.7 96 256 124.7 256 160zM192 224L192 160C192 89.3 249.3 32 320 32C390.7 32 448 89.3 448 160L448 224C483.3 224 512 252.7 512 288L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 288C128 252.7 156.7 224 192 224z" />
             </svg>
             <input
-              type={mostrarContraseña ? "text" : "password"}
+              type={showPassword ? "text" : "password"}
               placeholder={t("Ingrese su contraseña")}
-              value={contraseña}
-              onChange={(e) => setContraseña(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <span
               className="eye"
-              onClick={() => setMostrarContraseña(!mostrarContraseña)}
+              onClick={() => setShowPassword(!showPassword)}
             >
               👁️
             </span>
@@ -177,7 +239,11 @@ const Login = () => {
             </svg>
             Google
           </button>
-          <button className="microsoft-button">
+          <button
+            className="microsoft-button"
+            onClick={handleMicrosoftLogin}
+            disabled={!isMicrosoftAuthConfigured}
+          >
             <svg viewBox="0 0 21 21">
               <rect x="1" y="1" width="9" height="9" fill="#f25022" />
               <rect x="11" y="1" width="9" height="9" fill="#7fba00" />
