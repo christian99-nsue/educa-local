@@ -69,10 +69,23 @@ const Login = () => {
     i18n.changeLanguage(e.target.value);
   };
 
-  const handleRedirectByRole = (rol: string) => {
-    if (rol === "admin") navigate("/admin/dashboard");
-    else if (rol === "profesor") navigate("/profesor/dashboard");
-    else navigate("/alumno/dashboard");
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Enviado:", { identifier, password });
+    try {
+      const res = await axios.post("http://localhost:3001/auth/login", {
+        identifier,
+        password,
+      });
+
+      finishLogin(res.data);
+
+      console.log("RESPUESTA:", res.data);
+    } catch (err: unknown) {
+      const axiosError = err as AxiosError<{ message?: string }>;
+      console.log(error);
+      setError(axiosError.response?.data?.message || "Error inesperado");
+    }
   };
 
   const finishLogin = (data: LoginResponse) => {
@@ -89,26 +102,6 @@ const Login = () => {
       handleRedirectByRole(rol);
     }
   };
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(identifier, password);
-    try {
-      const res = await axios.post("http://localhost:3001/api/auth/login", {
-        identifier,
-        password,
-      });
-
-      finishLogin(res.data);
-
-      console.log("RESPUESTA:", res.data);
-    } catch (err: unknown) {
-      const axiosError = err as AxiosError<{ message?: string }>;
-      console.log(error);
-      setError(axiosError.response?.data?.message || "Error inesperado");
-    }
-  };
-
   const handleMicrosoftLogin = async () => {
     if (!isMicrosoftAuthConfigured) {
       setError(
@@ -123,7 +116,7 @@ const Login = () => {
         microsoftLoginRequest,
       );
 
-      const res = await axios.post("http://localhost:3001/api/auth/microsoft", {
+      const res = await axios.post("http://localhost:3001/auth/microsoft", {
         idToken: microsoftResponse.idToken,
       });
 
@@ -135,6 +128,12 @@ const Login = () => {
           "No se pudo iniciar sesión con Microsoft",
       );
     }
+  };
+
+  const handleRedirectByRole = (rol: string) => {
+    if (rol === "admin") navigate("/admin/dashboard");
+    else if (rol === "profesor") navigate("/profesor/dashboard");
+    else navigate("/alumno/dashboard");
   };
 
   return (

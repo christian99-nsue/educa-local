@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const loginUser = async (identifier: string, password: string) => {
+  console.log("1. identifier:", identifier, "| password:", password);
   const sql = `
     SELECT * FROM usuarios 
     WHERE email = ? OR code = ?
@@ -10,13 +11,25 @@ export const loginUser = async (identifier: string, password: string) => {
 
   const [rows]: any = await db.query(sql, [identifier, identifier]);
 
+  console.log("2. Usuarios encontrados:", rows.length);
+
   if (rows.length === 0) {
     throw new Error("Usuario no encontrado");
   }
 
   const user = rows[0];
+  console.log(
+    "3. correo:",
+    user.email,
+    "| codigo:",
+    user.code,
+    "| hash en DB:",
+    user.password,
+  );
+  console.log("4. password recibido:", password);
 
   const match = await bcrypt.compare(password, user.password);
+  console.log("5. bcrypt match:", match);
 
   if (!match) {
     throw new Error("Contraseña incorrecta");
