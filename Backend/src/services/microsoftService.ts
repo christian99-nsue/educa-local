@@ -6,10 +6,13 @@ const microsoftTenantId = process.env.MICROSOFT_TENANT_ID;
 const microsoftClientId = process.env.MICROSOFT_CLIENT_ID;
 
 const client = jwksClient({
-  jwksUri: `https://login.microsoftonline.com/${microsoftTenantId}/discovery/v2.0/keys`,
+  jwksUri: `https://login.microsoftonline.com/common/discovery/v2.0/keys`,
 });
 
-const getSigningKey = (header: jwt.JwtHeader, callback: jwt.SigningKeyCallback) => {
+const getSigningKey = (
+  header: jwt.JwtHeader,
+  callback: jwt.SigningKeyCallback,
+) => {
   if (!header.kid) {
     callback(new Error("Token Microsoft sin key id"));
     return;
@@ -29,7 +32,8 @@ const verifyMicrosoftIdToken = (idToken: string) => {
   if (!microsoftTenantId || !microsoftClientId) {
     throw new Error("Microsoft Auth no está configurado en el backend");
   }
-
+  const decoded = jwt.decode(idToken) as jwt.JwtPayload;
+  console.log("Issuer del token:", decoded?.iss);
   return new Promise<jwt.JwtPayload>((resolve, reject) => {
     jwt.verify(
       idToken,
@@ -37,7 +41,11 @@ const verifyMicrosoftIdToken = (idToken: string) => {
       {
         algorithms: ["RS256"],
         audience: microsoftClientId,
-        issuer: `https://login.microsoftonline.com/${microsoftTenantId}/v2.0`,
+        issuer: [
+          `https://login.microsoftonline.com/${microsoftTenantId}/v2.0`,
+          `https://sts.windows.net/${microsoftTenantId}/`,
+          `https://login.microsoftonline.com/9188040d-6c67-4c5b-b112-36a304b66dad/v2.0`,
+        ],
       },
       (error, decoded) => {
         if (error) {
@@ -49,7 +57,6 @@ const verifyMicrosoftIdToken = (idToken: string) => {
           reject(new Error("Token Microsoft inválido"));
           return;
         }
-
         resolve(decoded);
       },
     );
@@ -64,7 +71,10 @@ export const microsoftLogin = async (idToken: string) => {
     throw new Error("El token Microsoft no contiene correo electrónico");
   }
 
-  const [users]: any = await db.query("SELECT * FROM usuarios WHERE email = ?", [email]);
+  const [users]: any = await db.query(
+    `SELECT * FROM usuarios WHERE email = ?`,
+    [email],
+  );
 
   if (users.length === 0) {
     throw new Error("No existe un usuario registrado con ese correo Microsoft");
@@ -96,6 +106,7 @@ export const microsoftLogin = async (idToken: string) => {
       id: user.id,
       email: user.email,
       code: user.code,
+      nombre: user.nombre,
     },
     centros,
     token,

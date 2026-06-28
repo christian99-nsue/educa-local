@@ -3,7 +3,6 @@ import { loginUser } from "../services/authService";
 import { googleLogin } from "../services/googleService";
 import { microsoftLogin } from "../services/microsoftService";
 
-
 //Login Normal
 export const login = async (req: Request, res: Response) => {
   try {
@@ -17,20 +16,23 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-
 //Google Login
 export const googleAuth = async (req: any, res: any) => {
   try {
     const { token } = req.body;
+    console.log("Token recibido:", token);
+
+    if (!token) {
+      return res.status(400).json({ message: "Token no recibido" });
+    }
 
     const data = await googleLogin(token);
-
     res.json(data);
-  } catch (err) {
-    res.status(400).json({ message: "Error Google login" });
+  } catch (err: any) {
+    console.log("Error completo:", err.message);
+    res.status(400).json({ message: err.message });
   }
 };
-
 
 // Microsoft Login
 export const microsoftAuth = async (req: Request, res: Response) => {
@@ -46,6 +48,7 @@ export const microsoftAuth = async (req: Request, res: Response) => {
 
     res.json(data);
   } catch (err: any) {
+    console.log("Error Microsoft:", err.message);
     res.status(400).json({ message: err.message || "Error Microsoft login" });
   }
 };

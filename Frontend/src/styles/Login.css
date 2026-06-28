@@ -3,42 +3,34 @@
   height: 100vh;
   font-family: sans-serif;
 }
-
 /* LEFT */
 .login-left {
-  position: absolute;
-  left: 220px;
-  top: 35px;
+  margin-top: 30px;
+  margin-left: 180px;
   width: 320px;
   height: 500px;
   border-radius: 12px 0px 0px 12px;
   background: #061431;
   background-blend-mode: normal;
   box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
-  /*
-  flex: 1;
-  background: #061431;
   color: white;
-  padding: 40px;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  */
+  flex-direction: column;
 }
 
 .logo {
-  position: absolute;
-  left: 20px;
-  top: 20px;
+  margin-left: 20px;
+  margin-top: 10px;
   width: 70px;
   height: 64px;
   border-radius: 26px;
 }
 
 .edu-local {
-  position: absolute;
-  left: 90px;
-  top: 30px;
+  position: relative;
+  left: 100px;
+  top: -53px;
   width: 139px;
   height: 27px;
   color: #ffffff;
@@ -47,10 +39,11 @@
   font-weight: 700;
   text-align: center;
 }
+
 .edu {
-  position: absolute;
-  left: 40px;
-  top: 85px;
+  position: relative;
+  top: -30px;
+  margin-left: 40px;
   width: 208px;
   height: 41px;
   color: #ffffff;
@@ -64,9 +57,9 @@
 }
 
 .login-left p {
-  position: absolute;
-  left: 40px;
-  top: 180px;
+  position: relative;
+  top: -20px;
+  margin-left: 40px;
   width: 250px;
   height: 62px;
   color: #cac8c8;
@@ -76,16 +69,17 @@
 }
 
 .illustration {
-  position: absolute;
-  left: 30px;
-  top: 180px;
+  position: relative;
+  top: -60px;
   width: 80%;
   max-width: 400px;
+  margin-left: 30px;
 }
+
 .oval {
   position: absolute;
-  left: 40px;
-  top: 400px;
+  margin-left: 40px;
+  margin-top: 420px;
   width: 35px;
   height: 35px;
   background: #4c29bc;
@@ -93,7 +87,7 @@
   border-radius: 50%;
 }
 
-svg {
+.oval svg {
   position: absolute;
   left: 4px;
   top: 5px;
@@ -104,9 +98,9 @@ svg {
 }
 
 .login-left small {
-  position: absolute;
-  left: 90px;
-  top: 407px;
+  position: relative;
+  margin-left: 90px;
+  top: -80px;
   width: 149px;
   height: 30px;
   color: #cac8c8;
@@ -115,11 +109,17 @@ svg {
   font-weight: 400;
 }
 
+.side-note {
+  margin-top: 10px;
+}
+
 /* RIGHT */
+
 .login-right {
-  position: absolute;
-  left: 540px;
-  top: 35px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 30px;
   width: 500px;
   height: 500px;
   border-radius: 0px 12px 12px 0px;
@@ -129,9 +129,9 @@ svg {
 }
 
 .lang {
-  position: absolute;
-  left: 320px;
-  top: 20px;
+  align-self: flex-end;
+  margin-top: 30px;
+  margin-right: 50px;
   width: 130px;
   height: 30px;
   border-radius: 8px;
@@ -141,20 +141,22 @@ svg {
 }
 
 .lang svg {
-  position: absolute;
-  left: 10px;
+  position: relative;
+  margin-left: 10px;
   width: 20px;
+  margin-top: 5px;
   height: 20px;
   border-radius: 50%;
   fill: #686868;
 }
 
 .lang select {
+  position: relative;
+  top: -5px;
+  left: 10px;
   border: 0px solid white;
-  position: absolute;
-  left: 40px;
   width: 80px;
-  height: 30px;
+  height: 20px;
   font-size: 10px;
   font-weight: 550;
   cursor: pointer;
@@ -162,9 +164,8 @@ svg {
 }
 
 .login-right h2 {
-  position: absolute;
-  left: 50px;
-  top: 60px;
+  margin-left: 30px;
+  margin-top: 20px;
   width: 200px;
   height: 45px;
   font-family: "Alegreya Sans";
@@ -173,31 +174,36 @@ svg {
 }
 
 .login-right p {
-  position: absolute;
-  left: 50px;
-  top: 100px;
+  position: relative;
+  top: -20px;
+  margin-left: 30px;
   width: 250px;
   height: 19px;
   font-family: "Alegreya Sans";
   font-size: 10px;
   font-weight: 500;
 }
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
 
 form h5 {
-  position: absolute;
-  left: 50px;
-  top: 150px;
+  margin-left: 30px;
+  margin-top: 8px;
+  margin-bottom: 4px;
   width: 200px;
   height: 18px;
   font-family: "Dai Banna SIL";
   font-size: 10px;
   font-weight: 600;
+  position: static;
 }
 
 .input-box {
-  position: absolute;
-  left: 45px;
-  top: 185px;
+  display: flex;
+  margin-left: 30px;
   width: 350px;
   height: 30px;
   border-radius: 5px;
@@ -207,9 +213,8 @@ form h5 {
 }
 
 .input-box svg {
-  position: absolute;
-  left: 10px;
-  top: 6px;
+  margin-top: 6px;
+  margin-left: 10px;
   width: 24px;
   height: 18px;
   fill: #b7b7b7;
@@ -219,28 +224,27 @@ form h5 {
 .input-box input {
   border: none;
   outline: none;
-  flex: 1;
-  margin-left: 30px;
   width: 270px;
   height: 30px;
   padding: 0 10px;
   font-size: 10px;
   line-height: 30px;
 }
+
 .psw {
-  position: absolute;
-  left: 50px;
-  top: 220px;
+  margin-left: 30px;
+  margin-top: 30px;
+  margin-bottom: 4px;
   width: 200px;
   height: 18px;
   font-family: "Dai Banna SIL";
   font-size: 10px;
   font-weight: 600;
 }
+
 .input-box-password {
-  position: absolute;
-  left: 45px;
-  top: 255px;
+  display: flex;
+  margin-left: 30px;
   width: 350px;
   height: 30px;
   border-radius: 5px;
@@ -252,44 +256,69 @@ form h5 {
 .input-box-password input {
   border: none;
   outline: none;
-  flex: 1;
-  margin-left: 30px;
   width: 270px;
   height: 30px;
   padding: 0 10px;
   font-size: 10px;
   line-height: 30px;
 }
+
 .input-box-password svg {
-  position: absolute;
-  left: 10px;
-  top: 6px;
+  margin-top: 6px;
+  margin-left: 10px;
   width: 24px;
   height: 18px;
   fill: #b7b7b7;
   background-blend-mode: normal;
 }
+
 .eye {
+  margin-right: 10px;
+  font-size: 8px;
   cursor: pointer;
+  color: #888;
+  align-items: center;
+  margin-top: 1px;
 }
 
-form a {
-  position: absolute;
-  left: 290px;
-  top: 295px;
-  width: 200px;
+.eye svg {
+  width: 16px;
   height: 16px;
+}
+
+.eye:hover {
+  color: #333;
+}
+
+.error-forgot {
+  display: flex;
+  margin-left: 30px;
+  justify-content: space-between;
+  width: 350px;
+  height: 20px;
+  margin-top: 10px;
+  font-size: 10px;
+}
+form a {
   color: #b032e7;
   font-family: "Dai Banna SIL";
-  font-size: 10px;
   font-weight: 500;
   cursor: pointer;
+  white-space: nowrap;
 }
 
-button {
-  position: absolute;
-  left: 45px;
-  top: 320px;
+.login-error {
+  margin: 0;
+  color: #c62828;
+  font-family: "Dai Banna SIL";
+  font-weight: 500;
+  font-size: 10px;
+  flex: 1;
+}
+
+button.login {
+  margin-left: 30px;
+  margin-bottom: 5px;
   width: 350px;
   height: 35px;
   border: 0px;
@@ -299,18 +328,20 @@ button {
   cursor: pointer;
   color: #ffffff;
 }
-button:hover {
+
+button.login:hover {
   background-color: #4f8cff;
 }
+
 .divider {
   display: flex;
   align-items: center;
   text-align: center;
-  position: relative;
-  top: 365px;
   width: 345px;
-  left: 48px;
+  margin-left: 30px;
+  margin-bottom: 5px;
 }
+
 .divider::before,
 .divider::after {
   content: "";
@@ -318,110 +349,66 @@ button:hover {
   height: 1px;
   background: #bdbdbd;
 }
+
 .divider span {
-  margin: 0 10px;
+  margin: 0 5px;
   font-size: 10px;
   color: #757575;
 }
 
 .social {
   display: flex;
-  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 45px;
 }
 
 .google-button {
-  position: absolute;
-  left: 45px;
-  top: 380px;
-  width: 100px;
-  height: 35px;
-  border-radius: 8px;
-  border: 1px solid #b7b7b7;
+  margin-left: 30px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+button.microsoft-button {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 150px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid #dadce0;
+  color: #3c4043;
   background: #ffffff;
   background-blend-mode: normal;
   cursor: pointer;
   text-align: end;
-  padding-right: 15px;
-  font-size: 12px;
-}
-.google-button svg {
-  padding-left: 5px;
-  width: "18";
-  height: "18";
+  font-size: 14px;
 }
 
-.microsoft-button {
-  position: absolute;
-  left: 165px;
-  top: 380px;
-  width: 115px;
-  height: 35px;
-  border-radius: 8px;
-  border: 1px solid #b7b7b7;
-  background: #ffffff;
-  background-blend-mode: normal;
-  cursor: pointer;
-  text-align: end;
-  font-size: 12px;
-  padding-right: 15px;
-  padding-left: 5px;
+button.microsoft-button:hover {
+  border: 1px solid #c6c6c6;
+  background-color: #e8f0fe;
 }
 
-.microsoft-button svg {
-  padding-left: 5px;
-  width: 18px;
-  height: 18px;
-  top: 7px;
-}
-
-.apple-button {
-  position: absolute;
-  left: 300px;
-  top: 380px;
-  width: 100px;
-  height: 35px;
-  border-radius: 8px;
-  border: 1px solid #b7b7b7;
-  background: #ffffff;
-  background-blend-mode: normal;
-  text-align: end;
-  padding-right: 15px;
-}
-
-.apple-button svg {
-  top: 3px;
-  width: 25px;
-  height: 25px;
-  fill: black;
-  padding-left: 5px;
-}
-
-.social button {
-  flex: 1;
-  background: white;
-  border: 1px solid #ddd;
-  color: black;
+button.microsoft-button svg {
+  width: 20px;
+  height: 20px;
+  align-self: center;
 }
 
 .register {
-  position: absolute;
-  left: 0px;
-  top: 320px;
   width: 500px;
   height: 18px;
   color: #757575;
   font-family: "Dai Banna SIL";
   font-size: 16px;
   font-weight: 500;
+  margin-bottom: 10px;
 }
 .register p {
   font-size: 12px;
   width: 500px;
 }
 
-.social {
-  grid-template-columns: repeat(3, 1fr);
-}
 .register a {
   color: #b300ff;
   font-family: "Dai Banna SIL";
@@ -429,16 +416,12 @@ button:hover {
   font-weight: 500;
   cursor: pointer;
 }
-.register svg {
+
+.register p a svg {
+  position: relative;
+  top: 3px;
+  left: 2px;
   fill: #b300ff;
   width: 12px;
   height: 12px;
-  position: relative;
-  top: 3.5px;
-}
-
-.google-container {
-  display: flex;
-  position: relative;
-  top: 365px;
 }

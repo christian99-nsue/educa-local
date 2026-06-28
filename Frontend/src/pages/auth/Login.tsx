@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import { useTranslation } from "react-i18next";
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import { useMsal } from "@azure/msal-react";
 import {
   isMicrosoftAuthConfigured,
@@ -23,6 +25,55 @@ const Login = () => {
   const { t } = useTranslation();
   const { instance } = useMsal();
 
+  const handleRedirectByRole = (rol: string) => {
+    if (rol === "admin") navigate("/admin/dashboard");
+    else if (rol === "profesor") navigate("/profesor/dashboard");
+    else navigate("/alumno/dashboard");
+  };
+  const finishLogin = (data: LoginResponse) => {
+    const { token, user } = data;
+    const centros = data.centros ?? [];
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("centros", JSON.stringify(centros));
+    if (user) localStorage.setItem("user", JSON.stringify(user));
+
+    if (centros.length > 1) {
+      navigate("/select-centro", {
+        state: {
+          centros: data.centros,
+          user: data.user,
+        },
+      });
+    } else if (centros.length === 1) {
+      const rol = centros[0].rol_en_centro ?? centros[0].rol ?? "alumno";
+
+      handleRedirectByRole(rol);
+    } else {
+      setError("No tienes centros asignados");
+    }
+  };
+
+  useEffect(() => {
+    instance
+      .handleRedirectPromise()
+      .then(async (response) => {
+        if (!response) return;
+        if (!response.idToken) return;
+
+        const res = await axios.post(
+          "http://localhost:3001/api/auth/microsoft",
+          {
+            idToken: response.idToken,
+          },
+        );
+        finishLogin(res.data);
+      })
+      .catch((err) => {
+        console.log("Error redirect Microsoft:", err);
+      }); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   type Centro = {
     rol?: string;
     rol_en_centro?: string;
@@ -38,32 +89,6 @@ const Login = () => {
     };
   };
 
-  const loginWithGoogle = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      const res = await fetch("http://localhost:3001/auth/google", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          access_token: tokenResponse.access_token,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.error);
-        return;
-      }
-
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      navigate("/");
-    },
-  });
-
   const { i18n } = useTranslation();
   const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(e.target.value);
@@ -71,37 +96,35 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Enviado:", { identifier, password });
+    setError("");
+
+    const cleanIdentifier = identifier.trim();
+
+    if (!cleanIdentifier || !password) {
+      setError("Introduce tu correo/codigo y contraseña");
+      return;
+    }
+
+    if (/^\$2[aby]\$\d{2}\$/.test(password)) {
+      setError(
+        "Introduce la contrasena real, no el hash guardado en la base de datos",
+      );
+      return;
+    }
+
     try {
-      const res = await axios.post("http://localhost:3001/auth/login", {
-        identifier,
+      const res = await axios.post("http://localhost:3001/api/auth/login", {
+        identifier: cleanIdentifier,
         password,
       });
 
       finishLogin(res.data);
-
-      console.log("RESPUESTA:", res.data);
     } catch (err: unknown) {
       const axiosError = err as AxiosError<{ message?: string }>;
-      console.log(error);
       setError(axiosError.response?.data?.message || "Error inesperado");
     }
   };
 
-  const finishLogin = (data: LoginResponse) => {
-    const { token, centros, user } = data;
-
-    localStorage.setItem("token", token);
-    localStorage.setItem("centros", JSON.stringify(centros));
-    if (user) localStorage.setItem("user", JSON.stringify(user));
-
-    if (centros.length > 1) {
-      navigate("/select-centro");
-    } else {
-      const rol = centros[0].rol_en_centro ?? centros[0].rol ?? "alumno";
-      handleRedirectByRole(rol);
-    }
-  };
   const handleMicrosoftLogin = async () => {
     if (!isMicrosoftAuthConfigured) {
       setError(
@@ -109,31 +132,16 @@ const Login = () => {
       );
       return;
     }
-
     try {
       setError("");
-      const microsoftResponse = await instance.loginPopup(
-        microsoftLoginRequest,
-      );
-
-      const res = await axios.post("http://localhost:3001/auth/microsoft", {
-        idToken: microsoftResponse.idToken,
+      await instance.loginRedirect({
+        ...microsoftLoginRequest,
+        prompt: "select_account",
       });
-
-      finishLogin(res.data);
-    } catch (err: unknown) {
-      const axiosError = err as AxiosError<{ message?: string }>;
-      setError(
-        axiosError.response?.data?.message ||
-          "No se pudo iniciar sesión con Microsoft",
-      );
+    } catch (err) {
+      console.log("Error Microsoft:", err);
+      setError("No se pudo iniciar sesión con Microsoft");
     }
-  };
-
-  const handleRedirectByRole = (rol: string) => {
-    if (rol === "admin") navigate("/admin/dashboard");
-    else if (rol === "profesor") navigate("/profesor/dashboard");
-    else navigate("/alumno/dashboard");
   };
 
   return (
@@ -174,7 +182,7 @@ const Login = () => {
         </div>
         <h2>{t("Iniciar sesión")}</h2>
         <p>{t("Bienvenido de nuevo")} 👋</p>
-        <form>
+        <form onSubmit={handleLogin}>
           {/* EMAIL / CODE */}
           <h5>{t("correo")}</h5>
           <div className="input-box">
@@ -183,6 +191,8 @@ const Login = () => {
             </svg>
             <input
               type="text"
+              name="identifier"
+              autoComplete="identifier"
               placeholder="tu@email.com"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
@@ -196,6 +206,8 @@ const Login = () => {
             </svg>
             <input
               type={showPassword ? "text" : "password"}
+              name="password"
+              autoComplete="current-password"
               placeholder={t("Ingrese su contraseña")}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -204,11 +216,19 @@ const Login = () => {
               className="eye"
               onClick={() => setShowPassword(!showPassword)}
             >
-              👁️
+              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
             </span>
           </div>
-          <a className="forgot">¿{t("Olvidaste tu contraseña")}?</a>
-          <button type="button" onClick={handleLogin}>
+          <div className="error-forgot">
+            <span className="login-error">{error || "\u00A0"}</span>
+            <span className="forgot">
+              <a onClick={() => navigate("/forgot-password")}>
+                ¿{t("Olvidaste tu contraseña")}?
+              </a>
+            </span>
+          </div>
+
+          <button className="login" type="submit">
             {t("login_button")}
           </button>
         </form>
@@ -217,27 +237,61 @@ const Login = () => {
           <span>{t("o continua con")}</span>
         </div>
         <div className="social">
-          <button className="google-button" onClick={() => loginWithGoogle()}>
-            <svg viewBox="0 0 48 48">
-              <path
-                fill="#FFC107"
-                d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 7.9 2.9l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"
-              />
-              <path
-                fill="#FF3D00"
-                d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.8 1.1 7.9 2.9l5.7-5.7C34.1 6.5 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"
-              />
-              <path
-                fill="#4CAF50"
-                d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.3 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8H6.1C9.5 35.7 16.2 44 24 44z"
-              />
-              <path
-                fill="#1976D2"
-                d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.3 5.6l6.2 5.2C36.9 36.2 44 31 44 24c0-1.3-.1-2.6-.4-3.9z"
-              />
-            </svg>
-            Google
-          </button>
+          <div className="google-button">
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                try {
+                  const token = credentialResponse.credential;
+
+                  const res = await axios.post(
+                    "http://localhost:3001/api/auth/google",
+                    { token },
+                  );
+                  console.log("Respuesta del backend:", res.data);
+
+                  const data = res.data;
+
+                  const centros = Array.isArray(data.centros)
+                    ? data.centros
+                    : [];
+
+                  localStorage.setItem("user", JSON.stringify(data.user));
+                  localStorage.setItem("centros", JSON.stringify(centros));
+
+                  if (centros.length > 1) {
+                    navigate("/select-centro", {
+                      state: {
+                        centros: data.centros,
+                        user: data.user,
+                      },
+                    });
+                  } else if (centros.length === 1) {
+                    const rol =
+                      centros[0]?.rol_en_centro ?? centros[0]?.rol ?? "alumno";
+
+                    localStorage.setItem(
+                      "centroActivo",
+                      JSON.stringify(centros[0]),
+                    );
+
+                    handleRedirectByRole(rol);
+                  } else {
+                    setError("No estás registrado en ningún centro");
+                  }
+                } catch (error: unknown) {
+                  console.error(error);
+                }
+              }}
+              onError={() => console.log("Login failed")}
+              theme="outline"
+              size="large"
+              text="signin"
+              shape="rectangular"
+              logo_alignment="left"
+              width="150"
+            />
+          </div>
+
           <button
             className="microsoft-button"
             onClick={handleMicrosoftLogin}
@@ -249,19 +303,13 @@ const Login = () => {
               <rect x="1" y="11" width="9" height="9" fill="#00a4ef" />
               <rect x="11" y="11" width="9" height="9" fill="#ffb900" />
             </svg>
-            Microsoft
-          </button>
-          <button className="apple-button">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-              <path d="M447.1 332.7C446.9 296 463.5 268.3 497.1 247.9C478.3 221 449.9 206.2 412.4 203.3C376.9 200.5 338.1 224 323.9 224C308.9 224 274.5 204.3 247.5 204.3C191.7 205.2 132.4 248.8 132.4 337.5C132.4 363.7 137.2 390.8 146.8 418.7C159.6 455.4 205.8 545.4 254 543.9C279.2 543.3 297 526 329.8 526C361.6 526 378.1 543.9 406.2 543.9C454.8 543.2 496.6 461.4 508.8 424.6C443.6 393.9 447.1 334.6 447.1 332.7zM390.5 168.5C417.8 136.1 415.3 106.6 414.5 96C390.4 97.4 362.5 112.4 346.6 130.9C329.1 150.7 318.8 175.2 321 202.8C347.1 204.8 370.9 191.4 390.5 168.5z" />
-            </svg>
-            Apple
+            Iniciar sesión
           </button>
         </div>
         <div className="register">
           <p>
             {t("register_text")}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a>
+            <a onClick={() => navigate("/register")}>
               {t("link_text")}
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                 <path d="M566.6 342.6C579.1 330.1 579.1 309.8 566.6 297.3L406.6 137.3C394.1 124.8 373.8 124.8 361.3 137.3C348.8 149.8 348.8 170.1 361.3 182.6L466.7 288L96 288C78.3 288 64 302.3 64 320C64 337.7 78.3 352 96 352L466.7 352L361.3 457.4C348.8 469.9 348.8 490.2 361.3 502.7C373.8 515.2 394.1 515.2 406.6 502.7L566.6 342.7z" />
