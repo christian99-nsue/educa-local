@@ -47,8 +47,8 @@ export default function ForgotPassword() {
           <span>tu cuenta</span>
         </h1>
         <p>
-          Introduce tu correo electrónico y te enviaremos un enlace para
-          restablecer tu contraseña.
+          Introduce tu correo electrónico y te enviaremos <br />
+          un enlace para restablecer tu contraseña.
         </p>
         <img src={illustration} className="illustration" />
         <span className="oval">
