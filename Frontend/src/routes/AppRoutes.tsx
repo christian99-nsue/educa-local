@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/auth/Login";
 import SelectCenterPage from "../pages/auth/SelectCentroPage";
 import ForgotPassword from "../pages/auth/ForgotPassword";
@@ -11,7 +11,7 @@ import RegisterConfirmation from "../pages/auth/RegisterConfirmation";
 
 export default function AppRoutes() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/select-centro" element={<SelectCenterPage />} />
@@ -35,6 +35,6 @@ export default function AppRoutes() {
           element={<RegisterConfirmation />}
         />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
