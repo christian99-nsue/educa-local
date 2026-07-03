@@ -1,6 +1,6 @@
-import Sidebar from "../../componets/Sidebar";
+import Sidebar from "../../components/Sidebar";
 import Header from "../../components/Header";
-import SummaryGrid from "../../componets/SummaryGrid";
+import SummaryGrid from "../../components/SummaryGrid";
 import { getUser } from "../../utils/auth";
 import "../../styles/dashboard.css";
 
