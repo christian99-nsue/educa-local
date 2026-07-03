@@ -23,11 +23,13 @@
     "country-list": "^2.4.1",
     "dotenv": "^17.4.2",
     "i18next": "^26.3.1",
+    "i18next": "^26.3.1",
     "react": "^19.2.6",
     "react-datepicker": "^9.1.0",
     "react-dom": "^19.2.6",
     "react-i18next": "^17.0.8",
     "react-phone-input-2": "^2.15.1",
+    "react-i18next": "^17.0.8",
     "react-router-dom": "^7.17.0",
     "react-select": "^5.10.2",
     "world-countries": "^5.1.0"

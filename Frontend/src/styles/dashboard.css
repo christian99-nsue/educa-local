@@ -1,0 +1,181 @@
+/*LAYOUT*/
+.layout {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*SIDEBAR*/
+.sidebar {
+  width: 160px;
+  background: #0b1a2b;
+  color: white;
+  padding: 15px;
+}
+
+.login-left .logo {
+  width: 80px;
+}
+
+.logo {
+  font-size: 16px;
+  width: 160px;
+  text-align: center;
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.profile p {
+  font-size: 12px;
+  text-align: left;
+  line-height: 20px;
+}
+
+.menu-title {
+  margin: 5px;
+  text-align: center;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  position: relative;
+  top: -10px;
+}
+
+.menu li {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 13px;
+  align-content: center;
+}
+
+.menu li svg {
+  position: relative;
+  width: 24px;
+  height: 20px;
+  margin-right: 10px;
+  top: 4px;
+  fill: white;
+}
+
+.menu li:hover {
+  background: #1e2f45;
+}
+
+.menu .active {
+  color: #fc4850;
+}
+
+.menu .active svg {
+  fill: #fc4850;
+}
+
+/*MAIN*/
+
+.main {
+  flex: 1;
+  background: #f5f6fa;
+}
+
+/*HEADER*/
+
+.header {
+  display: flex;
+  height: 30px;
+  justify-content: space-between;
+  padding: 15px 25px;
+  background: #f5f7fb;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #686868;
+}
+
+.header-right span {
+  margin-right: 10px;
+}
+
+.header-right svg {
+  position: relative;
+  top: 5px;
+  width: 24px;
+  height: 20px;
+  fill: #686868;
+  margin-left: 5px;
+}
+
+.avatar {
+  width: 35px;
+  border-radius: 50%;
+}
+
+/*CONTENT*/
+
+.content {
+  padding: 25px;
+  margin-left: 25px;
+}
+
+.content h1 {
+  font-size: 28px;
+}
+
+.content p {
+  font-size: 16px;
+  color: #757575;
+}
+
+.subtitle {
+  color: gray;
+  margin-bottom: 30px;
+}
+
+/*SUMMARY GRID */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 300px);
+  gap: 50px;
+}
+
+/*CARD*/
+
+.summary-card {
+  padding: 15px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-radius: 12px;
+  background: #f5f5f5;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+}
+
+.icon {
+  position: relative;
+  font-size: 28px;
+  margin-left: 10px;
+  color: #757575;
+}
+
+.icon-title {
+  font-size: 18px;
+  color: #757575;
+  font-weight: 550;
+}
