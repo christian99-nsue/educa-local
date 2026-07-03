@@ -15,8 +15,8 @@ const Dashboard = () => {
         <div className="content">
           <h1>Inicio</h1>
           <p className="subtitle">
-            {t("welcome_user", {user?.nombreHola, {user?.nombre} <br />
-            Aquí tienes un resumen de hoy)}
+            Hola, {user?.nombre} <br />
+            Aquí tienes un resumen de hoy
           </p>
           <SummaryGrid />
         </div>

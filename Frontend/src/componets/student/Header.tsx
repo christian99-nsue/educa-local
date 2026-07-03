@@ -1,7 +1,7 @@
 const Header = () => {
   return (
     <div className="header">
-      <div></div>
+      <div className="header-left"></div>
       <div className="header-right">
         <span>
           Notificaciones
