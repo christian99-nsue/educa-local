@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .login-container {
   display: flex;
   height: 100vh;
@@ -15,7 +21,6 @@
   box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
   color: white;
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
 }
 
@@ -27,12 +32,13 @@
   border-radius: 26px;
 }
 
+.edu-logo {
+  display: flex;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
 .edu-local {
-  position: relative;
-  left: 100px;
-  top: -53px;
-  width: 139px;
-  height: 27px;
+  margin-top: 33px;
   color: #ffffff;
   font-family: "Dai Banna SIL";
   font-size: 18px;
@@ -41,11 +47,9 @@
 }
 
 .edu {
-  position: relative;
-  top: -30px;
   margin-left: 40px;
   width: 208px;
-  height: 41px;
+  height: 100px;
   color: #ffffff;
   font-family: "Dai Banna SIL";
   font-size: 28px;
@@ -57,8 +61,6 @@
 }
 
 .login-left p {
-  position: relative;
-  top: -20px;
   margin-left: 40px;
   width: 250px;
   height: 62px;
@@ -69,48 +71,55 @@
 }
 
 .illustration {
-  position: relative;
-  top: -60px;
-  width: 80%;
-  max-width: 400px;
-  margin-left: 30px;
+  width: 300px;
+  height: 200px;
+  margin-left: 20px;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.illustration img {
+  display: block;
+  width: 250px;
+  height: 100px;
 }
 
 .oval {
-  position: absolute;
-  margin-left: 40px;
-  margin-top: 420px;
-  width: 35px;
-  height: 35px;
-  background: #4c29bc;
-  background-blend-mode: normal;
+  margin-right: 10px;
+  margin-left: 30px;
+  color: #cac8c8;
+  background-color: #4c29bc;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
 }
 
 .oval svg {
-  position: absolute;
-  left: 4px;
-  top: 5px;
-  width: 26px;
+  width: 28px;
   height: 23px;
   fill: #ffffff;
   background-blend-mode: normal;
 }
 
-.login-left small {
-  position: relative;
-  margin-left: 90px;
-  top: -80px;
+.oval-note {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.oval-note small {
+  margin-left: 0px;
+  margin-top: 8px;
   width: 149px;
   height: 30px;
   color: #cac8c8;
   font-family: "Dai Banna SIL";
   font-size: 10px;
   font-weight: 400;
-}
-
-.side-note {
-  margin-top: 10px;
 }
 
 /* RIGHT */
@@ -128,10 +137,73 @@
   box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
 }
 
+.login-right-reg {
+  display: flex;
+  margin-top: 30px;
+  width: 500px;
+  height: 500px;
+  border-radius: 0px 12px 12px 0px;
+  background: #ffffff;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+}
+.reg {
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  height: 500px;
+  flex-shrink: 0;
+  background: #f2f2f2;
+  background-blend-mode: normal;
+}
+.reg h3 {
+  font-size: 14px;
+  margin-left: 15px;
+  margin-top: 35px;
+  color: #615e5e;
+  font-weight: 600;
+}
+
+.reg span {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 10px 10px;
+  font-size: 12px;
+}
+
+.num-1,
+.num-2,
+.num-3,
+.num-4,
+.num-5 {
+  margin-right: 10px;
+  color: #cac8c8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #cac8c8;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  margin-top: 5px;
+}
+
+.num-1-1,
+.num-2-2,
+.num-3-3,
+.num-4-4,
+.num-5-5 {
+  color: #cac8c8;
+  margin-top: 9px;
+  font-weight: 600;
+}
+
 .lang {
   align-self: flex-end;
   margin-top: 30px;
   margin-right: 50px;
+  display: flex;
   width: 130px;
   height: 30px;
   border-radius: 8px;
@@ -141,19 +213,17 @@
 }
 
 .lang svg {
-  position: relative;
   margin-left: 10px;
-  width: 20px;
+  margin-right: 10px;
   margin-top: 5px;
+  width: 20px;
   height: 20px;
   border-radius: 50%;
   fill: #686868;
 }
 
 .lang select {
-  position: relative;
-  top: -5px;
-  left: 10px;
+  margin-top: 5px;
   border: 0px solid white;
   width: 80px;
   height: 20px;
@@ -161,18 +231,121 @@
   font-weight: 550;
   cursor: pointer;
   color: #757575;
+  outline: none;
+}
+.rc {
+  width: 50px;
+  color: #258bf0;
 }
 
+.ce {
+  margin-left: 30px;
+  margin-bottom: 10px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
+  height: 500px;
+  padding-bottom: 10px;
+  width: 320px;
+}
+.info-sm {
+  font-family: "Dai Banna SIL";
+  margin-top: 35px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.info-sm small {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 13px;
+  color: #615e5e;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.lg-error {
+  color: red;
+  font-size: 9px;
+  white-space: nowrap;
+  padding-bottom: 5px;
+}
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.label-row label {
+  color: #615e5e;
+  font-size: 12px;
+  font-family: "Dai Banna SIL";
+  margin-bottom: 5px;
+}
+.form-group input,
+.form-group select {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  height: 25px;
+  width: 250px;
+  padding-left: 10px;
+  border-radius: 4px;
+  border: 1px solid #cac8c8;
+  outline: none;
+}
+.form-group input::placeholder {
+  color: #cac8c8;
+}
+.form-group select {
+  cursor: pointer;
+  padding-right: 10px;
+}
+
+.form button.conti {
+  width: 100px;
+  height: 30px;
+  background: #258bf0;
+  background-blend-mode: normal;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-top: 5px;
+}
+.form button:hover {
+  background-color: #b032e7;
+}
 .login-right h2 {
   margin-left: 30px;
   margin-top: 20px;
-  width: 200px;
+  width: 500px;
   height: 45px;
   font-family: "Alegreya Sans";
   font-size: 24px;
   font-weight: 700;
 }
 
+.nc {
+  margin-left: 30px;
+  margin-bottom: 10px;
+  font-size: 10px;
+  font-weight: 600;
+}
 .login-right p {
   position: relative;
   top: -20px;
@@ -183,13 +356,31 @@
   font-size: 10px;
   font-weight: 500;
 }
+
 form {
   display: flex;
+  justify-content: space-around;
   flex-direction: column;
+  box-sizing: border-box;
   padding: 0;
+  margin: 0;
+}
+input,
+select,
+textarea,
+label {
+  display: flex;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+input,
+select,
+textarea {
+  margin: 0;
 }
 
-form h5 {
+.em {
   margin-left: 30px;
   margin-top: 8px;
   margin-bottom: 4px;
@@ -205,15 +396,15 @@ form h5 {
   display: flex;
   margin-left: 30px;
   width: 350px;
-  height: 30px;
+  height: 35px;
   border-radius: 5px;
   border: 1px solid #cac8c8;
   background: #ffffff;
   background-blend-mode: normal;
+  align-items: center;
 }
 
 .input-box svg {
-  margin-top: 6px;
   margin-left: 10px;
   width: 24px;
   height: 18px;
@@ -225,10 +416,10 @@ form h5 {
   border: none;
   outline: none;
   width: 270px;
-  height: 30px;
+  height: 29px;
   padding: 0 10px;
   font-size: 10px;
-  line-height: 30px;
+  line-height: 25px;
 }
 
 .psw {
@@ -244,9 +435,10 @@ form h5 {
 
 .input-box-password {
   display: flex;
+  align-items: center;
   margin-left: 30px;
   width: 350px;
-  height: 30px;
+  height: 35px;
   border-radius: 5px;
   border: 1px solid #cac8c8;
   background: #ffffff;
@@ -257,14 +449,13 @@ form h5 {
   border: none;
   outline: none;
   width: 270px;
-  height: 30px;
+  height: 29px;
   padding: 0 10px;
   font-size: 10px;
-  line-height: 30px;
+  line-height: 25px;
 }
 
 .input-box-password svg {
-  margin-top: 6px;
   margin-left: 10px;
   width: 24px;
   height: 18px;
@@ -424,4 +615,628 @@ button.microsoft-button svg {
   fill: #b300ff;
   width: 12px;
   height: 12px;
+}
+
+/* --- Indicador de pasos: estado completado (check verde) --- */
+.num-completed {
+  background-color: #22c55e !important;
+  border: none !important;
+  color: white !important;
+}
+
+.check-icon {
+  width: 12px;
+  height: 12px;
+}
+
+/* --- Indicador de pasos: estado activo (paso actual, azul) --- */
+.num-active {
+  background-color: #258bf0 !important;
+  color: white !important;
+  border: none !important;
+}
+
+.label-active {
+  color: #258bf0 !important;
+}
+
+/* --- Botones Volver / Continuar (paso 2 en adelante) --- */
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-buttons button.btn-volver {
+  border: 1px solid #808080;
+  width: 90px;
+  height: 32px;
+  background-color: #ffffff;
+  color: #3c4043;
+  border: 1px solid #cac8c8;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+button.btn-volver:hover {
+  background-color: #b032e7;
+  color: white;
+}
+
+button.btn-continuar {
+  width: 100px;
+  height: 32px;
+  background: #258bf0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  border: 1px solid #258bf0;
+}
+
+button.btn-continuar:hover {
+  background-color: #b032e7;
+  border: 1px solid #b032e7;
+}
+
+.input-box-password-reg {
+  display: flex;
+  width: 250px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #cac8c8;
+  background: #ffffff;
+  background-blend-mode: normal;
+  align-items: center;
+}
+.input-box-password-reg input {
+  display: flex;
+  border: none;
+  background: transparent;
+  align-items: center;
+  font-size: 10px;
+  height: 25px;
+  width: 210px;
+  padding-left: 10px;
+  outline: none;
+}
+.input-box-password-reg span {
+  margin-left: 10px;
+}
+
+/* --- Niveles educativos (checkboxes) --- */
+.niveles-section {
+  margin-bottom: 15px;
+}
+
+.niveles-section .label-row label {
+  font-weight: 600;
+}
+
+.niveles-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.nivel-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #3c4043;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.nivel-checkbox input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  accent-color: #258bf0;
+}
+
+/* --- Sección de cursos --- */
+.cursos-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.cursos-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #615e5e;
+  margin-bottom: 2px;
+}
+
+.cursos-subtitle {
+  font-size: 10px;
+  color: #9a9a9a;
+  margin-bottom: 10px;
+}
+
+.nivel-cursos-block {
+  margin-bottom: 14px;
+}
+
+.nivel-cursos-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #3c4043;
+  margin-bottom: 6px;
+}
+
+.cursos-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.curso-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #eef3fb;
+  color: #3c4043;
+  font-size: 10px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #dbe6f5;
+  width: fit-content;
+}
+
+.curso-chip-remove {
+  background: none !important;
+  border: none !important;
+  cursor: pointer;
+  color: #9a9a9a !important;
+  font-size: 12px !important;
+  line-height: 1;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+}
+
+.curso-chip-remove:hover {
+  background: none !important;
+  color: #c62828 !important;
+}
+
+.agregar-curso-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.agregar-curso-input {
+  flex: 1;
+  height: 28px;
+  font-size: 10px;
+  padding: 0 10px;
+  border-radius: 5px;
+  border: 1px solid #cac8c8;
+  outline: none;
+}
+
+.agregar-curso-input::placeholder {
+  color: #cac8c8;
+}
+
+.agregar-curso-btn {
+  background: none !important;
+  border: none !important;
+  color: #258bf0 !important;
+  font-size: 10px !important;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.agregar-curso-btn:hover {
+  background: none !important;
+  text-decoration: underline;
+}
+
+/* --- Contenedor con scroll para la sección de cursos --- */
+.cursos-section-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 15px;
+  margin-bottom: 10px;
+}
+
+.cursos-section-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cursos-section-wrapper::-webkit-scrollbar-thumb {
+  background: #cac8c8;
+  border-radius: 4px;
+}
+
+.cursos-section-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* --- Input de fecha (paso Configuración) --- */
+.input-box-date-reg {
+  display: flex;
+  align-items: center;
+  width: 250px;
+  height: 25px;
+  border-radius: 4px;
+  border: 1px solid #cac8c8;
+  background: #ffffff;
+  padding: 0 10px;
+}
+
+.input-date {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 10px;
+}
+
+.input-date:focus {
+  outline: none;
+}
+.custom-calendar {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.react-datepicker__header {
+  background-color: #007bff;
+  color: black;
+  border-bottom: none;
+}
+.react-datepicker__day {
+  border-radius: 4px;
+}
+.react-datepicker__day:hover {
+  background-color: #e6f0ff;
+}
+.react-datepicker__day--selected {
+  background-color: #007bff;
+  color: white;
+}
+.react-datepicker__day--today {
+  font-weight: bold;
+  border: 1px solid #007bff;
+}
+.react-datepicker__navigation {
+  top: 10px;
+}
+.react-datepicker .react-datepicker__navigation:hover {
+  background-color: #258bf0 !important;
+  color: white !important;
+  border-radius: 50%;
+}
+.react-datepicker__navigation--previous:hover {
+  background-color: #f0f0f0;
+}
+.react-datepicker__navigation--next:hover {
+  background-color: #f0f0f0;
+}
+.react-datepicker__navigation-icon::before {
+  border-color: #333 !important;
+}
+.react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
+  border-color: white !important;
+}
+.react-datepicker__navigation-icon:hover {
+  border-color: #fff;
+  background-color: #258bf0;
+}
+.react-datepicker__day-name {
+  color: #9a9a9a !important;
+}
+.input-date.error {
+  border-color: red;
+}
+
+.react-datepicker__wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+}
+.input-box-date-reg:focus-within {
+  border-radius: #007bff;
+}
+.react-datepicker__input-container input {
+  border: none;
+  outline: none;
+  width: 210px;
+  background: transparent;
+  padding: 0;
+}
+.input-box-date-reg svg {
+  cursor: pointer;
+  color: #615e5e;
+}
+
+/* --- Country Select --- */
+.country-select-box {
+  position: relative;
+}
+.country-select-trigger {
+  width: 250px;
+  height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  color: inherit;
+  font-family: inherit;
+}
+button.country-select-trigger:hover {
+  background-color: white;
+}
+.country-select-trigger:hover,
+.country-select-trigger:focus,
+.country-select-trigger:active {
+  background: #fff;
+  outline: none;
+  box-shadow: none;
+  border-color: #ccc;
+}
+
+.country-flag-icon {
+  width: 18px;
+  height: 12px;
+  border-radius: 2px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.country-select-value {
+  display: flex;
+  font-size: 10px;
+  align-items: center;
+  gap: 8px;
+}
+.country-select-value svg {
+  width: 18px;
+  height: 12px;
+}
+
+.country-select-arrow {
+  font-size: 12px;
+  color: #888;
+  transition: transform 0.15s ease;
+}
+
+.country-select-arrow.abierto {
+  transform: rotate(180deg);
+}
+
+.country-select-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 250px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  max-height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.country-select-search {
+  padding: 8px 10px;
+  border: none;
+  border-bottom: 1px solid #eee;
+  outline: none;
+  font-size: 14px;
+}
+
+.country-select-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  overflow-y: auto;
+}
+.country-select-list li {
+  color: #258bf0;
+}
+
+.country-select-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 10px;
+}
+.country-select-option:hover {
+  color: white;
+  background-color: #258bf0;
+}
+
+.country-select-empty {
+  padding: 10px 12px;
+  color: #999;
+  font-size: 14px;
+}
+
+/* --- Phone Input (ancho corregido) --- */
+.phone-input-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+  width: 250px;
+  height: 28px;
+  box-sizing: border-box;
+}
+
+.phone-prefix {
+  padding: 8px 10px;
+  background: #f2f2f2;
+  font-weight: 500;
+  border-right: 1px solid #ccc;
+  white-space: nowrap;
+  font-size: 12px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.phone-input-box input {
+  border: none;
+  outline: none;
+  flex: 1;
+  min-width: 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.phone-input-box input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.image {
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+.image img {
+  margin-left: 45px;
+  margin-right: auto;
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+}
+.centro-reg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 30px;
+}
+.centro-reg h3 {
+  font-family: "Alegreya Sans";
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  justify-content: center;
+}
+.centro-reg p {
+  font-family: "Alegreya Sans";
+  font-size: 10px;
+  font-weight: 500;
+  text-align: center;
+  color: #615e5e;
+  margin-top: 10px;
+}
+
+/* --- Resumen del registro (paso de confirmación) --- */
+.resumen-card {
+  width: 260px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #cac8c8;
+  background: #e5f2ff;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  overflow: hidden;
+}
+
+.resumen-header {
+  padding: 10px 20px;
+  border-bottom: 1px solid #cac8c8;
+}
+
+.resumen-header h2 {
+  margin: 0;
+  font-family: "Alegreya Sans";
+  font-weight: 700;
+  font-size: 14px;
+  color: #3c4043;
+  text-align: center;
+}
+
+.resumen-body {
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resumen-row {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.resumen-label {
+  font-family: "Dai Banna SIL";
+  color: #615e5e;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.resumen-value {
+  font-family: "Alegreya Sans";
+  color: #3c4043;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+button.btn-ir-al-panel {
+  border: none;
+  border-radius: 12px;
+  background: #258bf0;
+  background-blend-mode: normal;
+  width: 260px;
+  height: 35px;
+  color: white;
+  cursor: pointer;
+}
+.conti {
+  margin-right: 40px;
+}
+
+button.btn-ir-al-panel:hover {
+  background-color: #b032e7;
 }

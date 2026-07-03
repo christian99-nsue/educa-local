@@ -1,4 +1,5 @@
 import express from "express";
+import { registrarCentro } from "../controllers/registroController";
 import {
   googleAuth,
   login,
@@ -11,5 +12,6 @@ router.post("/login", login);
 
 router.post("/google", googleAuth);
 router.post("/microsoft", microsoftAuth);
+router.post("/registro/centro", registrarCentro);
 
 export default router;
