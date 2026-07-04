@@ -8,6 +8,8 @@ import RegisterAdminAccount from "../pages/auth/RegisterAdminAccount";
 import RegisterAcademicStructure from "../pages/auth/RegisterAcademicStructure";
 import RegisterConfiguration from "../pages/auth/RegisterConfiguration";
 import RegisterConfirmation from "../pages/auth/RegisterConfirmation";
+import LayoutAlumno from "../layouts/LayoutAlumno";
+import Inicio from "../pages/alumno/Inicio";
 
 export default function AppRoutes() {
   return (
@@ -34,6 +36,9 @@ export default function AppRoutes() {
           path="/register-confirmation"
           element={<RegisterConfirmation />}
         />
+        <Route path="/alumno" element={<LayoutAlumno />}>
+          <Route index element={<Inicio />} />
+        </Route>
       </Routes>
     </HashRouter>
   );

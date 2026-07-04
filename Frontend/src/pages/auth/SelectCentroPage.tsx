@@ -27,11 +27,21 @@ export default function SelectCenterPage() {
       centros={centros}
       userName={state?.user?.nombre}
       onSelect={(centro) => {
-        localStorage.setItem("centroActivo", JSON.stringify(centro));
         const rol = centro.rol_en_centro ?? centro.rol ?? "alumno";
-        if (rol === "admin") navigate("/admin/dashboard");
-        else if (rol === "profesor") navigate("/profesor/dashboard");
-        else navigate("/alumno/dashboard");
+
+        localStorage.setItem("centroActivo", JSON.stringify(centro));
+
+        const existingUser = JSON.parse(localStorage.getItem("user") || "{}");
+        const fullUser = {
+          ...(state?.user ?? existingUser),
+          rol_en_centro: rol,
+          centro: { nombre: centro.nombre },
+        };
+        localStorage.setItem("user", JSON.stringify(fullUser));
+
+        if (rol === "admin") navigate("/admin");
+        else if (rol === "profesor") navigate("/profesor");
+        else navigate("/alumno");
       }}
     />
   );

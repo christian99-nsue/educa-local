@@ -69,6 +69,7 @@ export const loginUser = async (identifier: string, password: string) => {
       email: user.email,
       code: user.code,
       nombre: user.nombre,
+      apellidos: user.apellidos,
     },
     centros: centrosUnicos,
     token,

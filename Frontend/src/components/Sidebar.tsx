@@ -1,4 +1,16 @@
-import { getUser } from "../../utils/auth";
+import { getUser } from "../utils/auth";
+import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHouse,
+  faBook,
+  faClipboardList,
+  faSquarePollVertical,
+  faCalendarDays,
+  faUser,
+  faArrowRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
+import avatar from "../assets/images/avatar.png";
 
 const Sidebar = () => {
   const user = getUser();
@@ -6,58 +18,79 @@ const Sidebar = () => {
     <div className="sidebar">
       <h2 className="logo">EDUCA LOCAL</h2>
       <div className="profile">
-        <img src="../src/assets/images/avatar.png" alt="user" />
+        <img src={avatar} alt="user" className="avatar-logo" />
         <p>
           Nombre: {user?.nombre} <br /> Apellidos: {user?.apellidos} <br /> Rol:
           &nbsp;
-          {user?.rol}
+          {user?.rol_en_centro}
         </p>
       </div>
       <h3 className="menu-title">Menu</h3>
-      <ul className="menu">
-        <li className="active">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-            <path d="M341.8 72.6C329.5 61.2 310.5 61.2 298.3 72.6L74.3 280.6C64.7 289.6 61.5 303.5 66.3 315.7C71.1 327.9 82.8 336 96 336L112 336L112 512C112 547.3 140.7 576 176 576L464 576C499.3 576 528 547.3 528 512L528 336L544 336C557.2 336 569 327.9 573.8 315.7C578.6 303.5 575.4 289.5 565.8 280.6L341.8 72.6zM304 384L336 384C362.5 384 384 405.5 384 432L384 528L256 528L256 432C256 405.5 277.5 384 304 384z" />
-          </svg>
-          Inicio
-        </li>
-        <li>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-            <path d="M480 576L192 576C139 576 96 533 96 480L96 160C96 107 139 64 192 64L496 64C522.5 64 544 85.5 544 112L544 400C544 420.9 530.6 438.7 512 445.3L512 512C529.7 512 544 526.3 544 544C544 561.7 529.7 576 512 576L480 576zM192 448C174.3 448 160 462.3 160 480C160 497.7 174.3 512 192 512L448 512L448 448L192 448zM224 216C224 229.3 234.7 240 248 240L424 240C437.3 240 448 229.3 448 216C448 202.7 437.3 192 424 192L248 192C234.7 192 224 202.7 224 216zM248 288C234.7 288 224 298.7 224 312C224 325.3 234.7 336 248 336L424 336C437.3 336 448 325.3 448 312C448 298.7 437.3 288 424 288L248 288z" />
-          </svg>
-          Mis asignaturas
-        </li>
-        <li>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-            <path d="M439.4 96L448 96C483.3 96 512 124.7 512 160L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 160C128 124.7 156.7 96 192 96L200.6 96C211.6 76.9 232.3 64 256 64L384 64C407.7 64 428.4 76.9 439.4 96zM376 176C389.3 176 400 165.3 400 152C400 138.7 389.3 128 376 128L264 128C250.7 128 240 138.7 240 152C240 165.3 250.7 176 264 176L376 176zM256 320C256 302.3 241.7 288 224 288C206.3 288 192 302.3 192 320C192 337.7 206.3 352 224 352C241.7 352 256 337.7 256 320zM288 320C288 333.3 298.7 344 312 344L424 344C437.3 344 448 333.3 448 320C448 306.7 437.3 296 424 296L312 296C298.7 296 288 306.7 288 320zM288 448C288 461.3 298.7 472 312 472L424 472C437.3 472 448 461.3 448 448C448 434.7 437.3 424 424 424L312 424C298.7 424 288 434.7 288 448zM224 480C241.7 480 256 465.7 256 448C256 430.3 241.7 416 224 416C206.3 416 192 430.3 192 448C192 465.7 206.3 480 224 480z" />
-          </svg>
-          Tareas
-        </li>
-        <li>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-            <path d="M160 96C124.7 96 96 124.7 96 160L96 480C96 515.3 124.7 544 160 544L480 544C515.3 544 544 515.3 544 480L544 160C544 124.7 515.3 96 480 96L160 96zM216 288C229.3 288 240 298.7 240 312L240 424C240 437.3 229.3 448 216 448C202.7 448 192 437.3 192 424L192 312C192 298.7 202.7 288 216 288zM400 376C400 362.7 410.7 352 424 352C437.3 352 448 362.7 448 376L448 424C448 437.3 437.3 448 424 448C410.7 448 400 437.3 400 424L400 376zM320 192C333.3 192 344 202.7 344 216L344 424C344 437.3 333.3 448 320 448C306.7 448 296 437.3 296 424L296 216C296 202.7 306.7 192 320 192z" />
-          </svg>
-          Calificaciones
-        </li>
-        <li>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-            <path d="M224 64C241.7 64 256 78.3 256 96L256 128L384 128L384 96C384 78.3 398.3 64 416 64C433.7 64 448 78.3 448 96L448 128L480 128C515.3 128 544 156.7 544 192L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 192C96 156.7 124.7 128 160 128L192 128L192 96C192 78.3 206.3 64 224 64zM160 304L160 336C160 344.8 167.2 352 176 352L208 352C216.8 352 224 344.8 224 336L224 304C224 295.2 216.8 288 208 288L176 288C167.2 288 160 295.2 160 304zM288 304L288 336C288 344.8 295.2 352 304 352L336 352C344.8 352 352 344.8 352 336L352 304C352 295.2 344.8 288 336 288L304 288C295.2 288 288 295.2 288 304zM432 288C423.2 288 416 295.2 416 304L416 336C416 344.8 423.2 352 432 352L464 352C472.8 352 480 344.8 480 336L480 304C480 295.2 472.8 288 464 288L432 288zM160 432L160 464C160 472.8 167.2 480 176 480L208 480C216.8 480 224 472.8 224 464L224 432C224 423.2 216.8 416 208 416L176 416C167.2 416 160 423.2 160 432zM304 416C295.2 416 288 423.2 288 432L288 464C288 472.8 295.2 480 304 480L336 480C344.8 480 352 472.8 352 464L352 432C352 423.2 344.8 416 336 416L304 416zM416 432L416 464C416 472.8 423.2 480 432 480L464 480C472.8 480 480 472.8 480 464L480 432C480 423.2 472.8 416 464 416L432 416C423.2 416 416 423.2 416 432z" />
-          </svg>
-          Horario
-        </li>
-        <li>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-            <path d="M320 312C386.3 312 440 258.3 440 192C440 125.7 386.3 72 320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312zM290.3 368C191.8 368 112 447.8 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 447.8 448.2 368 349.7 368L290.3 368z" />
-          </svg>
-          Perfil
-        </li>
-        <li>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-            <path d="M224 160C241.7 160 256 145.7 256 128C256 110.3 241.7 96 224 96L160 96C107 96 64 139 64 192L64 448C64 501 107 544 160 544L224 544C241.7 544 256 529.7 256 512C256 494.3 241.7 480 224 480L160 480C142.3 480 128 465.7 128 448L128 192C128 174.3 142.3 160 160 160L224 160zM566.6 342.6C579.1 330.1 579.1 309.8 566.6 297.3L438.6 169.3C426.1 156.8 405.8 156.8 393.3 169.3C380.8 181.8 380.8 202.1 393.3 214.6L466.7 288L256 288C238.3 288 224 302.3 224 320C224 337.7 238.3 352 256 352L466.7 352L393.3 425.4C380.8 437.9 380.8 458.2 393.3 470.7C405.8 483.2 426.1 483.2 438.6 470.7L566.6 342.7z" />
-          </svg>
-          Cerrar sesión
-        </li>
-      </ul>
+      <nav>
+        <NavLink
+          to="/alumno"
+          className={({ isActive }) =>
+            isActive ? "nav-item active" : "nav-item"
+          }
+        >
+          <FontAwesomeIcon icon={faHouse} />
+          <span>Inicio</span>
+        </NavLink>
+        <NavLink
+          to="asignaturas"
+          className={({ isActive }) =>
+            isActive ? "nav-item active" : "nav-item"
+          }
+        >
+          <FontAwesomeIcon icon={faBook} />
+          <span>Mis asignaturas</span>
+        </NavLink>
+        <NavLink
+          to="tareas"
+          className={({ isActive }) =>
+            isActive ? "nav-item active" : "nav-item"
+          }
+        >
+          <FontAwesomeIcon icon={faClipboardList} />
+          <span>Tareas</span>
+        </NavLink>
+        <NavLink
+          to="calificaciones"
+          className={({ isActive }) =>
+            isActive ? "nav-item active" : "nav-item"
+          }
+        >
+          <FontAwesomeIcon icon={faSquarePollVertical} />
+          <span>Calificaciones</span>
+        </NavLink>
+        <NavLink
+          to="horario"
+          className={({ isActive }) =>
+            isActive ? "nav-item active" : "nav-item"
+          }
+        >
+          <FontAwesomeIcon icon={faCalendarDays} />
+          <span>Horario</span>
+        </NavLink>
+        <NavLink
+          to="perfil"
+          className={({ isActive }) =>
+            isActive ? "nav-item active" : "nav-item"
+          }
+        >
+          <FontAwesomeIcon icon={faUser} />
+          <span>Perfil</span>
+        </NavLink>
+        <NavLink
+          to="cerrar-sesion"
+          className={({ isActive }) =>
+            isActive ? "nav-item active" : "nav-item"
+          }
+        >
+          <FontAwesomeIcon icon={faArrowRightFromBracket} />
+          <span>Cerrar Sesion</span>
+        </NavLink>
+      </nav>
     </div>
   );
 };

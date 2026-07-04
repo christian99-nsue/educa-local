@@ -24,7 +24,7 @@
   flex-direction: column;
 }
 
-.logo {
+.logo-img {
   margin-left: 20px;
   margin-top: 10px;
   width: 70px;
@@ -37,7 +37,7 @@
   margin-bottom: 20px;
   margin-top: 10px;
 }
-.edu-local {
+.edu-local-logo {
   margin-top: 33px;
   color: #ffffff;
   font-family: "Dai Banna SIL";

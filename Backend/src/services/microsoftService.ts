@@ -107,6 +107,7 @@ export const microsoftLogin = async (idToken: string) => {
       email: user.email,
       code: user.code,
       nombre: user.nombre,
+      apellidos: user.apellidos,
     },
     centros,
     token,

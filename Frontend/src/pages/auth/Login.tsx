@@ -26,9 +26,9 @@ const Login = () => {
   const { instance } = useMsal();
 
   const handleRedirectByRole = (rol: string) => {
-    if (rol === "admin") navigate("/admin/dashboard");
-    else if (rol === "profesor") navigate("/profesor/dashboard");
-    else navigate("/alumno/dashboard");
+    if (rol === "admin") navigate("/admin");
+    else if (rol === "profesor") navigate("/profesor");
+    else navigate("/alumno");
   };
   const finishLogin = (data: LoginResponse) => {
     const { token, user } = data;
@@ -36,7 +36,6 @@ const Login = () => {
 
     localStorage.setItem("token", token);
     localStorage.setItem("centros", JSON.stringify(centros));
-    if (user) localStorage.setItem("user", JSON.stringify(user));
 
     if (centros.length > 1) {
       navigate("/select-centro", {
@@ -46,7 +45,19 @@ const Login = () => {
         },
       });
     } else if (centros.length === 1) {
-      const rol = centros[0].rol_en_centro ?? centros[0].rol ?? "alumno";
+      const centro = centros[0];
+      const rol = centro.rol_en_centro ?? centro.rol ?? "alumno";
+
+      const fullUser = {
+        ...user,
+        rol_en_centro: rol,
+        centro: {
+          nombre: centro.nombre ?? centro.centro_nombre,
+        },
+      };
+
+      localStorage.setItem("user", JSON.stringify(fullUser));
+      localStorage.setItem("centroActivo", JSON.stringify(centro));
 
       handleRedirectByRole(rol);
     } else {
@@ -75,6 +86,9 @@ const Login = () => {
   }, []);
 
   type Centro = {
+    id?: number;
+    nombre?: string;
+    centro_nombre?: string;
     rol?: string;
     rol_en_centro?: string;
   };
@@ -149,8 +163,8 @@ const Login = () => {
       {/* LEFT SIDE */}
       <div className="login-left">
         <div className="edu-logo">
-          <img src={logo} className="logo" />
-          <h1 className="edu-local">EDUCA LOCAL</h1>
+          <img src={logo} className="logo-img" />
+          <h1 className="edu-local-logo">EDUCA LOCAL</h1>
         </div>
 
         <h1 className="edu">
@@ -266,6 +280,7 @@ const Login = () => {
                   localStorage.setItem("centros", JSON.stringify(centros));
 
                   if (centros.length > 1) {
+                    localStorage.setItem("token", data.token);
                     navigate("/select-centro", {
                       state: {
                         centros: data.centros,
@@ -273,12 +288,20 @@ const Login = () => {
                       },
                     });
                   } else if (centros.length === 1) {
-                    const rol =
-                      centros[0]?.rol_en_centro ?? centros[0]?.rol ?? "alumno";
+                    const centro = centros[0];
+                    const rol = centro.rol_en_centro ?? centro.rol ?? "alumno";
 
+                    const fullUser = {
+                      ...data.user,
+                      rol_en_centro: rol,
+                      centro: { nombre: centro.nombre ?? centro.centro_nombre },
+                    };
+
+                    localStorage.setItem("user", JSON.stringify(fullUser));
+                    localStorage.setItem("token", data.token);
                     localStorage.setItem(
                       "centroActivo",
-                      JSON.stringify(centros[0]),
+                      JSON.stringify(centro),
                     );
 
                     handleRedirectByRole(rol);
