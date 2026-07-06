@@ -1,11 +1,6 @@
-{
-  /*import { ChevronRight } from "lucide-react";*/
-}
+import { ChevronRight } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleRight,
-  type IconDefinition,
-} from "@fortawesome/free-solid-svg-icons";
+import { type IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 interface AsignaturaCardProps {
   nombre: string;
@@ -60,8 +55,7 @@ function AsignaturaCard({
             ? `${tareasPendientes} tareas pendientes`
             : "sin tareas pendientes"}
         </span>
-        <FontAwesomeIcon icon={faAngleRight} />
-        {/*    <ChevronRight size={18} />*/}
+        <ChevronRight size={18} />
       </div>
     </div>
   );

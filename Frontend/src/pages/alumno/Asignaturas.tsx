@@ -1,18 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-{
-  /*import { List, Search, ChevronDown, Calendar } from "lucide-react"; */
-}
+import { List, Search, Calendar, Grid, ChevronRight } from "lucide-react";
 import AsignaturaCard from "../../components/AsignaturaCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMagnifyingGlass,
-  faList,
-  faCalendarDays,
-  faAngleRight,
-  faGrip,
-  faGraduationCap,
-} from "@fortawesome/free-solid-svg-icons";
+import { faGraduationCap } from "@fortawesome/free-solid-svg-icons";
 import { getIconoAsignatura } from "../../utils/asignaturaIconos";
 import { getCentroActivo } from "../../utils/auth";
 import "../../styles/dashboard.css";
@@ -106,19 +97,13 @@ function Asignaturas() {
           className="btn-lista"
           onClick={() => setVistaLista(!vistaLista)}
         >
-          {/*  <List size={18} /> */}
-          {vistaLista ? (
-            <FontAwesomeIcon icon={faGrip} />
-          ) : (
-            <FontAwesomeIcon icon={faList} />
-          )}
+          {vistaLista ? <Grid size={14} /> : <List size={14} />}
           {vistaLista ? "Ver como grid" : "Ver como lista"}
         </button>
       </div>
       <div className="asignaturas-filtros">
         <div className="buscador">
-          {/*  <Search size={18} /> */}
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
+          <Search size={18} />
           <input
             placeholder="Buscar asignatura..."
             value={busqueda}
@@ -183,8 +168,7 @@ function Asignaturas() {
                   <span>Nota actual</span>
                   <strong>-</strong>
                 </div>
-                {/*<ChevronRight size={20} />*/}{" "}
-                <FontAwesomeIcon className="angle" icon={faAngleRight} />
+                <ChevronRight size={20} color="gray" />
               </div>
             );
           })}
@@ -231,8 +215,7 @@ function Asignaturas() {
           <span>Asistencia promedio</span>
         </div>
         <button className="btn-horario">
-          {/*  <Calendar size={16} /> */}{" "}
-          <FontAwesomeIcon icon={faCalendarDays} /> Ver mi horario
+          <Calendar size={12} /> Ver mi horario
         </button>
       </div>
     </div>

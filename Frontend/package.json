@@ -23,13 +23,12 @@
     "country-list": "^2.4.1",
     "dotenv": "^17.4.2",
     "i18next": "^26.3.1",
-    "i18next": "^26.3.1",
+    "lucide-react": "^1.23.0",
     "react": "^19.2.6",
     "react-datepicker": "^9.1.0",
     "react-dom": "^19.2.6",
     "react-i18next": "^17.0.8",
     "react-phone-input-2": "^2.15.1",
-    "react-i18next": "^17.0.8",
     "react-router-dom": "^7.17.0",
     "react-select": "^5.10.2",
     "world-countries": "^5.1.0"
@@ -51,6 +50,7 @@
     "globals": "^17.6.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.12"
+    "vite": "^8.0.12",
+    "vite-plugin-image-optimizer": "^2.0.3"
   }
 }

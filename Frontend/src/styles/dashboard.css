@@ -291,6 +291,14 @@
   cursor: pointer;
 }
 
+.btn-horario:hover {
+  background-color: #b032e7;
+  color: white;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
 .asignaturas-lista {
   display: flex;
   flex-direction: column;
