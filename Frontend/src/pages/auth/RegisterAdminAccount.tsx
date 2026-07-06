@@ -133,8 +133,8 @@ const RegisterAdminAccount = () => {
       {/* LEFT SIDE */}
       <div className="login-left">
         <div className="edu-logo">
-          <img src={logo} className="logo" />
-          <h1 className="edu-local">EDUCA LOCAL</h1>
+          <img src={logo} className="logo-img" />
+          <h1 className="edu-local-logo">EDUCA LOCAL</h1>
         </div>
 
         <h1 className="edu">

@@ -10,6 +10,7 @@ import RegisterConfiguration from "../pages/auth/RegisterConfiguration";
 import RegisterConfirmation from "../pages/auth/RegisterConfirmation";
 import LayoutAlumno from "../layouts/LayoutAlumno";
 import Inicio from "../pages/alumno/Inicio";
+import Asignaturas from "../pages/alumno/Asignaturas";
 
 export default function AppRoutes() {
   return (
@@ -38,6 +39,7 @@ export default function AppRoutes() {
         />
         <Route path="/alumno" element={<LayoutAlumno />}>
           <Route index element={<Inicio />} />
+          <Route path="asignaturas" element={<Asignaturas />} />
         </Route>
       </Routes>
     </HashRouter>

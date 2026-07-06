@@ -7,6 +7,7 @@ export const loginUser = async (identifier: string, password: string) => {
     centro_id: number;
     centro_nombre: string;
     rol_en_centro: string;
+    curso_nombre: string;
   };
   const cleanIdentifier = identifier?.trim();
 
@@ -38,9 +39,11 @@ export const loginUser = async (identifier: string, password: string) => {
   SELECT 
     c.id AS centro_id,
     c.nombre AS centro_nombre,
-    cu.rol_en_centro
+    cu.rol_en_centro,
+    cc.curso AS curso_nombre
   FROM centro_usuarios cu
   JOIN centros c ON cu.centro_id = c.id
+  LEFT JOIN centro_cursos cc ON cu.curso_id = cc.id
   WHERE cu.user_id = ?
   `,
     [user.id],
@@ -49,10 +52,13 @@ export const loginUser = async (identifier: string, password: string) => {
     id: c.centro_id,
     nombre: c.centro_nombre,
     rol: c.rol_en_centro,
+    nombre_del_curso: c.curso_nombre,
   }));
   const centrosUnicos = Array.from(
     new Map(centros.map((c: { id: any }) => [c.id, c])).values(),
   );
+
+  console.log("centrosunicos:", JSON.stringify(centrosUnicos, null, 2));
 
   const token = jwt.sign(
     {

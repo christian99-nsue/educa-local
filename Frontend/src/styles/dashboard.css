@@ -6,12 +6,13 @@
 }
 
 /*CONTENT*/
+
 .content {
-  padding-left: 200px;
+  padding-left: 30px;
   padding-top: 50px;
   padding-right: 20px;
-  margin-left: 40px;
-  margin-top: 30px;
+  margin-left: 200px;
+  margin-top: 50px;
   position: relative;
 }
 
@@ -29,6 +30,7 @@
   margin-bottom: 30px;
 }
 
+/*INICIO*/
 /*SUMMARY GRID */
 .summary-grid {
   display: grid;
@@ -48,6 +50,18 @@
   background: #f5f5f5;
   background-blend-mode: normal;
   box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+.summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 4px 6px 10px 2px rgba(100, 100, 100, 0.6);
+  background: #ececec;
 }
 
 .icon {
@@ -61,4 +75,324 @@
   font-size: 18px;
   color: #757575;
   font-weight: 550;
+}
+
+/* ASIGNATURAS*/
+
+.asignaturas-page {
+  padding: 24px;
+}
+
+.asignaturas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.asignaturas-header h1 {
+  font-size: 28px;
+  margin: 0 0 4px 0;
+}
+
+.asignaturas-header p {
+  color: #6b7280;
+  margin: 0;
+}
+
+.btn-lista {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #b032e7;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.btn-lista:hover {
+  background-color: royalblue;
+}
+
+.asignaturas-filtros {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.buscador {
+  display: flex;
+  border: 1px solid #e5e7eb;
+  align-items: center;
+  padding-left: 10px;
+  border-radius: 8px;
+  width: 480px;
+}
+.buscador input {
+  outline: none;
+  border: none;
+  padding: 10px;
+  font-size: 10px;
+  width: 450px;
+}
+.buscador svg {
+  color: #6b7280;
+}
+
+.filtro {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #374151;
+  width: 250px;
+  height: 40px;
+  font-size: 14px;
+  padding-left: 10px;
+}
+
+.filtro-select {
+  border: none;
+  outline: none;
+  color: #374151;
+  background: white;
+  font-size: 12px;
+  cursor: pointer;
+  height: 35px;
+  width: 230px;
+}
+
+.asignaturas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.asignaturas-card {
+  background: white;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.asignaturas-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 4px 6px 10px 2px rgba(100, 100, 100, 0.6);
+  background: white;
+}
+
+.asignaturas-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.asignaturas-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.asignaturas-card-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.profesor {
+  margin: 2px 0 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.progreso-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.progreso-bar-bg {
+  background: #f3f4f6;
+  border-radius: 6px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.progreso-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+}
+
+.asignaturas-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+  font-size: 13px;
+  color: #f59e0b;
+}
+.asignaturas-footer svg {
+  color: gray;
+}
+
+.resumen-general {
+  background: #eef2ff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.resumen-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.resumen-stat {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.resumen-stat strong {
+  font-size: 18px;
+}
+.resumen-stat span {
+  font-size: 12px;
+}
+
+.btn-horario {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.asignaturas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.asignatura-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #ffffff;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: box-shadow o.2 ease;
+}
+
+.asignatura-row:hover {
+  transform: translateY(-4px);
+  box-shadow: 4px 6px 10px 2px rgba(100, 100, 100, 0.6);
+  background: white;
+}
+.row-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.row-info {
+  flex: 1;
+  min-width: 160px;
+}
+
+.row-info h3 {
+  margin: 0;
+  font-size: 16px;
+}
+.row-info p {
+  margin: 2px 0 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+.row-asistencia {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 200px;
+  margin-right: 200px;
+}
+.row-asistencia-barra {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.row-asistencia span {
+  font-size: 13px;
+  color: #6b7280;
+}
+.row-porcentaje {
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.row-nota {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 80px;
+}
+
+.row-nota span {
+  font-size: 12px;
+  color: #6b7280;
+}
+.row-nota strong {
+  font-size: 20px;
+}
+
+.angle {
+  color: gray;
+}
+
+.asignaturas-estado {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+}
+
+.asignaturas-error {
+  color: #dc2626;
+}
+
+.asignaturas-error-ayuda {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-top: 8px;
 }

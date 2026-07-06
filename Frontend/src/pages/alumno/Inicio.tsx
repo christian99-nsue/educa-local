@@ -5,7 +5,7 @@ import "../../styles/dashboard.css";
 const Inicio = () => {
   const user = getUser();
   return (
-    <div className="content">
+    <div className="inicio content">
       <h1>Inicio</h1>
       <p className="subtitle">
         Hola, {user?.nombre} <br />

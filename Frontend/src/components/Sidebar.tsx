@@ -1,4 +1,5 @@
 import { getUser } from "../utils/auth";
+import { getCentroActivo } from "../utils/auth";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,10 +11,11 @@ import {
   faUser,
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import avatar from "../assets/images/avatar.png";
+import avatar from "../assets/images/avatar-default.png";
 
 const Sidebar = () => {
   const user = getUser();
+  const centroActivo = getCentroActivo();
   return (
     <div className="sidebar">
       <h2 className="logo">EDUCA LOCAL</h2>
@@ -22,13 +24,14 @@ const Sidebar = () => {
         <p>
           Nombre: {user?.nombre} <br /> Apellidos: {user?.apellidos} <br /> Rol:
           &nbsp;
-          {user?.rol_en_centro}
+          {user?.rol_en_centro} <br /> Curso: {centroActivo?.nombre_del_curso}
         </p>
       </div>
       <h3 className="menu-title">Menu</h3>
       <nav>
         <NavLink
           to="/alumno"
+          end
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }

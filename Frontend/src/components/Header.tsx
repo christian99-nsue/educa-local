@@ -1,5 +1,5 @@
 import { getUser } from "../utils/auth";
-import avatar from "../assets/images/avatar.png";
+import avatar from "../assets/images/avatar-default.png";
 
 const Header = () => {
   const user = getUser();

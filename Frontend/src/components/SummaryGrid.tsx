@@ -12,18 +12,22 @@ const SummaryGrid = () => {
       <SummaryCard
         icon={<FontAwesomeIcon icon={faBook} />}
         title="Asignaturas Activas"
+        path="asignaturas"
       />
       <SummaryCard
         icon={<FontAwesomeIcon icon={faClipboardList} />}
         title="Tareas Pendientes"
+        path="tareas"
       />
       <SummaryCard
         icon={<FontAwesomeIcon icon={faSquarePollVertical} />}
         title="Promedio"
+        path="calificaciones"
       />
       <SummaryCard
         icon={<FontAwesomeIcon icon={faCalendarDays} />}
         title="Proximas Clases"
+        path="horario"
       />
     </div>
   );
