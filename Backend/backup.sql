@@ -300,6 +300,70 @@ INSERT INTO `ramas` VALUES (1,'CIENCIAS de la Naturaleza y Salud',42),(2,'Tecnol
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tarea_entregas`
+--
+
+DROP TABLE IF EXISTS `tarea_entregas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tarea_entregas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tarea_id` int NOT NULL,
+  `usuario_id` int NOT NULL,
+  `estado` enum('pendiente','entregada','calificada') NOT NULL DEFAULT 'pendiente',
+  `fecha_entrega_real` datetime DEFAULT NULL,
+  `nota` decimal(5,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unico_tarea_usuario` (`tarea_id`,`usuario_id`),
+  KEY `usuario_id` (`usuario_id`),
+  CONSTRAINT `tarea_entregas_ibfk_1` FOREIGN KEY (`tarea_id`) REFERENCES `tareas` (`id`),
+  CONSTRAINT `tarea_entregas_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tarea_entregas`
+--
+
+LOCK TABLES `tarea_entregas` WRITE;
+/*!40000 ALTER TABLE `tarea_entregas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tarea_entregas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tareas`
+--
+
+DROP TABLE IF EXISTS `tareas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tareas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(150) NOT NULL,
+  `descripcion` text,
+  `asignatura_id` int NOT NULL,
+  `curso_id` int NOT NULL,
+  `rama_id` int DEFAULT NULL,
+  `fecha_entrega` date NOT NULL,
+  `fecha_creacion` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `asignatura_id` (`asignatura_id`),
+  KEY `curso_id` (`curso_id`),
+  CONSTRAINT `tareas_ibfk_1` FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas` (`id`),
+  CONSTRAINT `tareas_ibfk_2` FOREIGN KEY (`curso_id`) REFERENCES `centro_cursos` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tareas`
+--
+
+LOCK TABLES `tareas` WRITE;
+/*!40000 ALTER TABLE `tareas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tareas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `usuarios`
 --
 
@@ -344,4 +408,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-07-06 19:34:25
+-- Dump completed on 2026-07-07 22:26:30
