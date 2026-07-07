@@ -102,7 +102,7 @@
 .oval svg {
   width: 28px;
   height: 23px;
-  fill: #ffffff;
+  color: #ffffff;
   background-blend-mode: normal;
 }
 
@@ -219,7 +219,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  fill: #686868;
+  color: #686868;
 }
 
 .lang select {
@@ -1239,4 +1239,19 @@ button.btn-ir-al-panel {
 
 button.btn-ir-al-panel:hover {
   background-color: #b032e7;
+}
+
+@media (max-width: 768px) {
+  .login-left {
+    display: none;
+  }
+
+  .login-right {
+    height: 700px;
+    border: 1px;
+    width: 400px;
+    margin-top: 110px;
+    border-radius: 12px;
+    margin-left: 60px;
+  }
 }
