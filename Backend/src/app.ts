@@ -5,9 +5,21 @@ import passwordResetRoutes from "./routes/passwordResetRoutes";
 import asignaturasRoutes from "./routes/asignaturasRoutes";
 
 const app = express();
+const allowedOrigins = [
+  "https://educa-local.vercel.app",
+  "https://TU-USUARIO.github.io",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("No permitido por CORS"));
+      }
+    },
     credentials: true,
   }),
 );
