@@ -7,7 +7,7 @@ import asignaturasRoutes from "./routes/asignaturasRoutes";
 const app = express();
 const allowedOrigins = [
   "https://educa-local.vercel.app",
-  "https://TU-USUARIO.github.io",
+  "https://christian99-nsue.github.io",
   "http://localhost:5173",
 ];
 
