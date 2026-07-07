@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import passwordResetRoutes from "./routes/passwordResetRoutes";
 import asignaturasRoutes from "./routes/asignaturasRoutes";
+import tareasRoutes from "./routes/tareasRoutes";
 
 const app = express();
 const allowedOrigins = [
@@ -33,5 +34,6 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/auth", passwordResetRoutes);
 app.use("/api/asignaturas", asignaturasRoutes);
+app.use("/api/tareas", tareasRoutes);
 
 export default app;
