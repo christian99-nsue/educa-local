@@ -1,5 +1,5 @@
 Set-Location "$PSScriptRoot\Frontend"
-npm run build
+npm run build:github
 Set-Location $PSScriptRoot
 git add Frontend/dist -f
 git commit -m "Actualizacion de la pagina"

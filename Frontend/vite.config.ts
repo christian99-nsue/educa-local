@@ -3,8 +3,8 @@ import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
-export default defineConfig({
-  base: "/educa-local/",
+export default defineConfig(({ mode }) => ({
+  base: mode === "github" ? "/educa-local/" : "/",
   plugins: [
     react(),
     babel({ presets: [reactCompilerPreset()] }),
@@ -14,4 +14,4 @@ export default defineConfig({
       jpeg: { quality: 75 },
     }),
   ],
-});
+}));
