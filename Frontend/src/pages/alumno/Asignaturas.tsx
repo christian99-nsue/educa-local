@@ -8,6 +8,8 @@ import { getIconoAsignatura } from "../../utils/asignaturaIconos";
 import { getCentroActivo } from "../../utils/auth";
 import "../../styles/dashboard.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface Asignatura {
   id: number;
   nombre: string;
@@ -47,7 +49,7 @@ function Asignaturas() {
 
       try {
         const res = await fetch(
-          `http://localhost:3001/api/asignaturas/mis-asignaturas?centroId=${centroActivo.id}`,
+          `${API_URL}/api/asignaturas/mis-asignaturas?centroId=${centroActivo.id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           },

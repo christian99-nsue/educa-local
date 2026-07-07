@@ -1246,11 +1246,16 @@ button.btn-ir-al-panel:hover {
     display: none;
   }
 
+  .login-container {
+    flex-direction: column;
+    align-items: center;
+    height: 650px;
+  }
   .login-right {
-    height: 700px;
+    height: 600px;
     border: 1px;
     width: 400px;
-    margin-top: 110px;
+    margin-top: 50px;
     border-radius: 12px;
     margin-left: 60px;
   }

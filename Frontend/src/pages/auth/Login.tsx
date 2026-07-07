@@ -21,6 +21,8 @@ import "../../styles/Login.css";
 import logo from "../../assets/images/Libro1.1.png";
 import illustration from "../../assets/images/IMG3.1.png";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Login = () => {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -77,12 +79,9 @@ const Login = () => {
         if (!response) return;
         if (!response.idToken) return;
 
-        const res = await axios.post(
-          "http://localhost:3001/api/auth/microsoft",
-          {
-            idToken: response.idToken,
-          },
-        );
+        const res = await axios.post(`${API_URL}/api/auth/microsoft`, {
+          idToken: response.idToken,
+        });
         finishLogin(res.data);
       })
       .catch((err) => {
@@ -132,7 +131,7 @@ const Login = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:3001/api/auth/login", {
+      const res = await axios.post(`${API_URL}/api/auth/login`, {
         identifier: cleanIdentifier,
         password,
       });
@@ -266,7 +265,7 @@ const Login = () => {
                   const token = credentialResponse.credential;
 
                   const res = await axios.post(
-                    "http://localhost:3001/api/auth/google",
+                    `${API_URL}/api/auth/google`,
                     { token },
                   );
                   console.log("Respuesta del backend:", res.data);

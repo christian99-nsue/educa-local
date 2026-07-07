@@ -6,6 +6,8 @@ import illustration from "../../assets/images/IMG3.1.png";
 import { useTranslation } from "react-i18next";
 import "../../styles/Login.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -25,10 +27,9 @@ export default function ForgotPassword() {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:3001/api/auth/forgot-password",
-        { email },
-      );
+      const res = await axios.post(`${API_URL}/api/auth/forgot-password`, {
+        email,
+      });
       setMessage(res.data.message);
     } catch (err: unknown) {
       const axiosError = err as { response?: { data?: { message?: string } } };
