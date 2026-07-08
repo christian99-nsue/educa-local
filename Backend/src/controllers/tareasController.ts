@@ -48,6 +48,13 @@ export const Tareas = async (req: any, res: any) => {
       [usuarioId, curso_id, rama_id],
     );
 
+    const [configRows]: any = await db.query(
+      `SELECT sistema_calificacion FROM centro_configuracion WHERE centro_id = ?`,
+      [centroId],
+    );
+    const sistemaCalificacion =
+      configRows[0]?.sistema_calificacion ?? "sobre 10";
+
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
 
@@ -75,7 +82,10 @@ export const Tareas = async (req: any, res: any) => {
       };
     });
 
-    res.json(tareasConEstado);
+    res.json({
+      tareas: tareasConEstado,
+      sistemaCalificacion,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Error al obtener las tareas" });

@@ -404,3 +404,7 @@
   color: #9ca3af;
   margin-top: 8px;
 }
+
+p.asignatura-tarea-pendiente {
+  color: #f59e0b;
+}

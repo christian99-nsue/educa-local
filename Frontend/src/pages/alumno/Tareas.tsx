@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import TareaCard from "../../components/TareaCard";
 import { getIconoAsignatura } from "../../utils/asignaturaIconos";
 import { getCentroActivo } from "../../utils/auth";
-import "../../styles/dashboard.css";
+import "../../styles/Tareas.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -41,6 +41,9 @@ function Tareas() {
   const [filtroAsignatura, setFiltroAsignatura] = useState("todas");
   const [filtroEstado, setFiltroEstado] = useState("todos");
   const [pagina, setPagina] = useState(1);
+  const [sistemaCalificacion, setSistemaCalificacion] = useState<
+    "sobre 10" | "sobre 100" | "A-F"
+  >("sobre 10");
 
   useEffect(() => {
     const cargarTareas = async () => {
@@ -64,7 +67,8 @@ function Tareas() {
         if (!res.ok) {
           throw new Error(data?.error || "Error al cargar tareas");
         }
-        setTareas(Array.isArray(data) ? data : []);
+        setTareas(Array.isArray(data.tareas) ? data.tareas : []);
+        setSistemaCalificacion(data.sistemaCalificacion ?? "sobre 10");
       } catch (err) {
         setError(err instanceof Error ? err.message : "Error al cargar tareas");
       } finally {
@@ -122,28 +126,28 @@ function Tareas() {
       </p>
 
       <div className="tareas-summary-grid">
-        <div className="summary-card">
+        <div className="summary-card-tr">
           <span className="icon-title">Total de tareas</span>
           <strong>{tareas.length}</strong>
           <span className="summary-sub">Todas las tareas</span>
         </div>
-        <div className="summary-card">
+        <div className="summary-card-tr">
           <span className="icon-title">Activas</span>
           <strong style={{ color: "#18B300" }}>{contar("activa")}</strong>
           <span className="summary-sub">En curso</span>
         </div>
-        <div className="summary-card">
+        <div className="summary-card-tr">
           <span className="icon-title">Atrasadas</span>
           <strong style={{ color: "#FC4850" }}>{contar("atrasada")}</strong>
           <span className="summary-sub">Con retraso</span>
         </div>
-        <div className="summary-card">
+        <div className="summary-card-tr">
           <span className="icon-title">Entregadas</span>
           <strong style={{ color: "#59ADFF" }}>{contar("entregada")}</strong>
           <span className="summary-sub">Completadas</span>
         </div>
-        <div className="summary-card">
-          <span className="icon-title">Calificada</span>
+        <div className="summary-card-tr">
+          <span className="icon-title">Calificadas</span>
           <strong style={{ color: "#B032E7" }}>{contar("calificada")}</strong>
           <span className="summary-sub">Evaluadas</span>
         </div>
@@ -211,10 +215,11 @@ function Tareas() {
               diasRestantes={t.diasRestantes}
               estado={t.estado}
               nota={t.nota}
+              sistemaCalificacion={sistemaCalificacion}
               color={estilo.color}
               bgColor={estilo.bg}
               icono={icono}
-              onClick={() => navigate(`/alumno/tareas/${t.id}`)}
+              onClick={() => navigate(`/alumno/tareas/${t.titulo}`)}
             />
           );
         })}

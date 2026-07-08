@@ -14,6 +14,7 @@ interface Asignatura {
   id: number;
   nombre: string;
   descripcion: string;
+  tareas_pendientes: number;
 }
 
 const estilos = [
@@ -35,6 +36,7 @@ function Asignaturas() {
   const [busqueda, setBusqueda] = useState("");
   const [vistaLista, setVistaLista] = useState(false);
   const [error, setError] = useState("");
+  const [filtroTareas, setFiltroTareas] = useState("todas");
 
   useEffect(() => {
     const cargarAsignaturas = async () => {
@@ -70,9 +72,18 @@ function Asignaturas() {
     cargarAsignaturas();
   }, []);
 
-  const asignaturasFiltradas = asignaturas.filter((a) =>
-    a.nombre.toLowerCase().includes(busqueda.toLowerCase()),
-  );
+  const asignaturasFiltradas = asignaturas.filter((a) => {
+    const coincideBusqueda = a.nombre
+      .toLowerCase()
+      .includes(busqueda.toLowerCase());
+
+    const coincideFiltroTareas =
+      filtroTareas === "todas" ||
+      (filtroTareas === "pendientes" && a.tareas_pendientes > 0) ||
+      (filtroTareas === "completadas" && a.tareas_pendientes === 0);
+    return coincideBusqueda && coincideFiltroTareas;
+  });
+
   if (loading) return <p>Cargando asignaturas...</p>;
   if (error) {
     return (
@@ -119,7 +130,11 @@ function Asignaturas() {
           </select>
         </div>
         <div className="filtro">
-          <select className="filtro-select">
+          <select
+            className="filtro-select"
+            value={filtroTareas}
+            onChange={(e) => setFiltroTareas(e.target.value)}
+          >
             <option value="todas">Todas las asignaturas</option>
             <option value="pendientes">Con tareas pendientes</option>
             <option value="completadas">Sin tareas pendientes</option>
@@ -150,7 +165,16 @@ function Asignaturas() {
                 <div className="row-info">
                   <h3>{a.nombre}</h3>
                   <p>Profesor: Por asignar</p>
-                  <p>Creditos: -</p>
+                  <p
+                    className="asignatura-tarea-pendiente"
+                    style={
+                      a.tareas_pendientes === 0
+                        ? { color: "#18B300" }
+                        : undefined
+                    }
+                  >
+                    Tareas pendientes: {a.tareas_pendientes}
+                  </p>
                 </div>
                 <div className="row-asistencia">
                   <span>Asistencia</span>
@@ -188,6 +212,7 @@ function Asignaturas() {
                 bgColor={estilo.bg}
                 icono={icono}
                 asistencia={asistenciaPlaceholder}
+                tareasPendientes={a.tareas_pendientes}
                 onClick={() => navigate(`/asignaturas/${a.nombre}`)}
               />
             );
@@ -208,10 +233,20 @@ function Asignaturas() {
           <strong>{asignaturasFiltradas.length}</strong>
           <span>Asignaturas</span>
         </div>
-        <div className="resumen-stat">
-          <strong>65</strong>
-          <span>Tareas pendientes</span>
-        </div>
+        {(() => {
+          const totalPendientes = asignaturasFiltradas.reduce(
+            (acc, a) => acc + a.tareas_pendientes,
+            0,
+          );
+          return (
+            <div className="resumen-stat">
+              <strong>{totalPendientes}</strong>
+              <span>
+                {totalPendientes === 1 ? "Tarea pendiente" : "Tareas pendiente"}
+              </span>
+            </div>
+          );
+        })()}
         <div className="resumen-stat">
           <strong>90%</strong>
           <span>Asistencia promedio</span>

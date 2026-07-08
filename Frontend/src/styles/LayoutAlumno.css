@@ -6,12 +6,11 @@
 /* SIDEBAR */
 .sidebar {
   position: fixed;
-  top: 5px;
-  width: 200px;
+  width: 15.5dvw;
   background: #0b1a2b;
   color: white;
   padding: 15px;
-  height: 580px;
+  height: 100dvh;
   z-index: 10;
 }
 .menu-title {
@@ -80,9 +79,8 @@
   display: flex;
   z-index: 10;
   height: 50px;
-  width: 84%;
-  left: 200px;
-  margin-top: 5px;
+  width: 84.5dvw;
+  margin-left: 15.5dvw;
   position: fixed;
   justify-content: space-between;
   padding: 15px 25px;

@@ -26,12 +26,22 @@ export const Asignaturas = async (req: any, res: any) => {
         .json({ error: "El usuario no tiene curso asignado" });
     }
     const [asignaturas]: any = await db.query(
-      `SELECT a.id, a.nombre, a.descripcion
-            FROM curso_asignaturas ca
-            JOIN asignaturas a ON a.id = ca.asignatura_id
-            WHERE ca.curso_id = ?
-            AND (ca.rama_id IS NULL OR ca.rama_id = ?)`,
-      [curso_id, rama_id],
+      `SELECT a.id, a.nombre, a.descripcion,
+      (
+      SELECT COUNT(*)
+      FROM tareas t
+      LEFT JOIN tarea_entregas te 
+        ON te.tarea_id = t.id AND te.usuario_id = ?
+        WHERE t.asignatura_id = a.id
+        AND t.curso_id = ca.curso_id
+        AND (t.rama_id IS NULL OR t.rama_id = ?)
+        AND COALESCE(te.estado, "pendiente") = "pendiente"
+      ) AS tareas_pendientes
+       FROM curso_asignaturas ca
+       JOIN asignaturas a ON a.id = ca.asignatura_id
+       WHERE ca.curso_id = ?
+       AND (ca.rama_id IS NULL OR ca.rama_id = ?)`,
+      [usuarioId, rama_id, curso_id, rama_id],
     );
     res.json(asignaturas);
   } catch (error) {

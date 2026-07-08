@@ -1249,14 +1249,37 @@ button.btn-ir-al-panel:hover {
   .login-container {
     flex-direction: column;
     align-items: center;
-    height: 650px;
+    width: 90dvw;
+    height: 90dvh;
+    margin: 5dvh auto;
   }
   .login-right {
-    height: 600px;
+    height: 90dvh;
+    width: 90dvw;
+    margin: 5dvh auto;
     border: 1px;
-    width: 400px;
-    margin-top: 50px;
     border-radius: 12px;
-    margin-left: 60px;
+  }
+  .input-box,
+  .input-box-password,
+  button.login,
+  .divider {
+    width: 290px;
+  }
+  .input-box input,
+  .input-box-password input {
+    width: 220px;
+  }
+
+  .error-forgot {
+    margin-left: 30px;
+    width: 290px;
+  }
+
+  .lang {
+    margin-right: 30px;
+  }
+  .lang svg {
+    width: 15px;
   }
 }

@@ -50,10 +50,19 @@ function AsignaturaCard({
         </div>
       </div>
       <div className="asignaturas-footer">
-        <span className="tareas">
-          {tareasPendientes > 0
-            ? `${tareasPendientes} tareas pendientes`
-            : "sin tareas pendientes"}
+        <span
+          className="tareas"
+          style={
+            tareasPendientes === 0
+              ? { color: "#18B300", fontWeight: 600 }
+              : undefined
+          }
+        >
+          {tareasPendientes === 0
+            ? "Sin tareas pendientes"
+            : tareasPendientes === 1
+              ? "1 Tarea pendiente"
+              : `${tareasPendientes} Tareas pendientes`}
         </span>
         <ChevronRight size={18} />
       </div>

@@ -9,11 +9,14 @@ interface TareaCardProps {
   diasRestantes: number;
   estado: "activa" | "atrasada" | "entregada" | "calificada";
   nota?: number | null;
+  sistemaCalificacion: "sobre 10" | "sobre 100" | "A-F";
   color: string;
   bgColor: string;
   icono: IconDefinition;
   onClick: () => void;
 }
+
+type SistemaCalificacion = "sobre 10" | "sobre 100" | "A-F";
 
 const estadoLabel: Record<string, string> = {
   activa: "En curso",
@@ -36,6 +39,7 @@ function TareaCard({
   diasRestantes,
   estado,
   nota,
+  sistemaCalificacion,
   color,
   bgColor,
   icono,
@@ -46,6 +50,25 @@ function TareaCard({
     month: "short",
     year: "numeric",
   });
+  const getColorNota = (
+    nota: string | number,
+    sistema: SistemaCalificacion,
+  ): string => {
+    if (sistema === "A-F") {
+      const letra = String(nota).toUpperCase();
+      if (letra === "A" || letra === "B") return "#18B300";
+      if (letra === "C") return "#F8C822";
+      return "#FC4850";
+    }
+
+    const ValorNumerico = Number(nota);
+    const maximo = sistema === "sobre 100" ? 100 : 10;
+    const porcentaje = (ValorNumerico / maximo) * 100;
+
+    if (porcentaje >= 70) return "#18B300";
+    if (porcentaje >= 50) return "#F8C822";
+    return "#FC4850";
+  };
 
   return (
     <div className="tarea-row" onClick={onClick}>
@@ -68,7 +91,15 @@ function TareaCard({
           {estadoLabel[estado]}
         </span>
         {estado === "calificada" && nota != null && (
-          <span className="tarea-nota">Nota: {nota}</span>
+          <span
+            className="tarea-nota"
+            style={{
+              color: getColorNota(nota, sistemaCalificacion),
+              fontWeight: 600,
+            }}
+          >
+            Nota: {nota}
+          </span>
         )}
       </div>
       <div className="row-dias">
