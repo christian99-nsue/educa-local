@@ -69,7 +69,7 @@ const RegisterConfirmation = () => {
     sessionStorage.removeItem("registro_estructura");
     sessionStorage.removeItem("registro_configuracion");
 
-    navigate("/admin/dashboard");
+    navigate("/admin");
   };
 
   const filasResumen = [
