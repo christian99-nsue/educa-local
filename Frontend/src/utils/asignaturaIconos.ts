@@ -14,6 +14,11 @@ import {
   faBook,
   faPrayingHands,
   faLaptopCode,
+  faMicrochip,
+  faCompassDrafting,
+  faCalculator,
+  faPalette,
+  faEarthEurope,
 } from "@fortawesome/free-solid-svg-icons";
 
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
@@ -37,6 +42,12 @@ const iconosPorNombre: Record<string, IconDefinition> = {
   religion: faPrayingHands,
   filosofia: faBookOpen,
   electrotecnia: faBolt,
+  "tecnologia industrial": faMicrochip,
+  "dibujo tecnico": faCompassDrafting,
+  "matematicas aplicadas": faCalculator,
+  "historia del arte": faPalette,
+  latin: faEarthEurope,
+  griego: faEarthEurope,
 };
 
 const iconoDefault = faBookOpen;

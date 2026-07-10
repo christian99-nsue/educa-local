@@ -11,12 +11,17 @@ import RegisterConfirmation from "../pages/auth/RegisterConfirmation";
 import LayoutAlumno from "../layouts/LayoutAlumno";
 import Inicio from "../pages/alumno/Inicio";
 import Asignaturas from "../pages/alumno/Asignaturas";
-import Tareas from "../pages/alumno/tareas";
+import Tareas from "../pages/alumno/Tareas";
+import LayoutProfesor from "../layouts/LayoutProfesor";
+import InicioProfesor from "../pages/profesor/InicioProfesor";
+import ProtectedRoute from "./ProtectedRoutes";
+import AsignaturasProfesor from "../pages/profesor/AsignaturasProfesor";
 
 export default function AppRoutes() {
   return (
     <HashRouter>
       <Routes>
+        {/*-------- Rutas publicas  (sin proteger) -----------*/}
         <Route path="/" element={<Login />} />
         <Route path="/select-centro" element={<SelectCenterPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -38,10 +43,21 @@ export default function AppRoutes() {
           path="/register-confirmation"
           element={<RegisterConfirmation />}
         />
-        <Route path="/alumno" element={<LayoutAlumno />}>
-          <Route index element={<Inicio />} />
-          <Route path="asignaturas" element={<Asignaturas />} />
-          <Route path="tareas" element={<Tareas />} />
+
+        {/* --------- Zona ALUMNO: solo rol "alumno" ---------*/}
+        <Route element={<ProtectedRoute allowedRoles={["alumno"]} />}>
+          <Route path="/alumno" element={<LayoutAlumno />}>
+            <Route index element={<Inicio />} />
+            <Route path="asignaturas" element={<Asignaturas />} />
+            <Route path="tareas" element={<Tareas />} />
+          </Route>
+        </Route>
+        {/*--------- Zona PROFESOR: solo rol "profesor" -----*/}
+        <Route element={<ProtectedRoute allowedRoles={["profesor"]} />}>
+          <Route path="/profesor" element={<LayoutProfesor />}>
+            <Route index element={<InicioProfesor />} />
+            <Route path="asignaturas" element={<AsignaturasProfesor />} />
+          </Route>
         </Route>
       </Routes>
     </HashRouter>
