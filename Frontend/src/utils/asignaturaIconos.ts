@@ -42,7 +42,7 @@ const iconosPorNombre: Record<string, IconDefinition> = {
   religion: faPrayingHands,
   filosofia: faBookOpen,
   electrotecnia: faBolt,
-  "tecnologia industrial": faMicrochip,
+  "tecnologia industrial ii": faMicrochip,
   "dibujo tecnico": faCompassDrafting,
   "matematicas aplicadas": faCalculator,
   "historia del arte": faPalette,

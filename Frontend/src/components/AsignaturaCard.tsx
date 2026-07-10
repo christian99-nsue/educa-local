@@ -34,7 +34,7 @@ function AsignaturaCard({
         </div>
         <div>
           <h3>{nombre}</h3>
-          <p className="profesor">{profesor}</p>
+          <p className="profesor">Prof: {profesor}</p>
         </div>
       </div>
       <div className="progreso-wrapper">

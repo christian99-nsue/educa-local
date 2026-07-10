@@ -15,6 +15,7 @@ interface Asignatura {
   nombre: string;
   descripcion: string;
   tareas_pendientes: number;
+  profesor: string | null;
 }
 
 const estilos = [
@@ -164,7 +165,7 @@ function Asignaturas() {
                 </div>
                 <div className="row-info">
                   <h3>{a.nombre}</h3>
-                  <p>Profesor: Por asignar</p>
+                  <p>Profesor: {a.profesor ?? "Por asignar"}</p>
                   <p
                     className="asignatura-tarea-pendiente"
                     style={
@@ -213,6 +214,7 @@ function Asignaturas() {
                 icono={icono}
                 asistencia={asistenciaPlaceholder}
                 tareasPendientes={a.tareas_pendientes}
+                profesor={a.profesor ?? "Por asignar"}
                 onClick={() => navigate(`/asignaturas/${a.nombre}`)}
               />
             );

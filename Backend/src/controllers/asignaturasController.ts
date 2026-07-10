@@ -30,13 +30,22 @@ export const Asignaturas = async (req: any, res: any) => {
       (
       SELECT COUNT(*)
       FROM tareas t
+      JOIN curso_asignaturas ca2 ON ca2.id = t.curso_asignatura_id
       LEFT JOIN tarea_entregas te 
         ON te.tarea_id = t.id AND te.usuario_id = ?
-        WHERE t.asignatura_id = a.id
-        AND t.curso_id = ca.curso_id
-        AND (t.rama_id IS NULL OR t.rama_id = ?)
+        WHERE ca2.asignatura_id = a.id
+        AND ca2.curso_id = ca.curso_id
+        AND (ca2.rama_id IS NULL OR ca2.rama_id = ?)
         AND COALESCE(te.estado, "pendiente") = "pendiente"
-      ) AS tareas_pendientes
+      ) AS tareas_pendientes,
+       (
+        SELECT CONCAT(u.nombre, ' ', u.apellidos)
+        FROM profesor_asignaturas pa
+        JOIN centro_usuarios cu ON cu.id = pa.centro_usuario_id
+        JOIN usuarios u ON u.id = cu.user_id
+        WHERE pa.curso_asignatura_id = ca.id
+        LIMIT 1
+      ) AS profesor
        FROM curso_asignaturas ca
        JOIN asignaturas a ON a.id = ca.asignatura_id
        WHERE ca.curso_id = ?
