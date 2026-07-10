@@ -9,6 +9,7 @@ const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const passwordResetRoutes_1 = __importDefault(require("./routes/passwordResetRoutes"));
 const asignaturasRoutes_1 = __importDefault(require("./routes/asignaturasRoutes"));
 const tareasRoutes_1 = __importDefault(require("./routes/tareasRoutes"));
+const profesorAsignaturasRoutes_1 = __importDefault(require("./routes/profesorAsignaturasRoutes"));
 const app = (0, express_1.default)();
 const allowedOrigins = [
     "https://educa-local.vercel.app",
@@ -36,4 +37,5 @@ app.use("/api/auth", authRoutes_1.default);
 app.use("/api/auth", passwordResetRoutes_1.default);
 app.use("/api/asignaturas", asignaturasRoutes_1.default);
 app.use("/api/tareas", tareasRoutes_1.default);
+app.use("/api/profesor/asignaturas", profesorAsignaturasRoutes_1.default);
 exports.default = app;

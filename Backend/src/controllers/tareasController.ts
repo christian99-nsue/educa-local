@@ -39,11 +39,12 @@ export const Tareas = async (req: any, res: any) => {
          COALESCE(te.estado, 'pendiente') AS estado_entrega,
          te.nota
        FROM tareas t
-       JOIN asignaturas a ON a.id = t.asignatura_id
+       JOIN curso_asignaturas ca ON ca.id = t.curso_asignatura_id
+       JOIN asignaturas a ON a.id = ca.asignatura_id
        LEFT JOIN tarea_entregas te
          ON te.tarea_id = t.id AND te.usuario_id = ?
-       WHERE t.curso_id = ?
-       AND (t.rama_id IS NULL OR t.rama_id = ?)
+       WHERE ca.curso_id = ?
+       AND (ca.rama_id IS NULL OR ca.rama_id = ?)
        ORDER BY t.fecha_entrega ASC`,
       [usuarioId, curso_id, rama_id],
     );
