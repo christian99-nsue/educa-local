@@ -1,4 +1,4 @@
-IALTER TABLE asignaturas ADD COLUMN codigo VARCHAR(20) DEFAULT NULL;
+ALTER TABLE asignaturas ADD COLUMN codigo VARCHAR(20) DEFAULT NULL;
 
 INSERT INTO profesor_asignaturas (centro_usuario_id, curso_id, asignatura_id)
 VALUES 
