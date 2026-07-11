@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@supabase/supabase-js": "^2.110.2",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
@@ -7,6 +8,7 @@
     "google-auth-library": "^10.7.0",
     "jsonwebtoken": "^9.0.3",
     "jwks-rsa": "^4.1.0",
+    "multer": "^2.2.0",
     "mysql2": "^3.22.5",
     "node-fetch": "^3.3.2",
     "nodemailer": "^9.0.1",
@@ -31,6 +33,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.2.0",
     "@types/node": "^26.0.0",
     "@types/nodemailer": "^8.0.1",
     "nodemon": "^3.1.14",

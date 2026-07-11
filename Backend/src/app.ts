@@ -5,6 +5,7 @@ import passwordResetRoutes from "./routes/passwordResetRoutes";
 import asignaturasRoutes from "./routes/asignaturasRoutes";
 import tareasRoutes from "./routes/tareasRoutes";
 import profesorAsignaturasRoutes from "./routes/profesorAsignaturasRoutes";
+import profesorTareasRoutes from "./routes/profesorTareasRoutes";
 
 const app = express();
 const allowedOrigins = [
@@ -38,5 +39,6 @@ app.use("/api/auth", passwordResetRoutes);
 app.use("/api/asignaturas", asignaturasRoutes);
 app.use("/api/tareas", tareasRoutes);
 app.use("/api/profesor/asignaturas", profesorAsignaturasRoutes);
+app.use("/api/profesor/tareas", profesorTareasRoutes);
 
 export default app;

@@ -24,12 +24,13 @@ export const AsignaturasProfesor = async (req: any, res: any) => {
 
     const [asignaturas]: any = await db.query(
       `SELECT
+            ca.id AS curso_asignatura_id,
             a.id,
             a.nombre,
             a.codigo,
             cc.curso,
             r.nombre AS rama,
-            pa.curso_asignatura_id,
+            ca.curso_id,
             (
                 SELECT COUNT(*)
                 FROM centro_usuarios cu2

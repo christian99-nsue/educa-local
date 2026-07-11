@@ -16,6 +16,7 @@ import LayoutProfesor from "../layouts/LayoutProfesor";
 import InicioProfesor from "../pages/profesor/InicioProfesor";
 import ProtectedRoute from "./ProtectedRoutes";
 import AsignaturasProfesor from "../pages/profesor/AsignaturasProfesor";
+import TareasProfesor from "../pages/profesor/TareasProfesor";
 
 export default function AppRoutes() {
   return (
@@ -57,6 +58,7 @@ export default function AppRoutes() {
           <Route path="/profesor" element={<LayoutProfesor />}>
             <Route index element={<InicioProfesor />} />
             <Route path="asignaturas" element={<AsignaturasProfesor />} />
+            <Route path="tareas" element={<TareasProfesor />} />
           </Route>
         </Route>
       </Routes>

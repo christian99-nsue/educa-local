@@ -15,6 +15,7 @@ const allowedOrigins = [
     "https://educa-local.vercel.app",
     "https://christian99-nsue.github.io",
     "http://localhost:5173",
+    "http://localhost:5174",
 ];
 app.use((0, cors_1.default)({
     origin: (origin, callback) => {

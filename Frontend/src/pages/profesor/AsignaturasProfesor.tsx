@@ -11,6 +11,7 @@ import { faUsers } from "@fortawesome/free-solid-svg-icons";
 const API_URL = import.meta.env.VITE_API_URL;
 
 interface AsignaturaProfesor {
+  curso_asignatura_id: number;
   id: number;
   nombre: string;
   codigo: string | null;
@@ -132,7 +133,7 @@ function AsignaturasProfesor() {
             const icono = getIconoAsignatura(a.nombre);
             return (
               <div
-                key={a.id}
+                key={a.curso_asignatura_id}
                 className="asignatura-row-pf"
                 onClick={() =>
                   navigate(`/profesor/asignatura/${a.nombre}/curso/${a.curso}`)
@@ -171,7 +172,7 @@ function AsignaturasProfesor() {
             const icono = getIconoAsignatura(a.nombre);
             return (
               <AsignaturaCardProfesor
-                key={a.id}
+                key={a.curso_asignatura_id}
                 nombre={a.nombre}
                 curso={a.curso}
                 rama={a.rama}
