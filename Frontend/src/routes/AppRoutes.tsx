@@ -17,6 +17,10 @@ import InicioProfesor from "../pages/profesor/InicioProfesor";
 import ProtectedRoute from "./ProtectedRoutes";
 import AsignaturasProfesor from "../pages/profesor/AsignaturasProfesor";
 import TareasProfesor from "../pages/profesor/TareasProfesor";
+import AsistenciaProfesor from "../pages/profesor/AsistenciaProfesor";
+import CalificacionesProfesor from "../pages/profesor/CalificacionesProfesor";
+import HorarioProfesor from "../pages/profesor/HorarioProfesor";
+import PerfilProfesor from "../pages/profesor/perfilProfesor";
 
 export default function AppRoutes() {
   return (
@@ -59,6 +63,10 @@ export default function AppRoutes() {
             <Route index element={<InicioProfesor />} />
             <Route path="asignaturas" element={<AsignaturasProfesor />} />
             <Route path="tareas" element={<TareasProfesor />} />
+            <Route path="asistencia" element={<AsistenciaProfesor />} />
+            <Route path="calificaciones" element={<CalificacionesProfesor />} />
+            <Route path="horario" element={<HorarioProfesor />} />
+            <Route path="perfil" element={<PerfilProfesor />} />
           </Route>
         </Route>
       </Routes>

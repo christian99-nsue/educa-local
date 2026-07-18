@@ -1,14 +1,19 @@
-.layout-alumno {
-  display: flex;
-  height: 100vh;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-
+.layout-alumno {
+  height: 100dvh;
+  width: 100dvw;
+  overflow-x: hidden;
+}
 /* SIDEBAR */
 .sidebar {
   position: fixed;
   width: 15.5dvw;
-  background: #0b1a2b;
-  color: white;
+  background: #003152;
+  color: #addff1;
   padding: 15px;
   height: 100dvh;
   z-index: 10;
@@ -47,7 +52,7 @@
 .nav-item {
   display: flex;
   padding: 10px 15px;
-  color: #fff;
+  color: #addff1;
   text-decoration: none;
   transition: 0.3s;
   border-radius: 8px;
@@ -57,18 +62,17 @@
 }
 
 .nav-item:hover {
-  background-color: #1e2f45;
+  background-color: #1f4b69;
 }
 .nav-item.active {
-  color: #fc4850;
+  color: #003152;
   font-weight: bold;
-  background-color: #fff0f0;
+  background-color: #addff1;
 }
 /*LADO DERECHO */
-.right-side {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.right-side-al {
+  margin-left: 15.5dvw;
+  width: calc(100dvw - 15.5dvw);
 }
 
 /*HEADER */
@@ -76,9 +80,10 @@
   display: flex;
   z-index: 10;
   height: 50px;
-  width: 84.5dvw;
-  margin-left: 15.5dvw;
   position: fixed;
+  top: 0;
+  left: 15.5dvw;
+  width: calc(100dvw - 15.5dvw);
   justify-content: space-between;
   padding: 15px 25px;
   background: #f5f7fb;
@@ -116,9 +121,10 @@
 
 /*CONTENIDO */
 
-.main {
-  flex: 1;
-  background: white;
-  overflow-y: auto;
-  padding: 20px;
+.center {
+  padding-left: 40px;
+  padding-right: 40px;
+  margin-top: 40px;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }

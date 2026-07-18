@@ -36,6 +36,7 @@ const NIVELES: NivelConfig[] = [
 type CursosPorNivel = Record<string, string[]>;
 type NivelesSeleccionados = Record<string, boolean>;
 
+//Funcion para registrar la estructura academica
 const RegisterAcademicStructure = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -90,6 +91,7 @@ const RegisterAcademicStructure = () => {
     if (errorNiveles) setErrorNiveles("");
   };
 
+  //FUncion para agregar los cursos
   const handleAgregarCurso = (nivelKey: string) => {
     const curso = nuevoCurso[nivelKey].trim();
     if (!curso) return;
@@ -102,6 +104,8 @@ const RegisterAcademicStructure = () => {
     setNuevoCurso((prev) => ({ ...prev, [nivelKey]: "" }));
   };
 
+
+  //Funcion para eliminar los cursos
   const handleEliminarCurso = (nivelKey: string, curso: string) => {
     setCursosPorNivel((prev) => ({
       ...prev,
@@ -109,10 +113,13 @@ const RegisterAcademicStructure = () => {
     }));
   };
 
+
+  //FUncion para volver a la pagina anterior
   const handleVolver = () => {
     navigate("/register-admin-account", { state: { centro, admin } });
   };
 
+  //Funcion para mostrar los errores
   const validate = () => {
     const algunoSeleccionado =
       Object.values(nivelesSeleccionados).some(Boolean);
@@ -124,6 +131,8 @@ const RegisterAcademicStructure = () => {
     return true;
   };
 
+
+  //Funcion para continuar
   const handleContinuar = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;

@@ -9,7 +9,7 @@ const LayoutAlumno = () => {
       {/* SIDEBAR */}
       <Sidebar />
       {/*ZONA DERECHA */}
-      <div className="right-side">
+      <div className="right-side-al">
         {/* HEADER */}
         <Header />
         {/*CONTENIDO DINAMICO*/}

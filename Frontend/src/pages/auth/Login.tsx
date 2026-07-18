@@ -21,8 +21,10 @@ import "../../styles/Login.css";
 import logo from "../../assets/images/Libro1.1.png";
 import illustration from "../../assets/images/IMG3.1.png";
 
+//La direccion de la Api
 const API_URL = import.meta.env.VITE_API_URL;
 
+//La funcion completa del login
 const Login = () => {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -32,11 +34,14 @@ const Login = () => {
   const { t } = useTranslation();
   const { instance } = useMsal();
 
+  //Funcion de redirigir por role
   const handleRedirectByRole = (rol: string) => {
     if (rol === "admin") navigate("/admin");
     else if (rol === "profesor") navigate("/profesor");
     else navigate("/alumno");
   };
+
+  //Funcion terminar login que almacena el token en local storage
   const finishLogin = (data: LoginResponse) => {
     const { token, user } = data;
     const centros = data.centros ?? [];
@@ -72,6 +77,7 @@ const Login = () => {
     }
   };
 
+  //Use effect para controlar el login por microsoft
   useEffect(() => {
     instance
       .handleRedirectPromise()
@@ -107,11 +113,13 @@ const Login = () => {
     };
   };
 
+  //Funcion para cambiar el idioma
   const { i18n } = useTranslation();
   const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(e.target.value);
   };
 
+  //Funcion de login normal
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -143,6 +151,7 @@ const Login = () => {
     }
   };
 
+  //FUncion del login por microsoft
   const handleMicrosoftLogin = async () => {
     if (!isMicrosoftAuthConfigured) {
       setError(
@@ -168,7 +177,7 @@ const Login = () => {
       <div className="login-left">
         <div className="edu-logo">
           <img src={logo} className="logo-img" />
-          <h1 className="edu-local-logo">EDUCA LOCAL</h1>
+          <h2 className="edu-local-logo">EDUCA LOCAL</h2>
         </div>
 
         <h1 className="edu">
@@ -201,7 +210,7 @@ const Login = () => {
             <option value="en">English</option>
           </select>
         </div>
-        <h2>{t("Iniciar sesión")}</h2>
+        <h1>{t("Iniciar sesión")}</h1>
         <p>{t("Bienvenido de nuevo")} 👋</p>
         <form onSubmit={handleLogin}>
           {/* EMAIL / CODE */}
@@ -259,15 +268,15 @@ const Login = () => {
         </div>
         <div className="social">
           <div className="google-button">
+            {/*Login con google */}
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
                 try {
                   const token = credentialResponse.credential;
 
-                  const res = await axios.post(
-                    `${API_URL}/api/auth/google`,
-                    { token },
-                  );
+                  const res = await axios.post(`${API_URL}/api/auth/google`, {
+                    token,
+                  });
                   console.log("Respuesta del backend:", res.data);
 
                   const data = res.data;

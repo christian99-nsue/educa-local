@@ -30,18 +30,30 @@ export const CrearTarea = async (req: any, res: any) => {
     );
 
     if (permisoRows.length === 0) {
-      return res
-        .status(403)
-        .json({
-          error: "No tienes permiso para crear tareas en esta asignatura",
-        });
+      return res.status(403).json({
+        error: "No tienes permiso para crear tareas en esta asignatura",
+      });
     }
 
     let archivoUrl = null;
     let archivoNombre = null;
 
     if (req.file) {
-      const nombreUnico = `${Date.now()}-${req.file.originalname}`;
+      // Saneamos el nombre original antes de usarlo como path de Storage:
+      // quitamos tildes/diacríticos, cambiamos espacios por guion bajo y
+      // eliminamos cualquier otro caracter que no sea letra, número, "-" o "_".
+      // Esto evita paths inválidos en Supabase Storage independientemente
+      // de cómo se llame el archivo que suba el usuario.
+      const extension = req.file.originalname.split(".").pop() || "";
+      const nombreBase = req.file.originalname
+        .replace(/\.[^/.]+$/, "") // quita la extensión
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") // quita tildes/diacríticos
+        .trim()
+        .replace(/\s+/g, "_") // espacios -> guion bajo
+        .replace(/[^a-zA-Z0-9-_]/g, ""); // quita cualquier otro caracter no seguro
+
+      const nombreUnico = `${Date.now()}-${nombreBase}.${extension}`;
 
       const { error: uploadError } = await supabase.storage
         .from("tareas")

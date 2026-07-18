@@ -12,6 +12,8 @@ import "../../styles/Login.css";
 import logo from "../../assets/images/Libro1.1.png";
 import illustration from "../../assets/images/IMG3.1.png";
 
+
+//Funcionar para registrar el centro
 const Register = () => {
   const [nombre_del_centro, setNombre_del_centro] = useState("");
   const [tipo_de_centro, setTipo_de_centro] = useState("");
@@ -28,6 +30,7 @@ const Register = () => {
   const [errorEmail, setErrorEmail] = useState("");
   const navigate = useNavigate();
 
+  //Funcion para mostrar los errores
   const validate = () => {
     let isValid = true;
 
@@ -84,6 +87,7 @@ const Register = () => {
     return isValid;
   };
 
+  //Funcion para continuar registrando el centro
   const handleContinuar = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
@@ -98,6 +102,7 @@ const Register = () => {
         email,
       };
 
+      //Guardar la sesion del registro
       sessionStorage.setItem("registro_centro", JSON.stringify(centroData));
 
       navigate("/register-admin-account", {

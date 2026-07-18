@@ -6,6 +6,10 @@ import asignaturasRoutes from "./routes/asignaturasRoutes";
 import tareasRoutes from "./routes/tareasRoutes";
 import profesorAsignaturasRoutes from "./routes/profesorAsignaturasRoutes";
 import profesorTareasRoutes from "./routes/profesorTareasRoutes";
+import asistenciaRoutes from "./routes/asistenciaRoutes";
+import calificacionesRoutes from "./routes/calificacionesRoutes";
+import horarioRoutes from "./routes/horarioRoutes";
+import profesorPerfilRoutes from "./routes/profesorPerfilRoutes";
 
 const app = express();
 const allowedOrigins = [
@@ -40,5 +44,9 @@ app.use("/api/asignaturas", asignaturasRoutes);
 app.use("/api/tareas", tareasRoutes);
 app.use("/api/profesor/asignaturas", profesorAsignaturasRoutes);
 app.use("/api/profesor/tareas", profesorTareasRoutes);
+app.use("/api/profesor/asistencia", asistenciaRoutes);
+app.use("/api/profesor/calificaciones", calificacionesRoutes);
+app.use("/api/profesor/horario", horarioRoutes);
+app.use("/api/profesor/perfil", profesorPerfilRoutes);
 
 export default app;

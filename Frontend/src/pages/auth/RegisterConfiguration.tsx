@@ -41,6 +41,7 @@ interface ConfiguracionData {
   inicioAnoAcademico: Date | null;
 }
 
+//Funcion de configuracion del centro
 const RegisterConfiguration = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -71,6 +72,8 @@ const RegisterConfiguration = () => {
   const [errorSistemaCalificacion, setErrorSistemaCalificacion] = useState("");
   const [errorIdiomaSistema, setErrorIdiomaSistema] = useState("");
 
+
+  //FUncion para mostrar los errores
   const validate = () => {
     let isValid = true;
     if (!idiomaSistema) {
@@ -95,12 +98,14 @@ const RegisterConfiguration = () => {
     return isValid;
   };
 
+  //FUncion para volver a la pagina anterior
   const handleVolver = () => {
     navigate("/register-academic-structure", {
       state: { centro, admin, estructura },
     });
   };
 
+  //Funcion para continuar
   const handleContinuar = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
@@ -113,6 +118,7 @@ const RegisterConfiguration = () => {
       inicioAnoAcademico,
     };
 
+    //Guardar el centro creado en la base de datos
     try {
       const response = await fetch(`${API_URL}/api/auth/registro/centro`, {
         method: "POST",

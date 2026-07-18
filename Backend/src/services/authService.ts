@@ -76,6 +76,7 @@ export const loginUser = async (identifier: string, password: string) => {
       code: user.code,
       nombre: user.nombre,
       apellidos: user.apellidos,
+      foto_url: user.foto_url,
     },
     centros: centrosUnicos,
     token,

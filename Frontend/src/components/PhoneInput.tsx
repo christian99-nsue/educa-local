@@ -7,6 +7,8 @@ interface PhoneInputProps {
   error?: string;
 }
 
+//Funcion para mostrar el input del movil con prefijo del pais
+
 const PhoneInput = ({
   id = "Telefono",
   codigoTelefono,

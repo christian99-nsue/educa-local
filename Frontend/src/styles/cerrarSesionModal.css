@@ -1,0 +1,79 @@
+.cerrar-sesion-modal {
+  border-radius: 15px;
+  background: #ffffff;
+  background-blend-mode: normal;
+  padding: 28px;
+  width: 420px;
+  max-width: 90dvw;
+  position: relative;
+}
+
+.cerrar-sesion-icono {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #fee2e2;
+  color: #ff0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.cerrar-sesion-modal h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.cerrar-sesion-modal p {
+  font-size: 15px;
+  width: 300px;
+  color: #686868;
+  line-height: 25px;
+  margin-bottom: 24px;
+}
+
+.cerrar-sesion-botones {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-cancelar-sesion {
+  flex: 1;
+  background: #f2f2f2;
+  background-blend-mode: normal;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-cancelar-sesion:hover {
+  background: #e5e7eb;
+}
+
+.btn-confirmar-cerrar-sesion {
+  flex: 1;
+  background: #ee2a2a;
+  background-blend-mode: normal;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-confirmar-cerrar-sesion:hover {
+  background: #b91c1c;
+}
+
+.nav-item-btn {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}

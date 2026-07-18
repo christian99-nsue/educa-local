@@ -43,6 +43,7 @@ export const googleLogin = async (token: string) => {
       code: user.code,
       nombre: user.nombre,
       apellidos: user.apellidos,
+      foto_url: user.foto_url,
     },
     centros,
   };

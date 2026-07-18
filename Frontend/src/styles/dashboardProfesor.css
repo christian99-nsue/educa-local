@@ -6,15 +6,6 @@
 
 /*CONTENT*/
 
-.content-pf {
-  padding-left: 30px;
-  padding-top: 50px;
-  padding-right: 20px;
-  margin-left: 200px;
-  margin-top: 50px;
-  position: relative;
-}
-
 .content-pf h1 {
   font-size: 24px;
 }
@@ -58,8 +49,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #032ce7;
-  color: white;
+  background: #02f5a1;
+  color: #07191e;
   border: none;
   padding: 10px 16px;
   border-radius: 8px;
@@ -67,7 +58,8 @@
   font-size: 12px;
 }
 .btn-lista-pf:hover {
-  background-color: #c00000;
+  background-color: #07191e;
+  color: #02f5a1;
 }
 
 .asignaturas-filtro-pf {
@@ -188,12 +180,13 @@ button.btn-ver-detalles {
   font-size: 12px;
   border-radius: 8px;
   border: none;
-  background-color: #032ce7;
-  color: #fff;
+  background-color: #07191e;
+  color: #02f5a1;
 }
 
 button.btn-ver-detalles:hover {
-  background-color: #c00000;
+  background-color: #02f5a1;
+  color: #07191e;
 }
 
 .asignaturas-lista-pf {

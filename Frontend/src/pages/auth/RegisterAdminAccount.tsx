@@ -21,6 +21,8 @@ interface CentroData {
   email: string;
 }
 
+
+//Funcion para registrar al administrador del centro
 const RegisterAdminAccount = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -46,6 +48,7 @@ const RegisterAdminAccount = () => {
   const [errorPassword, setErrorPassword] = useState("");
   const [errorConfirmPassword, setErrorConfirmPassword] = useState("");
 
+  //Funcion para mostrar los errores
   const validate = () => {
     let isValid = true;
 
@@ -105,10 +108,12 @@ const RegisterAdminAccount = () => {
     return isValid;
   };
 
+  //Funcion para volver a la pagina previa
   const handleVolver = () => {
     navigate("/register");
   };
 
+  //FUncion para continuar a la pagina siguiente
   const handleContinuar = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {

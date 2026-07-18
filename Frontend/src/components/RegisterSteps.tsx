@@ -10,10 +10,12 @@ const steps = [
   { number: 5, label: "Confirmación" },
 ];
 
+//Funcion para contar y mostrar los pasos en el registro de centros
+
 const RegisterSteps = ({ currentStep }: RegisterStepsProps) => {
   return (
     <div className="reg">
-      <h3>Registro de centro</h3>
+      <h2>Registro de centro</h2>
       {steps.map((step) => {
         const isCompleted = step.number < currentStep;
         const isActive = step.number === currentStep;

@@ -11,6 +11,8 @@ interface CountrySelectProps {
   error?: string;
 }
 
+//FUncion para seleccionar el pais
+
 const CountrySelect = ({
   id = "Pais",
   value,

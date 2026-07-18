@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search } from "lucide-react";
+import { ChevronRight, Search } from "lucide-react";
 import { getCentroActivo } from "../../utils/auth";
 import CrearTareaModal from "../../components/CrearTareaModal";
 import "../../styles/tareasProfesor.css";
@@ -22,7 +22,7 @@ interface TareaProfesor {
 
 const estadoLabel: Record<string, string> = {
   activa: "Activa",
-  cerrada: "Cerrado",
+  cerrada: "Cerrada",
   calificada: "Calificada",
 };
 
@@ -82,7 +82,9 @@ function TareasProfesor() {
         t.cursoAsignaturaId,
         {
           id: t.cursoAsignaturaId,
-          label: t.rama ? `${t.asignatura} - ${t.rama}` : t.asignatura,
+          label: t.rama
+            ? `${t.asignatura} - ${t.curso} - ${t.rama}`
+            : `${t.asignatura} - ${t.curso}`,
         },
       ]),
     ).values(),
@@ -124,7 +126,7 @@ function TareasProfesor() {
   }
 
   return (
-    <div className="content tareas-profesor-page">
+    <div className="content-pf tareas-profesor-page">
       <div className="tareas-profesor-header">
         <div>
           <h1>Tareas</h1>
@@ -150,9 +152,9 @@ function TareasProfesor() {
             }}
           />
         </div>
-        <div className="filtro">
+        <div className="filtro-tarea-pf">
           <select
-            className="filtro-select"
+            className="filtro-select-tarea-pf"
             value={filtroAsignatura}
             onChange={(e) => {
               setFiltroAsignatura(e.target.value);
@@ -208,7 +210,9 @@ function TareasProfesor() {
                     {estadoLabel[t.estado]}
                   </span>
                 </td>
-                <td className="col-chevron">›</td>
+                <td className="col-chevron">
+                  <ChevronRight size={16} />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -216,13 +220,13 @@ function TareasProfesor() {
       </div>
 
       {tareasFiltradas.length > PAGE_SIZE && (
-        <div className="tareas-paginacion">
+        <div className="tareas-paginacion-pf">
           <span>
             Mostrando {(pagina - 1) * PAGE_SIZE + 1} a{" "}
             {Math.min(pagina * PAGE_SIZE, tareasFiltradas.length)} de{" "}
             {tareasFiltradas.length} tareas
           </span>
-          <div className="paginacion-botones">
+          <div className="paginacion-botones-pf">
             <button
               disabled={pagina === 1}
               onClick={() => setPagina((p) => Math.max(1, p - 1))}

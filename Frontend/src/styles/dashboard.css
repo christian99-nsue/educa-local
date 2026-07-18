@@ -6,17 +6,6 @@
 }
 
 /*CONTENT*/
-
-.content {
-  padding-top: 50px;
-  padding-right: 20px;
-  padding-left: 30px;
-  left: 15.5dvw;
-  margin-top: 50px;
-  width: 83dvw;
-  position: relative;
-}
-
 .content h1 {
   font-size: 24px;
 }
@@ -162,7 +151,7 @@
   font-size: 12px;
   cursor: pointer;
   height: 35px;
-  width: 230px;
+  width: 150px;
 }
 
 .asignaturas-grid {

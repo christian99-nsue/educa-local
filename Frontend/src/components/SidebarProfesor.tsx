@@ -1,6 +1,8 @@
 import { getUser } from "../utils/auth";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState, useEffect } from "react";
+import avatar from "../assets/images/avatar-default.png";
 import {
   faHouse,
   faBook,
@@ -11,15 +13,28 @@ import {
   faArrowRightFromBracket,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
-import avatar from "../assets/images/avatar-default.png";
 
-const SidebarProfesor = () => {
-  const user = getUser();
+interface SidebarProfesorProps {
+  onCerrarSesionClick: () => void;
+}
+const SidebarProfesor = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
+  const [user, setUser] = useState(getUser());
+
+  useEffect(() => {
+    const actualizar = () => setUser(getUser());
+    window.addEventListener("perfil-actualizado", actualizar);
+    return () => window.removeEventListener("perfil-actualizado", actualizar);
+  }, []);
+
   return (
     <div className="sidebar-profesor">
       <h2 className="logo-pf">EDUCA LOCAL</h2>
       <div className="profile-pf">
-        <img src={avatar} alt="user" className="avatar-logo-pf" />
+        <img
+          src={user?.foto_url || avatar}
+          alt="user"
+          className="avatar-logo-pf"
+        />
         <p>
           Nombre: {user?.nombre} <br /> Apellidos: {user?.apellidos} <br /> Rol:
           &nbsp;
@@ -91,15 +106,13 @@ const SidebarProfesor = () => {
           <FontAwesomeIcon icon={faUser} />
           <span>Perfil</span>
         </NavLink>
-        <NavLink
-          to="cerrar-sesion"
-          className={({ isActive }) =>
-            isActive ? "nav-item-pf active-pf" : "nav-item-pf"
-          }
+        <button
+          className="nav-item-pf nav-item-btn"
+          onClick={onCerrarSesionClick}
         >
           <FontAwesomeIcon icon={faArrowRightFromBracket} />
           <span>Cerrar Sesion</span>
-        </NavLink>
+        </button>
       </nav>
     </div>
   );

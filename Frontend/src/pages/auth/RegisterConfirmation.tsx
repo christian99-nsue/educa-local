@@ -6,7 +6,7 @@ import "../../styles/Login.css";
 // IMAGES
 import logo from "../../assets/images/Libro1.1.png";
 import illustration from "../../assets/images/IMG3.1.png";
-import imagen from "../../assets/images/imagen_centro.png";
+import imagen from "../../assets/images/instituto.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface CentroData {
@@ -41,6 +41,7 @@ const formatearAnoAcademico = (valor?: string) => {
   return valor.replace("-", " - ");
 };
 
+//Funcion para confirmar el registro del centro
 const RegisterConfirmation = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -121,9 +122,9 @@ const RegisterConfirmation = () => {
             <img src={imagen} />
           </div>
           <div className="centro-reg">
-            <h3>
+            <h2>
               ¡Centro registrado <br /> correctamente!
-            </h3>
+            </h2>
             <p>
               Tu centro ha sido creado con éxito <br /> ahora puedes empezar a
               añadir profesores, <br /> alumnos y gestionar tu institución.
@@ -133,7 +134,7 @@ const RegisterConfirmation = () => {
           {/* RESUMEN DE DATOS DEL REGISTRO */}
           <div className="resumen-card">
             <div className="resumen-header">
-              <h2>Resumen</h2>
+              <h5>Resumen</h5>
             </div>
             <div className="resumen-body">
               {filasResumen.map((fila) => (

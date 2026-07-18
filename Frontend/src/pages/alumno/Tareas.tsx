@@ -225,37 +225,41 @@ function Tareas() {
         })}
       </div>
 
-      <div className="tareas-paginacion">
-        <span>
-          Mostrando{" "}
-          {tareasFiltradas.length === 0 ? 0 : (pagina - 1) * PAGE_SIZE + 1} a{" "}
-          {Math.min(pagina * PAGE_SIZE, tareasFiltradas.length)} de{" "}
-          {tareasFiltradas.length} tareas
-        </span>
-        <div className="paginacion-botones">
-          <button
-            disabled={pagina === 1}
-            onClick={() => setPagina((p) => Math.max(1, p - 1))}
-          >
-            {"<"}
-          </button>
-          {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((n) => (
+      {tareasFiltradas.length > PAGE_SIZE && (
+        <div className="tareas-paginacion">
+          <span>
+            Mostrando{" "}
+            {tareasFiltradas.length === 0 ? 0 : (pagina - 1) * PAGE_SIZE + 1} a{" "}
+            {Math.min(pagina * PAGE_SIZE, tareasFiltradas.length)} de{" "}
+            {tareasFiltradas.length} tareas
+          </span>
+          <div className="paginacion-botones">
             <button
-              key={n}
-              className={n === pagina ? "activo" : ""}
-              onClick={() => setPagina(n)}
+              disabled={pagina === 1}
+              onClick={() => setPagina((p) => Math.max(1, p - 1))}
             >
-              {n}
+              {"<"}
             </button>
-          ))}
-          <button
-            disabled={pagina === totalPaginas}
-            onClick={() => setPagina(() => Math.min(pagina + 1, totalPaginas))}
-          >
-            {">"}
-          </button>
+            {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((n) => (
+              <button
+                key={n}
+                className={n === pagina ? "activo" : ""}
+                onClick={() => setPagina(n)}
+              >
+                {n}
+              </button>
+            ))}
+            <button
+              disabled={pagina === totalPaginas}
+              onClick={() =>
+                setPagina(() => Math.min(pagina + 1, totalPaginas))
+              }
+            >
+              {">"}
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
