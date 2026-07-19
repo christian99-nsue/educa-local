@@ -97,17 +97,16 @@
 }
 .header-right {
   display: flex;
-  align-items: center;
-  gap: 15px;
   color: #686868;
   margin-right: 20px;
+  gap: 10px;
 }
 .header-right span {
   margin-right: 10px;
+  position: relative;
+  top: -3px;
 }
 .header-right svg {
-  position: relative;
-  top: 5px;
   width: 24px;
   height: 20px;
   fill: #686868;
@@ -134,4 +133,19 @@
   margin-top: 40px;
   padding-top: 30px;
   padding-bottom: 30px;
+}
+
+@media (max-width: 767px) {
+  .sidebar-profesor {
+    display: none;
+  }
+  .right-side {
+    margin-left: 0;
+  }
+  .header {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
 }

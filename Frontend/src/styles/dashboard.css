@@ -398,3 +398,37 @@
 p.asignatura-tarea-pendiente {
   color: #f59e0b;
 }
+
+@media (max-width: 767px) {
+  .summary-card {
+    padding: 15px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-radius: 12px;
+    background: #f5f5f5;
+    background-blend-mode: normal;
+    box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .icon {
+    position: relative;
+    font-size: 20px;
+    margin-left: 10px;
+    color: #757575;
+  }
+
+  .icon-title {
+    font-size: 16px;
+    color: #757575;
+    font-weight: 500;
+  }
+}

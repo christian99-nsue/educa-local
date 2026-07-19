@@ -1287,7 +1287,7 @@ textarea {
   margin: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .login-left {
     display: none;
   }
@@ -1295,14 +1295,15 @@ textarea {
   .login-container {
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 90dvw;
-    height: 90dvh;
-    margin: 5dvh auto;
+    height: 80dvh;
+    margin: 0 auto;
   }
   .login-right {
-    height: 90dvh;
+    margin: 5dvh 5dvw;
     width: 90dvw;
-    margin: 5dvh auto;
+    height: 90dvh;
     border: 1px;
     border-radius: 12px;
   }

@@ -21,6 +21,7 @@ import AsistenciaProfesor from "../pages/profesor/AsistenciaProfesor";
 import CalificacionesProfesor from "../pages/profesor/CalificacionesProfesor";
 import HorarioProfesor from "../pages/profesor/HorarioProfesor";
 import PerfilProfesor from "../pages/profesor/perfilProfesor";
+import DetalleAsignaturaProfesor from "../pages/profesor/DetalleAsignaturaProfesor";
 
 export default function AppRoutes() {
   return (
@@ -62,6 +63,10 @@ export default function AppRoutes() {
           <Route path="/profesor" element={<LayoutProfesor />}>
             <Route index element={<InicioProfesor />} />
             <Route path="asignaturas" element={<AsignaturasProfesor />} />
+            <Route
+              path="asignaturas/:cursoAsignaturaId"
+              element={<DetalleAsignaturaProfesor />}
+            />
             <Route path="tareas" element={<TareasProfesor />} />
             <Route path="asistencia" element={<AsistenciaProfesor />} />
             <Route path="calificaciones" element={<CalificacionesProfesor />} />

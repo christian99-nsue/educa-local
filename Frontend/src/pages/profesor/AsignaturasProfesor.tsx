@@ -182,7 +182,7 @@ function AsignaturasProfesor() {
                 bgColor={estilo.bg}
                 icono={<FontAwesomeIcon icon={icono} size="lg" />}
                 onClick={() =>
-                  navigate(`/profesor/asignaturas/${a.nombre}/curso/${a.curso}`)
+                  navigate(`/profesor/asignaturas/${a.curso_asignatura_id}`)
                 }
               />
             );

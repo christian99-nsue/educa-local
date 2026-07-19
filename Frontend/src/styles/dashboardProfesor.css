@@ -241,3 +241,11 @@ button.btn-ver-detalles:hover {
 .row-alumnos-pf svg {
   color: #6b7280;
 }
+
+@media (max-width: 767px) {
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 250px);
+    gap: 30px;
+  }
+}
