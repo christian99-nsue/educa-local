@@ -3,8 +3,14 @@ import supabase from "../config/supabaseConfig";
 
 export const CrearTarea = async (req: any, res: any) => {
   const usuarioId = req.user.id;
-  const { curso_asignatura_id, titulo, descripcion, fecha_entrega, centroId } =
-    req.body;
+  const {
+    curso_asignatura_id,
+    titulo,
+    descripcion,
+    instrucciones,
+    fecha_entrega,
+    centroId,
+  } = req.body;
 
   if (!curso_asignatura_id || !titulo || !fecha_entrega || !centroId) {
     return res.status(400).json({ error: "Faltan campos requeridos" });
@@ -39,11 +45,6 @@ export const CrearTarea = async (req: any, res: any) => {
     let archivoNombre = null;
 
     if (req.file) {
-      // Saneamos el nombre original antes de usarlo como path de Storage:
-      // quitamos tildes/diacríticos, cambiamos espacios por guion bajo y
-      // eliminamos cualquier otro caracter que no sea letra, número, "-" o "_".
-      // Esto evita paths inválidos en Supabase Storage independientemente
-      // de cómo se llame el archivo que suba el usuario.
       const extension = req.file.originalname.split(".").pop() || "";
       const nombreBase = req.file.originalname
         .replace(/\.[^/.]+$/, "") // quita la extensión
@@ -75,11 +76,12 @@ export const CrearTarea = async (req: any, res: any) => {
     }
 
     const [result]: any = await db.query(
-      `INSERT INTO tareas (titulo, descripcion, curso_asignatura_id, fecha_entrega, archivo_url, archivo_nombre)
+      `INSERT INTO tareas (titulo, descripcion, instrucciones, curso_asignatura_id, fecha_entrega, archivo_url, archivo_nombre)
        VALUES (?, ?, ?, ?, ?, ?)`,
       [
         titulo,
         descripcion || null,
+        instrucciones || null,
         curso_asignatura_id,
         fecha_entrega,
         archivoUrl,

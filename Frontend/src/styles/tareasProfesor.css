@@ -188,6 +188,7 @@
   max-width: 90vw;
   max-height: 90vh;
   position: relative;
+  background: #fff;
 }
 .modal-outer {
   overflow: hidden;
@@ -311,6 +312,9 @@
   border-radius: 10px;
   padding: 24px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
   transition: background 0.15s ease;
 }
@@ -378,4 +382,56 @@
 .modal-btn-crear:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.modal-contador {
+  text-align: right;
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.modal-fecha-hora-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.modal-archivo-actual {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12px;
+}
+
+.modal-archivo-actual span {
+  flex: 1;
+}
+
+.modal-link-cambiar {
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.modal-archivo-actual button {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+}
+
+.modal-aviso-entregas {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-top: 16px;
+  align-items: flex-start;
+  gap: 10px;
+  display: flex;
 }

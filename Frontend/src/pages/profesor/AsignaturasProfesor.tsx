@@ -136,7 +136,7 @@ function AsignaturasProfesor() {
                 key={a.curso_asignatura_id}
                 className="asignatura-row-pf"
                 onClick={() =>
-                  navigate(`/profesor/asignatura/${a.nombre}/curso/${a.curso}`)
+                  navigate(`/profesor/asignaturas/${a.curso_asignatura_id}`)
                 }
               >
                 <div

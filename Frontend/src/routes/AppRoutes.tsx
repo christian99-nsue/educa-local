@@ -22,6 +22,7 @@ import CalificacionesProfesor from "../pages/profesor/CalificacionesProfesor";
 import HorarioProfesor from "../pages/profesor/HorarioProfesor";
 import PerfilProfesor from "../pages/profesor/perfilProfesor";
 import DetalleAsignaturaProfesor from "../pages/profesor/DetalleAsignaturaProfesor";
+import DetalleTareaProfesor from "../pages/profesor/DetalleTareaProfesor";
 
 export default function AppRoutes() {
   return (
@@ -68,6 +69,7 @@ export default function AppRoutes() {
               element={<DetalleAsignaturaProfesor />}
             />
             <Route path="tareas" element={<TareasProfesor />} />
+            <Route path="tareas/:tareaId" element={<DetalleTareaProfesor />} />
             <Route path="asistencia" element={<AsistenciaProfesor />} />
             <Route path="calificaciones" element={<CalificacionesProfesor />} />
             <Route path="horario" element={<HorarioProfesor />} />

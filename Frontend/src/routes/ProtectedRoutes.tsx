@@ -17,7 +17,7 @@ interface ProtectedRouteProps {
 }
 
 function fallbackPathForRole(rol: string) {
-  if (rol === "admin") return "/admin";
+  if (rol === "admin") return  "/admin";
   if (rol === "profesor") return "/profesor";
   return "/alumno";
 }

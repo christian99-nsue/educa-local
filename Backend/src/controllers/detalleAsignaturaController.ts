@@ -17,6 +17,15 @@ const verificarPermiso = async (
     `SELECT id FROM profesor_asignaturas WHERE centro_usuario_id = ? AND curso_asignatura_id = ?`,
     [centroUsuarioId, cursoAsignaturaId],
   );
+
+  console.log("DEBUG verificarPermiso:", {
+    usuarioId,
+    centroId,
+    cursoAsignaturaId,
+    centroUsuarioId,
+    permisoEncontrado: permisoRows.length > 0,
+  });
+
   if (permisoRows.length === 0) return null;
 
   return { centroUsuarioId, profesorAsignaturaId: permisoRows[0].id };
@@ -37,6 +46,7 @@ export const ObtenerDetalleAsignatura = async (req: any, res: any) => {
       centroId,
       cursoAsignaturaId,
     );
+    console.log(`Permiso: ${permiso}`);
     if (!permiso) {
       return res
         .status(403)
@@ -281,5 +291,170 @@ export const SubirMaterial = async (req: any, res: any) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Error al subir el material" });
+  }
+};
+
+export const EditarCarpeta = async (req: any, res: any) => {
+  const usuarioId = req.user.id;
+  const { carpetaId } = req.params;
+  const { nombre, centroId } = req.body;
+
+  if (!nombre || !centroId) {
+    return res.status(400).json({ error: "Faltan datos requeridos" });
+  }
+
+  try {
+    const [carpetaRows]: any = await db.query(
+      `SELECT curso_asignatura_id FROM material_carpetas WHERE id = ?`,
+      [carpetaId],
+    );
+    if (carpetaRows.length === 0) {
+      return res.status(404).json({ error: "Carpeta no encontrada" });
+    }
+
+    const permiso = await verificarPermiso(
+      usuarioId,
+      centroId,
+      carpetaRows[0].curso_asignatura_id,
+    );
+    if (!permiso) {
+      return res
+        .status(403)
+        .json({ error: "No tienes permiso sobre esta carpeta" });
+    }
+
+    await db.query(`UPDATE material_carpetas SET nombre = ? WHERE id = ?`, [
+      nombre,
+      carpetaId,
+    ]);
+    res.json({ mensaje: "Carpeta actualizada correctamente" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error al actualizar la carpeta" });
+  }
+};
+
+export const EliminarCarpeta = async (req: any, res: any) => {
+  const usuarioId = req.user.id;
+  const { carpetaId } = req.params;
+  const centroId = req.query.centroId;
+
+  if (!centroId) {
+    return res.status(400).json({ error: "centroId es requerrido" });
+  }
+
+  try {
+    const [carpetaRows]: any = await db.query(
+      `SELECT curso_asignatura_id FROM material_carpetas WHERE id = ?`,
+      [carpetaId],
+    );
+    if (carpetaRows.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No tienes permiso sobre esta carpeta" });
+    }
+
+    const [archivosDentro]: any = await db.query(
+      `SELECT archivo_url FROM materiales WHERE carpeta_id = ?`,
+      [carpetaId],
+    );
+
+    for (const archivo of archivosDentro) {
+      const nombreArchivo = archivo.archivo_url.split("/materiales/"[1]);
+      if (nombreArchivo) {
+        await supabase.storage.from("materiales").remove([nombreArchivo]);
+      }
+    }
+    await db.query(`DELETE FROM materiales WHERE carpeta_id = ?`, [carpetaId]);
+    await db.query(`DELETE FROM material_carpetas WHERE id = ?`, [carpetaId]);
+
+    res.json({ mensaje: "Carpeta eliminada correctamente" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error al eliminar la carpeta" });
+  }
+};
+
+export const EditarArchivo = async (req: any, res: any) => {
+  const usuarioId = req.user.id;
+  const { materialId } = req.params;
+  const { nombre, centroId } = req.body;
+
+  if (!nombre || !centroId) {
+    return res.status(400).json({ error: "Faltan datos requerridos" });
+  }
+
+  try {
+    const [materialRows]: any = await db.query(
+      `SELECT curso_asignatura_id FROM materiales WHERE id = ?`,
+      [materialId],
+    );
+
+    console.log("DEBUG EditarArchivo materialRows:", materialRows);
+    if (materialRows.length === 0) {
+      return res.status(404).json({ error: "Archivo no encontrado" });
+    }
+
+    const permiso = await verificarPermiso(
+      usuarioId,
+      centroId,
+      materialRows[0].curso_asignatura_id,
+    );
+    if (!permiso) {
+      return res
+        .status(403)
+        .json({ error: "No tienes permiso sobre este archivo" });
+    }
+
+    await db.query(`UPDATE materiales SET nombre = ? WHERE id = ?`, [
+      nombre,
+      materialId,
+    ]);
+    res.json({ mensaje: "Archivo actualizado correctamente" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error al actualizar el archivo" });
+  }
+};
+
+export const EliminarArchivo = async (req: any, res: any) => {
+  const usuarioId = req.user.id;
+  const { materialId } = req.params;
+  const centroId = req.query.centroId;
+
+  if (!centroId) {
+    return res.status(400).json({ error: "CentroId requerrido" });
+  }
+
+  try {
+    const [materialRows]: any = await db.query(
+      `SELECT curso_asignatura_id, archivo_url FROM materiales WHERE id = ?`,
+      [materialId],
+    );
+    if (materialRows.length === 0) {
+      return res.status(404).json({ error: "Archivo no encontrado" });
+    }
+
+    const permiso = await verificarPermiso(
+      usuarioId,
+      centroId,
+      materialRows[0].curso_asignatura_id,
+    );
+    if (!permiso) {
+      return res
+        .status(403)
+        .json({ error: "No tienes permiso sobre este archivo" });
+    }
+
+    const nombreArchivo = materialRows[0].archivo_url.split("/materiales")[1];
+    if (nombreArchivo) {
+      await supabase.storage.from("materiales").remove([nombreArchivo]);
+    }
+
+    await db.query(`DELETE FROM materiales WHERE id = ?`, [materialId]);
+    res.json({ mensaje: "Archivo eliminado correctamente" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error al eliminar el archivo" });
   }
 };

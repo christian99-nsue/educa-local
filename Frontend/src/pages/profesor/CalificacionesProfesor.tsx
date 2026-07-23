@@ -167,7 +167,6 @@ function CalificacionesProfesor() {
   );
 
   // Estado derivado durante el render (patron oficial de React), igual que
-  // en AsistenciaProfesor: https://react.dev/learn/you-might-not-need-an-effect
   const claveSeleccion = `${asignaturaNombre}|${opciones.length}`;
   const [prevClaveSeleccion, setPrevClaveSeleccion] = useState(claveSeleccion);
 

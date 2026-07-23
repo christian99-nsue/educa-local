@@ -15,7 +15,8 @@ interface Asignatura {
   nombre: string;
   descripcion: string;
   tareas_pendientes: number;
-  profesor: string | null;
+  asistencia: number;
+  profesor: string;
 }
 
 const estilos = [
@@ -28,7 +29,6 @@ const estilos = [
   { bg: "#ddffd8", color: "#18B300" },
   { bg: "#ffc9c9", color: "#ff0000" },
 ];
-const asistenciaPlaceholder = 80;
 
 function Asignaturas() {
   const [asignaturas, setAsignaturas] = useState<Asignatura[]>([]);
@@ -165,7 +165,7 @@ function Asignaturas() {
                 </div>
                 <div className="row-info">
                   <h3>{a.nombre}</h3>
-                  <p>Profesor: {a.profesor ?? "Por asignar"}</p>
+                  <p>{a.profesor}</p>
                   <p
                     className="asignatura-tarea-pendiente"
                     style={
@@ -183,12 +183,13 @@ function Asignaturas() {
                     <div className="progreso-bar-bg" style={{ flex: 1 }}>
                       <div
                         className="progreso-bar-fill"
-                        style={{ width: "80%", background: estilo.color }}
+                        style={{
+                          width: `${a.asistencia}%`,
+                          background: estilo.color,
+                        }}
                       />
                     </div>
-                    <span className="row-porcentaje">
-                      {asistenciaPlaceholder}%
-                    </span>
+                    <span className="row-porcentaje">{a.asistencia}%</span>
                   </div>
                 </div>
                 <div className="row-nota">
@@ -209,12 +210,11 @@ function Asignaturas() {
               <AsignaturaCard
                 key={a.id}
                 nombre={a.nombre}
+                profesor={a.profesor}
                 color={estilo.color}
                 bgColor={estilo.bg}
                 icono={icono}
-                asistencia={asistenciaPlaceholder}
-                tareasPendientes={a.tareas_pendientes}
-                profesor={a.profesor ?? "Por asignar"}
+                asistencia={a.asistencia}
                 onClick={() => navigate(`/asignaturas/${a.nombre}`)}
               />
             );
@@ -250,7 +250,17 @@ function Asignaturas() {
           );
         })()}
         <div className="resumen-stat">
-          <strong>90%</strong>
+          <strong>
+            {asignaturasFiltradas.length > 0
+              ? Math.round(
+                  asignaturasFiltradas.reduce(
+                    (acc, a) => acc + a.asistencia,
+                    0,
+                  ) / asignaturasFiltradas.length,
+                )
+              : 0}
+            %
+          </strong>
           <span>Asistencia promedio</span>
         </div>
         <button className="btn-horario">

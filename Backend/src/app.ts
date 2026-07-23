@@ -11,6 +11,7 @@ import calificacionesRoutes from "./routes/calificacionesRoutes";
 import horarioRoutes from "./routes/horarioRoutes";
 import profesorPerfilRoutes from "./routes/profesorPerfilRoutes";
 import detalleAsignaturaRoutes from "./routes/detalleAsignaturaRoutes";
+import detalleTareaRoutes from "./routes/detalleTareaRoutes";
 
 const app = express();
 const allowedOrigins = [
@@ -50,5 +51,6 @@ app.use("/api/profesor/calificaciones", calificacionesRoutes);
 app.use("/api/profesor/horario", horarioRoutes);
 app.use("/api/profesor/perfil", profesorPerfilRoutes);
 app.use("/api/profesor/asignatura", detalleAsignaturaRoutes);
+app.use("/api/profesor/tarea", detalleTareaRoutes);
 
 export default app;

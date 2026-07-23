@@ -31,6 +31,7 @@ function CrearTareaModal({ onClose, onCreated }: CrearTareaModalProps) {
   const [error, setError] = useState("");
   const [enviando, setEnviando] = useState(false);
   const fechaInputRef = useRef<HTMLInputElement>(null);
+  const [instrucciones, setInstrucciones] = useState("");
 
   useEffect(() => {
     const cargarAsignaturas = async () => {
@@ -80,6 +81,7 @@ function CrearTareaModal({ onClose, onCreated }: CrearTareaModalProps) {
     formData.append("descripcion", descripcion);
     formData.append("fecha_entrega", fechaLimite);
     formData.append("centroId", centroActivo.id);
+    formData.append("instrucciones", instrucciones);
     if (archivo) {
       formData.append("archivo", archivo);
     }
@@ -106,7 +108,16 @@ function CrearTareaModal({ onClose, onCreated }: CrearTareaModalProps) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-outer">
-        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="modal-content"
+          onClick={(e) => {
+            e.stopPropagation();
+            const activo = document.activeElement as HTMLElement;
+            if (activo && activo !== e.target && activo.tagName === "INPUT") {
+              activo.blur();
+            }
+          }}
+        >
           <button className="modal-close" onClick={onClose}>
             <X size={20} />
           </button>
@@ -143,6 +154,16 @@ function CrearTareaModal({ onClose, onCreated }: CrearTareaModalProps) {
             onChange={(e) => setDescripcion(e.target.value)}
           />
 
+          <label className="modal-label">Instrucciones</label>
+          <textarea
+            className="modal-textarea"
+            placeholder={
+              "Escribe cada instruccion en una linea nueava. \nEj: \nLee cuidadosamente cada ejercicio. \nResuelve y muestra todos los paos."
+            }
+            value={instrucciones}
+            onChange={(e) => setInstrucciones(e.target.value)}
+          />
+
           <label className="modal-label">Fecha limite</label>
           <div
             className="modal-fecha-wrapper"
@@ -176,13 +197,16 @@ function CrearTareaModal({ onClose, onCreated }: CrearTareaModalProps) {
               ) : (
                 <>
                   Arrastra y suelta tu archivo aqui o{" "}
-                  <span className="modal-link">haz clic para seleccionar</span>
+                  <span className="modal-link">haz clic para seleccionar</span>{" "}
+                  <br />
+                  <span className="modal-formatos">
+                    Formatos permitidos PDF, DOCX, JPG, PNG
+                  </span>
                 </>
               )}
             </p>
-            <span className="modal-formatos">
-              Formatos permitidos PDF, DOCX, JPG, PNG
-            </span>
+            <br />
+
             <input
               id="input-archivo"
               type="file"

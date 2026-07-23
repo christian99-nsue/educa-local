@@ -15,9 +15,9 @@ interface AsignaturaCardProps {
 
 function AsignaturaCard({
   nombre,
-  profesor = "Prof. Por asignar",
+  profesor,
   asistencia,
-  tareasPendientes = 5,
+  tareasPendientes,
   color,
   bgColor,
   icono,
@@ -34,7 +34,7 @@ function AsignaturaCard({
         </div>
         <div>
           <h3>{nombre}</h3>
-          <p className="profesor">Prof: {profesor}</p>
+          <p className="profesor">{profesor}</p>
         </div>
       </div>
       <div className="progreso-wrapper">

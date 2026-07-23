@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getIconoAsignatura } from "../../utils/asignaturaIconos";
+import RenombrarModal from "../../components/RenombrarModal";
+import ConfirmarEliminarModal from "../../components/ConfirmarEliminarModal";
 import {
   Upload,
   FolderPlus,
@@ -11,6 +13,7 @@ import {
   MoreVertical,
   CalendarCheck,
   Layers,
+  ArrowBigLeft,
 } from "lucide-react";
 import { getCentroActivo } from "../../utils/auth";
 import {
@@ -81,6 +84,17 @@ function DetalleAsignaturaProfesor() {
   const [subiendo, setSubiendo] = useState(false);
   const [mostrarModalCarpeta, setMostrarModalCarpeta] = useState(false);
   const [nombreCarpeta, setNombreCarpeta] = useState("");
+  const [menuAbierto, setMenuAbierto] = useState<string | null>(null);
+  const [renombrarItem, setRenombrarItem] = useState<{
+    tipo: "carpeta" | "archivo";
+    id: number;
+    nombre: string;
+  } | null>(null);
+  const [eliminarItem, setEliminarItem] = useState<{
+    tipo: "carpeta" | "archivo";
+    id: number;
+    nombre: string;
+  } | null>(null);
 
   const cargarDetalle = async () => {
     const token = localStorage.getItem("token");
@@ -124,6 +138,47 @@ function DetalleAsignaturaProfesor() {
     }
   };
 
+  const handleRenombrar = async (nuevoNombre: string) => {
+    if (!renombrarItem) return;
+    const token = localStorage.getItem("token");
+    const centroActivo = getCentroActivo();
+    const endPoint =
+      renombrarItem.tipo === "carpeta"
+        ? `${API_URL}/api/profesor/asignatura/materiales/carpeta/${renombrarItem.id}`
+        : `${API_URL}/api/profesor/asignatura/materiales/archivo/${renombrarItem.id}`;
+
+    const res = await fetch(endPoint, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ nombre: nuevoNombre, centroId: centroActivo.id }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error || "Error al renombrar");
+    cargarMateriales(carpetaActual?.id);
+  };
+
+  const handleEliminar = async () => {
+    if (!eliminarItem) return;
+    const token = localStorage.getItem("token");
+    const centroActivo = getCentroActivo();
+    const endpoint =
+      eliminarItem.tipo === "carpeta"
+        ? `${API_URL}/api/profesor/asignatura/materiales/carpeta/${eliminarItem.id}?centroId=${centroActivo.id}`
+        : `${API_URL}/api/profesor/asignatura/materiales/archivo/${eliminarItem.id}?centroId=${centroActivo.id}`;
+
+    const res = await fetch(endpoint, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error || "Error al eliminar");
+    cargarMateriales(carpetaActual?.id);
+  };
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- carga inicial de datos al montar, patron estandar
     cargarDetalle();
@@ -135,6 +190,14 @@ function DetalleAsignaturaProfesor() {
     setLoading(true);
     cargarMateriales(carpeta.id);
   };
+
+  useEffect(() => {
+    const cerrarMenu = () => setMenuAbierto(null);
+    if (menuAbierto) {
+      document.addEventListener("click", cerrarMenu);
+    }
+    return () => document.removeEventListener("click", cerrarMenu);
+  }, [menuAbierto]);
 
   const salirDeCarpeta = () => {
     setCarpetaActual(null);
@@ -293,7 +356,7 @@ function DetalleAsignaturaProfesor() {
 
             {carpetaActual && (
               <button className="btn-volver-carpeta" onClick={salirDeCarpeta}>
-                ← Volver a contenido
+                <ArrowBigLeft size={12} /> Volver a contenido
               </button>
             )}
 
@@ -328,12 +391,54 @@ function DetalleAsignaturaProfesor() {
                       <span className="material-fecha">
                         Subido el {formatearFecha(c.createdAt)}
                       </span>
-                      <button
-                        className="material-mas"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <MoreVertical size={16} />
-                      </button>
+                      <div className="material-menu-wrapper">
+                        <button
+                          className="material-mas"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setMenuAbierto(
+                              menuAbierto === `carpeta-${c.id}`
+                                ? null
+                                : `carpeta-${c.id}`,
+                            );
+                          }}
+                        >
+                          <MoreVertical size={16} />
+                        </button>
+
+                        {menuAbierto === `carpeta-${c.id}` && (
+                          <div
+                            className="material-menu-dropdown"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <button
+                              onClick={() => {
+                                setRenombrarItem({
+                                  tipo: "carpeta",
+                                  id: c.id,
+                                  nombre: c.nombre,
+                                });
+                                setMenuAbierto(null);
+                              }}
+                            >
+                              Editar
+                            </button>
+                            <button
+                              className="menu-eliminar"
+                              onClick={() => {
+                                setEliminarItem({
+                                  tipo: "carpeta",
+                                  id: c.id,
+                                  nombre: c.nombre,
+                                });
+                                setMenuAbierto(null);
+                              }}
+                            >
+                              Eliminar
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   );
                 })}
@@ -365,12 +470,63 @@ function DetalleAsignaturaProfesor() {
                       <span className="material-fecha">
                         Subido el {formatearFecha(a.createdAt)}
                       </span>
-                      <button
-                        className="material-mas"
-                        onClick={(e) => e.preventDefault()}
+                      <div
+                        className="material-menu-wrapper"
+                        onClick={(e) => e.preventDefault}
                       >
-                        <MoreVertical size={16} />
-                      </button>
+                        <button
+                          className="material-mas"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setMenuAbierto(
+                              menuAbierto === `archivo-${a.id}`
+                                ? null
+                                : `archivo-${a.id}`,
+                            );
+                          }}
+                        >
+                          <MoreVertical size={16} />
+                        </button>
+
+                        {menuAbierto === `archivo-${a.id}` && (
+                          <div
+                            className="material-menu-dropdown"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                            }}
+                          >
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setRenombrarItem({
+                                  tipo: "archivo",
+                                  id: a.id,
+                                  nombre: a.nombre,
+                                });
+                                setMenuAbierto(null);
+                              }}
+                            >
+                              Editar
+                            </button>
+                            <button
+                              className="menu-eliminar"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setEliminarItem({
+                                  tipo: "archivo",
+                                  id: a.id,
+                                  nombre: a.nombre,
+                                });
+                                setMenuAbierto(null);
+                              }}
+                            >
+                              Eliminar
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </a>
                   );
                 })}
@@ -475,6 +631,36 @@ function DetalleAsignaturaProfesor() {
             </div>
           </div>
         </div>
+      )}
+
+      {renombrarItem && (
+        <RenombrarModal
+          titulo={
+            renombrarItem.tipo === "carpeta"
+              ? "Renombrar carpeta"
+              : "Renombrar archivo"
+          }
+          nombreActual={renombrarItem.nombre}
+          onClose={() => setRenombrarItem(null)}
+          onConfirmar={handleRenombrar}
+        />
+      )}
+
+      {eliminarItem && (
+        <ConfirmarEliminarModal
+          titulo={
+            eliminarItem.tipo === "carpeta"
+              ? "Eliminar carpeta"
+              : "Eliminar archivo"
+          }
+          mensaje={
+            eliminarItem.tipo === "carpeta"
+              ? `¿Seguro que quieres eliminar "${eliminarItem.nombre}"? Se eliminaran tambien todos  los archivos de esta carpeta.`
+              : `¿Seguro que quieres eliminar "${eliminarItem.nombre}"?`
+          }
+          onClose={() => setEliminarItem(null)}
+          onConfirmar={handleEliminar}
+        />
       )}
     </div>
   );
