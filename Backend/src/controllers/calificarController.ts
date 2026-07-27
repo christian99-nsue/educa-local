@@ -1,4 +1,5 @@
 import { db } from "../config/db";
+import { crearNotificacion } from "../utils/notificacionesUtils";
 
 const verificarPermisoTarea = async (
   usuarioId: number,
@@ -110,6 +111,19 @@ export const GuardarCalificacion = async (req: any, res: any) => {
        ON DUPLICATE KEY UPDATE estado = 'calificada', nota = VALUES(nota), comentario = VALUES(comentario)`,
       [tareaId, alumnoId, nota, comentario || null],
     );
+
+    const [tareaInfo]: any = await db.query(
+      `SELECT titulo FROM tareas WHERE id = ?`,
+      [tareaId],
+    );
+
+    crearNotificacion({
+      usuarioId: Number(alumnoId),
+      tipo: "tarea_calificada",
+      titulo: "Tarea calificada",
+      mensaje: `Tu tarea "${tareaInfo[0]?.titulo}" ha sido calificada con ${nota}.`,
+      enlace: `${process.env.FRONTEND_URL}/alumno/tareas/${tareaId}`,
+    });
 
     res.json({ mensaje: "Calificacion guardada correctamente" });
   } catch (error) {

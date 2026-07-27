@@ -37,7 +37,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
       [email, token, expiresAt],
     );
 
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+    const resetLink = `${process.env.FRONTEND_URL}/#/reset-password?token=${token}`;
     await sendPasswordResetEmail(email, resetLink);
 
     res.json({ message: "Si el correo existe recibirás un email" });

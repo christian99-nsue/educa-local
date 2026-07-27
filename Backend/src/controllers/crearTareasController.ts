@@ -1,5 +1,6 @@
 import { db } from "../config/db";
 import supabase from "../config/supabaseConfig";
+import { crearNotificacionesMasivas } from "../utils/notificacionesUtils";
 
 export const CrearTarea = async (req: any, res: any) => {
   const usuarioId = req.user.id;
@@ -87,6 +88,32 @@ export const CrearTarea = async (req: any, res: any) => {
         archivoUrl,
         archivoNombre,
       ],
+    );
+
+    const [alumnosRows]: any = await db.query(
+      `SELECT cu.user_id
+   FROM curso_asignaturas ca
+   JOIN centro_usuarios cu ON cu.curso_id = ca.curso_id
+     AND cu.centro_id = ?
+     AND cu.rol_en_centro = 'alumno'
+     AND (ca.rama_id IS NULL OR cu.rama_id = ca.rama_id)
+   WHERE ca.id = ?`,
+      [centroId, curso_asignatura_id],
+    );
+
+    const [asigRows]: any = await db.query(
+      `SELECT a.nombre FROM curso_asignaturas ca JOIN asignaturas a ON a.id = ca.asignatura_id WHERE ca.id = ?`,
+      [curso_asignatura_id],
+    );
+
+    crearNotificacionesMasivas(
+      alumnosRows.map((a: any) => a.user_id),
+      {
+        tipo: "tarea_publicada",
+        titulo: "Nueva tarea publicada",
+        mensaje: `Se ha publicado la tarea "${titulo}" en ${asigRows[0]?.nombre}. Fecha limite: ${fecha_entrega}.`,
+        enlace: `${process.env.FRONTEND_URL}/alumno/tareas/${result.insertId}`,
+      },
     );
 
     res

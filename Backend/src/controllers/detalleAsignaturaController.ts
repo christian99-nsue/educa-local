@@ -1,5 +1,6 @@
 import { db } from "../config/db";
 import supabase from "../config/supabaseConfig";
+import { crearNotificacionesMasivas } from "../utils/notificacionesUtils";
 
 const verificarPermiso = async (
   usuarioId: number,
@@ -275,6 +276,32 @@ export const SubirMaterial = async (req: any, res: any) => {
         urlData.publicUrl,
         req.file.size,
       ],
+    );
+
+    const [alumnosRows]: any = await db.query(
+      `SELECT cu.user_id
+   FROM curso_asignaturas ca
+   JOIN centro_usuarios cu ON cu.curso_id = ca.curso_id
+     AND cu.centro_id = ?
+     AND cu.rol_en_centro = 'alumno'
+     AND (ca.rama_id IS NULL OR cu.rama_id = ca.rama_id)
+   WHERE ca.id = ?`,
+      [centroId, cursoAsignaturaId],
+    );
+
+    const [asigRows]: any = await db.query(
+      `SELECT a.nombre FROM curso_asignaturas ca JOIN asignaturas a ON a.id = ca.asignatura_id WHERE ca.id = ?`,
+      [cursoAsignaturaId],
+    );
+
+    crearNotificacionesMasivas(
+      alumnosRows.map((a: any) => a.user_id),
+      {
+        tipo: "material_publicado",
+        titulo: "Nuevo material disponible",
+        mensaje: `Se ha subido un nuevo material "${nombreOriginal}" en ${asigRows[0]?.nombre}.`,
+        enlace: `${process.env.FRONTEND_URL}/alumno/asignaturas/${cursoAsignaturaId}`,
+      },
     );
 
     res

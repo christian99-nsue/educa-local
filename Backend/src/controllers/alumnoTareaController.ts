@@ -7,6 +7,7 @@ import {
   estadoColor,
   SistemaCalificacion,
 } from "../utils/calificacionesUtils";
+import { crearNotificacionesMasivas } from "../utils/notificacionesUtils";
 
 export const ObtenerDetalleTareaAlumno = async (req: any, res: any) => {
   const usuarioId = req.user.id;
@@ -185,6 +186,34 @@ export const EntregarTarea = async (req: any, res: any) => {
         req.file.originalname,
         req.file.size,
       ],
+    );
+
+    const [profesoresRows]: any = await db.query(
+      `SELECT u.id AS user_id
+   FROM profesor_asignaturas pa
+   JOIN centro_usuarios cu ON cu.id = pa.centro_usuario_id
+   JOIN usuarios u ON u.id = cu.user_id
+   WHERE pa.curso_asignatura_id = ?`,
+      [tareaRows[0].curso_asignatura_id],
+    );
+
+    const [alumnoInfo]: any = await db.query(
+      `SELECT nombre, apellidos FROM usuarios WHERE id = ?`,
+      [usuarioId],
+    );
+    const [tareaInfo]: any = await db.query(
+      `SELECT titulo FROM tareas WHERE id = ?`,
+      [tareaId],
+    );
+
+    crearNotificacionesMasivas(
+      profesoresRows.map((p: any) => p.user_id),
+      {
+        tipo: "tarea_entregada",
+        titulo: "Nueva entrega recibida",
+        mensaje: `${alumnoInfo[0]?.nombre} ${alumnoInfo[0]?.apellidos ?? ""} ha entregado la tarea "${tareaInfo[0]?.titulo}".`,
+        enlace: `${process.env.FRONTEND_URL}/profesor/tareas/${tareaId}`,
+      },
     );
 
     res.status(201).json({ mensaje: "Tarea entregada correctamente" });

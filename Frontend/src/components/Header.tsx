@@ -1,7 +1,8 @@
 import { getUser } from "../utils/auth";
 import avatar from "../assets/images/avatar-default.png";
 import { useState, useEffect } from "react";
-import { Bell } from "lucide-react";
+import NotificacionesDropdown from "./NotificacionesDropdown";
+import { ChevronDown } from "lucide-react";
 
 const Header = () => {
   const [user, setUser] = useState(getUser());
@@ -17,10 +18,12 @@ const Header = () => {
       <div className="header-left">{user?.centro?.nombre} </div>
       <div className="header-right">
         <span>
-          Notificaciones
-          <Bell size={14} />
+          <NotificacionesDropdown />
         </span>
-        <img src={user?.foto_url || avatar} alt="user" className="avatar" />
+        <span className="header-perfil">
+          <img src={user?.foto_url || avatar} alt="user" className="avatar" />
+          {user?.nombre} <br /> {user?.rol_en_centro} <ChevronDown size={12} />
+        </span>
       </div>
     </div>
   );
