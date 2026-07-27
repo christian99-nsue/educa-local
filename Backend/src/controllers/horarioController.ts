@@ -31,35 +31,42 @@ export const HorarioProfesor = async (req: any, res: any) => {
          cc.curso,
          r.nombre AS rama
        FROM horario_clases hc
-       JOIN profesor_asignaturas pa ON pa.id = hc.profesor_asignatura_id
-       JOIN curso_asignaturas ca ON ca.id = pa.curso_asignatura_id
+       JOIN curso_asignaturas ca ON ca.id = hc.curso_asignatura_id
        JOIN asignaturas a ON a.id = ca.asignatura_id
        JOIN centro_cursos cc ON cc.id = ca.curso_id
        LEFT JOIN ramas r ON r.id = ca.rama_id
+       JOIN profesor_asignaturas pa ON pa.curso_asignatura_id = ca.id
        WHERE pa.centro_usuario_id = ?
        ORDER BY hc.dia_semana, hc.hora_inicio`,
       [centroUsuarioId],
     );
 
-    const clasesFormateadas = clases.map((c: any) => {
-      let titulo = c.asignatura;
-      if (c.tipo === "refuerzo") titulo = `Refuerzo ${c.asignatura}`;
-      if (c.tipo === "tutoria") titulo = "Tutoria";
+    const clasesFormateadas = clases.map((c: any) => ({
+      id: c.id,
+      tipo: c.tipo,
+      diaSemana: c.dia_semana,
+      horaInicio: c.hora_inicio,
+      horaFin: c.hora_fin,
+      aula: c.aula,
+      asignatura: c.asignatura,
+      curso: c.curso,
+      rama: c.rama,
+    }));
 
-      return {
-        id: c.id,
-        tipo: c.tipo,
-        diaSemana: c.dia_semana,
-        horaInicio: c.hora_inicio,
-        horaFin: c.hora_fin,
-        aula: c.aula,
-        titulo,
-        curso: c.curso,
-        rama: c.rama,
-      };
+    const [descansos]: any = await db.query(
+      `SELECT id, nombre, hora_inicio, hora_fin FROM horario_descansos WHERE centro_id = ?`,
+      [centroId],
+    );
+
+    res.json({
+      clases: clasesFormateadas,
+      descansos: descansos.map((d: any) => ({
+        id: d.id,
+        nombre: d.nombre,
+        horaInicio: d.hora_inicio,
+        horaFin: d.hora_fin,
+      })),
     });
-
-    res.json(clasesFormateadas);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Error al obtener el horario" });

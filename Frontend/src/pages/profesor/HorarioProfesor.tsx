@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, Info, Calendar } from "lucide-react";
+import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { getCentroActivo } from "../../utils/auth";
 import { abreviarRama } from "../../utils/abreviarRama";
 import "../../styles/horarioProfesor.css";
@@ -8,13 +8,20 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 interface ClaseHorario {
   id: number;
-  tipo: "clase" | "refuerzo" | "tutoria";
+  tipo: string;
   diaSemana: number;
   horaInicio: string;
   horaFin: string;
-  titulo: string;
+  asignatura: string;
   curso: string;
   rama: string | null;
+}
+
+interface Descanco {
+  id: number;
+  nombre: string;
+  horaInicio: string;
+  horaFin: string;
 }
 
 const DIAS = [
@@ -25,13 +32,13 @@ const DIAS = [
   { num: 5, nombre: "Viernes" },
 ];
 
-const HORAS = Array.from({ length: 6 }, (_, i) => 13 + i);
-
-const colorPorTipo: Record<string, { bg: string; borde: string }> = {
-  clase: { bg: "#e8eefd", borde: "#5b8def" },
-  refuerzo: { bg: "#eee6fb", borde: "#8b5cf6" },
-  tutoria: { bg: "#fdf3e0", borde: "#e0a83a" },
-};
+const colores = [
+  { bg: "#e8eefd", borde: "#5b8def" },
+  { bg: "#e0f5e9", borde: "#3ba873" },
+  { bg: "#eee6fb", borde: "#8b5cf6" },
+  { bg: "#fdf3e0", borde: "#e0a83a" },
+  { bg: "#fde8e8", borde: "#e05a5a" },
+];
 
 function getLunesDeSemana(fecha: Date) {
   const d = new Date(fecha);
@@ -58,6 +65,9 @@ function HorarioProfesor() {
   const [clases, setClases] = useState<ClaseHorario[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [descansos, setDescansos] = useState<Descanco[]>([]);
+  const [soloHoy, setSoloHoy] = useState(false);
+  const [vista, setVista] = useState("semana");
   const [lunesActual, setLunesActual] = useState(() =>
     getLunesDeSemana(new Date()),
   );
@@ -80,7 +90,8 @@ function HorarioProfesor() {
         if (!res.ok) {
           throw new Error(data?.error || "Error al cargar el horario");
         }
-        setClases(Array.isArray(data) ? data : []);
+        setClases(Array.isArray(data.clases) ? data.clases : []);
+        setDescansos(Array.isArray(data.descansos) ? data.descansos : []);
       } catch (err) {
         setError(
           err instanceof Error ? err.message : "Error al cargar el horario",
@@ -92,19 +103,41 @@ function HorarioProfesor() {
     cargarHorario();
   }, []);
 
+  const franjasHorarias = Array.from(
+    new Set([
+      ...clases.map((c) => c.horaInicio),
+      ...descansos.map((d) => d.horaInicio),
+    ]),
+  ).sort();
+
+  const descansoEnHora = (horaInicio: string) =>
+    descansos.find((d) => d.horaInicio === horaInicio);
+
   const irSemanaAnterior = () => {
     const nueva = new Date(lunesActual);
     nueva.setDate(nueva.getDate() - 7);
     setLunesActual(nueva);
+    setSoloHoy(false);
   };
 
   const irSemanaSiguiente = () => {
     const nueva = new Date(lunesActual);
     nueva.setDate(nueva.getDate() + 7);
     setLunesActual(nueva);
+    setSoloHoy(false);
   };
 
-  const irHoy = () => setLunesActual(getLunesDeSemana(new Date()));
+  const colorPorAsignatura = (asignatura: string) => {
+    let hash = 0;
+    for (let i = 0; i < asignatura.length; i++) {
+      hash = asignatura.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return colores[Math.abs(hash) % colores.length];
+  };
+
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const diaSemanaHoy = hoy.getDay() === 0 ? 7 : hoy.getDay();
 
   const fechasSemana = DIAS.map((_, i) => {
     const f = new Date(lunesActual);
@@ -112,19 +145,16 @@ function HorarioProfesor() {
     return f;
   });
 
-  const clasesPorDiaYHora = (diaNum: number, hora: number) => {
-    return clases.find((c) => {
-      const horaInicio = parseInt(c.horaInicio.split(":")[0], 10);
-      return c.diaSemana === diaNum && horaInicio === hora;
-    });
-  };
+  const clasePorDiaYHora = (diaNum: number, horaInicio: string) =>
+    clases.find((c) => c.diaSemana === diaNum && c.horaInicio === horaInicio);
 
-  const hoy = new Date();
-  hoy.setHours(0, 0, 0, 0);
-  const diaSemanaHoy = hoy.getDay() === 0 ? 7 : hoy.getDay();
   const clasesHoy = clases
     .filter((c) => c.diaSemana === diaSemanaHoy)
     .sort((a, b) => a.horaInicio.localeCompare(b.horaInicio));
+
+  const diasAMostrar = soloHoy
+    ? DIAS.filter((d) => d.num === diaSemanaHoy)
+    : DIAS;
 
   const nombreDiaHoy = DIAS.find((d) => d.num === diaSemanaHoy)?.nombre ?? "";
   const fechaHoyFormateada = hoy.toLocaleDateString("es-ES", {
@@ -158,70 +188,153 @@ function HorarioProfesor() {
           </button>
         </div>
         <div className="horario-acciones">
-          <button className="btn-hoy" onClick={irHoy}>
-            Hoy
-          </button>
-          <select className="filtro-select-horario" defaultValue="semanal">
-            <option value="semanal">Vista semanal</option>
+          <select
+            className="filtro-select-horario"
+            value={vista}
+            onChange={(e) => setVista(e.target.value)}
+          >
+            <option value="semana">Vista semanal</option>
+            <option value="lista">Vista lista</option>
           </select>
         </div>
       </div>
 
       <div className="horario-layout">
-        <div className="horario-tabla-wrapper">
-          <table className="horario-tabla">
-            <thead>
-              <tr>
-                <th className="col-hora">Hora</th>
-                {DIAS.map((d, i) => (
-                  <th key={d.num}>
-                    {d.nombre}
-                    <br />
-                    <span className="horario-fecha-dia">
-                      {fechasSemana[i].toLocaleDateString("es-ES", {
-                        day: "2-digit",
-                        month: "2-digit",
-                      })}
-                    </span>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {HORAS.map((hora) => (
-                <tr key={hora}>
-                  <td className="col-hora">
-                    {String(hora).padStart(2, "0")}:00
-                    <br />
-                    {String(hora + 1).padStart(2, "0")}:00
-                  </td>
-                  {DIAS.map((d) => {
-                    const clase = clasesPorDiaYHora(d.num, hora);
-                    if (!clase) return <td key={d.num}></td>;
-                    const colores = colorPorTipo[clase.tipo];
+        {vista === "semana" ? (
+          <div className="horario-tabla-wrapper">
+            {franjasHorarias.length === 0 ? (
+              <p className="material-vacio">
+                No hay horario configurado todavia.
+              </p>
+            ) : (
+              <table className="horario-tabla">
+                <thead>
+                  <tr>
+                    <th className="col-hora">Hora</th>
+                    {diasAMostrar.map((d, i) => (
+                      <th key={d.num}>
+                        {d.nombre}
+                        <br />
+                        <span className="horario-fecha-dia">
+                          {fechasSemana[i].toLocaleDateString("es-ES", {
+                            day: "2-digit",
+                            month: "2-digit",
+                          })}
+                        </span>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {franjasHorarias.map((horaInicio) => {
+                    const descanso = descansoEnHora(horaInicio);
+
+                    if (descanso) {
+                      return (
+                        <tr key={horaInicio}>
+                          <td className="col-hora">
+                            {descanso.horaInicio.slice(0, 5)} <br />{" "}
+                            {descanso.horaFin.slice(0, 5)}
+                          </td>
+                          <td
+                            colSpan={diasAMostrar.length}
+                            className="horario-descanso-celda"
+                          >
+                            <div className="horario-descanso-bloque">
+                              {descanso.nombre}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    }
+
+                    const claseParaCalcularFIn = clases.find(
+                      (c) => c.horaInicio === horaInicio,
+                    );
+                    const horaFin = claseParaCalcularFIn?.horaFin ?? "";
+
                     return (
-                      <td key={d.num}>
-                        <div
-                          className="horario-bloque"
-                          style={{
-                            background: colores.bg,
-                            borderLeft: `3px solid ${colores.borde}`,
-                          }}
-                        >
-                          <strong>{clase.titulo}</strong>
-                          <span>
-                            {clase.curso} <br />
-                            {clase.rama ? ` ${abreviarRama(clase.rama)}` : ""}
-                          </span>
-                        </div>
-                      </td>
+                      <tr key={horaInicio}>
+                        <td className="col-hora">
+                          {horaInicio.slice(0, 5)} <br />{" "}
+                          {horaFin.slice(0, 5)}{" "}
+                        </td>
+                        {diasAMostrar.map((d) => {
+                          const clase = clasePorDiaYHora(d.num, horaInicio);
+                          if (!clase) return <td key={d.num}></td>;
+                          const color = colorPorAsignatura(clase.asignatura);
+                          return (
+                            <td key={d.num}>
+                              <div
+                                className="horario-bloque"
+                                style={{
+                                  background: color.bg,
+                                  borderLeft: `3px solid ${color.borde}`,
+                                }}
+                              >
+                                <strong>{clase.asignatura}</strong>
+                                <span>
+                                  {clase.curso} <br />
+                                  {clase.rama
+                                    ? `${abreviarRama(clase.rama)}`
+                                    : ""}
+                                </span>
+                              </div>
+                            </td>
+                          );
+                        })}
+                      </tr>
                     );
                   })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                </tbody>
+              </table>
+            )}
+          </div>
+        ) : (
+          <div className="horario-lista-wrapper">
+            {DIAS.map((d, i) => {
+              const clasesDelDia = clases
+                .filter((c) => c.diaSemana === d.num)
+                .sort((a, b) => a.horaInicio.localeCompare(b.horaInicio));
+              if (clasesDelDia.length === 0) return null;
+              return (
+                <div key={d.num} className="horario-lista-dia">
+                  <h3>
+                    {d.nombre}{" "}
+                    <span>
+                      {fechasSemana[i].toLocaleDateString("es-ES", {
+                        day: "2-digit",
+                        month: "long",
+                      })}
+                    </span>
+                  </h3>
+                  {clasesDelDia.map((c) => {
+                    const color = colorPorAsignatura(c.asignatura);
+                    return (
+                      <div
+                        key={c.id}
+                        className="horario-lista-item"
+                        style={{ borderLeft: `3px solid ${color.borde}` }}
+                      >
+                        <span className="horario-lista-hora">
+                          {c.horaInicio.slice(0, 5)} - {c.horaFin.slice(0, 5)}
+                        </span>
+                        <div>
+                          <strong>{c.asignatura}</strong>
+                          <span>{c.curso}</span>
+                          {c.rama && <span>{c.rama}</span>}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+            {clases.length === 0 && (
+              <p className="material-vacio">No tienes clases programadas.</p>
+            )}
+          </div>
+        )}
 
         <div className="horario-sidebar">
           <h3>Clases de hoy</h3>
@@ -233,17 +346,17 @@ function HorarioProfesor() {
             <p className="horario-sin-clases">No tienes clases hoy.</p>
           ) : (
             clasesHoy.map((c) => {
-              const colores = colorPorTipo[c.tipo];
+              const color = colorPorAsignatura(c.asignatura);
               return (
                 <div
                   key={c.id}
                   className="horario-sidebar-item"
-                  style={{ borderLeft: `3px solid ${colores.borde}` }}
+                  style={{ borderLeft: `3px solid ${color.borde}` }}
                 >
                   <span className="horario-sidebar-hora">
                     {c.horaInicio.slice(0, 5)} - {c.horaFin.slice(0, 5)}
                   </span>
-                  <strong>{c.titulo}</strong>
+                  <strong>{c.asignatura}</strong>
                   <span>
                     {c.curso} <br />
                     {c.rama ? ` ${c.rama}` : ""}
@@ -252,10 +365,6 @@ function HorarioProfesor() {
               );
             })
           )}
-
-          <button className="btn-ver-calendario">
-            <Calendar size={18} /> Ver calendario mensual
-          </button>
         </div>
       </div>
 

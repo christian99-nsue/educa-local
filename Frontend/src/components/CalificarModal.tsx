@@ -122,9 +122,14 @@ function CalificarModal({
     }
   };
 
-  const esImagen = (nombre: string | null) => {
+  const getTipoArchivo = (
+    nombre: string | null,
+  ): "imagen" | "pdf" | "docx" | "otro" => {
     const ext = nombre?.split(".").pop()?.toLowerCase();
-    return ext === "jpg" || ext === "jpeg" || ext === "png";
+    if (ext === "jpg" || ext === "jpeg" || ext === "png") return "imagen";
+    if (ext === "pdf") return "pdf";
+    if (ext === "docx") return "docx";
+    return "otro";
   };
 
   return (
@@ -249,22 +254,49 @@ function CalificarModal({
               <h4>Vista previa</h4>
               <div className="calificar-preview-box">
                 {entrega.archivoUrl ? (
-                  esImagen(entrega.archivoNombre) ? (
-                    <img src={entrega.archivoUrl} alt="entrega" />
-                  ) : (
-                    <div className="calificar-preview-sin-imagen">
-                      <p>
-                        Vista previa no disponible para este tipo de archivo.
-                      </p>
-                      <a
-                        href={entrega.archivoUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Abrir archivo
-                      </a>
-                    </div>
-                  )
+                  (() => {
+                    const tipo = getTipoArchivo(entrega.archivoNombre);
+
+                    if (tipo === "imagen") {
+                      return <img src={entrega.archivoUrl} alt="entrega" />;
+                    }
+
+                    if (tipo === "pdf") {
+                      return (
+                        <iframe
+                          src={entrega.archivoUrl}
+                          title="Vista previa del PDF"
+                          className="calificar-preview-iframe"
+                        />
+                      );
+                    }
+
+                    if (tipo === "docx") {
+                      const urlVisor = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(entrega.archivoUrl)}`;
+                      return (
+                        <iframe
+                          src={urlVisor}
+                          title="Vista previa del documento"
+                          className="calificar-preview-iframe"
+                        />
+                      );
+                    }
+
+                    return (
+                      <div className="calificar-preview-sin-imagen">
+                        <p>
+                          Vista previa no disponible para este tipo de archivo.
+                        </p>
+                        <a
+                          href={entrega.archivoUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Abrir archivo
+                        </a>
+                      </div>
+                    );
+                  })()
                 ) : (
                   <div className="calificar-preview-sin-imagen">
                     <p>El estudiante no ha entregado ningun archivo.</p>

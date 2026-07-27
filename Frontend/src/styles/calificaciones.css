@@ -1,0 +1,138 @@
+.calificaciones-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.filtro-select-cal {
+  border: none;
+  outline: none;
+  color: #374151;
+  background: white;
+  font-size: 12px;
+  cursor: pointer;
+  height: 35px;
+  width: 230px;
+}
+
+.calif-summary-card {
+  background: #fff;
+  border-radius: 12px;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.calif-summary-icono {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calif-summary-card div {
+  display: flex;
+  flex-direction: column;
+}
+
+.calif-summary-label {
+  font-size: 12px;
+  color: #888;
+}
+
+.calif-summary-card strong {
+  font-size: 22px;
+  color: #222;
+}
+
+.calif-summary-sub {
+  font-size: 11px;
+  color: #999;
+  font-weight: 600;
+}
+
+.calificaciones-filtros {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calif-exportar-col {
+  margin-left: auto;
+  position: relative;
+}
+
+.calif-tabla-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  overflow: hidden;
+}
+
+.calif-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calif-tabla th {
+  text-align: left;
+  padding: 14px 20px;
+  font-size: 12px;
+  color: #888;
+  border-bottom: 1px solid #eee;
+}
+
+.calif-tabla td {
+  padding: 14px 20px;
+  font-size: 13px;
+  border-bottom: 1px solid #f2f2f2;
+  vertical-align: middle;
+}
+
+.calif-tabla tbody tr {
+  cursor: pointer;
+}
+
+.calif-tabla tbody tr:hover {
+  background: #f4f7ff;
+}
+
+.calif-asignatura-col {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.calif-icono {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calif-asignatura-col div {
+  display: flex;
+  flex-direction: column;
+}
+
+.calif-asignatura-col span {
+  font-size: 11px;
+  color: #999;
+}
+
+.calif-promedio {
+  font-weight: 700;
+  font-size: 14px;
+}

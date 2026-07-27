@@ -18,14 +18,6 @@ const verificarPermiso = async (
     [centroUsuarioId, cursoAsignaturaId],
   );
 
-  console.log("DEBUG verificarPermiso:", {
-    usuarioId,
-    centroId,
-    cursoAsignaturaId,
-    centroUsuarioId,
-    permisoEncontrado: permisoRows.length > 0,
-  });
-
   if (permisoRows.length === 0) return null;
 
   return { centroUsuarioId, profesorAsignaturaId: permisoRows[0].id };
@@ -89,9 +81,9 @@ export const ObtenerDetalleAsignatura = async (req: any, res: any) => {
     const [clasesRaw]: any = await db.query(
       `SELECT dia_semana, hora_inicio, hora_fin
        FROM horario_clases
-       WHERE profesor_asignatura_id = ? AND tipo = 'clase'
+       WHERE curso_asignatura_id = ? AND tipo = 'clase'
        ORDER BY dia_semana, hora_inicio`,
-      [permiso.profesorAsignaturaId],
+      [cursoAsignaturaId],
     );
 
     const hoy = new Date();

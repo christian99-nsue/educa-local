@@ -12,6 +12,12 @@ import horarioRoutes from "./routes/horarioRoutes";
 import profesorPerfilRoutes from "./routes/profesorPerfilRoutes";
 import detalleAsignaturaRoutes from "./routes/detalleAsignaturaRoutes";
 import detalleTareaRoutes from "./routes/detalleTareaRoutes";
+import calificacionesAlumnoRoutes from "./routes/calificacionesAlumnoRoutes";
+import horarioAlumnoRoutes from "./routes/horarioAlumnoRoutes";
+import alumnoPerfilRoutes from "./routes/alumnoPerfilRoutes";
+import detalleAsignaturaAlumnoRoutes from "./routes/detalleAsignaturaAlumnoRoutes";
+import alumnoTareaRoutes from "./routes/alumnoTareaRoutes";
+import detalleCalificacionAsignaturaRoutes from "./routes/detalleCalificacionAsignaturaRoutes";
 
 const app = express();
 const allowedOrigins = [
@@ -52,5 +58,11 @@ app.use("/api/profesor/horario", horarioRoutes);
 app.use("/api/profesor/perfil", profesorPerfilRoutes);
 app.use("/api/profesor/asignatura", detalleAsignaturaRoutes);
 app.use("/api/profesor/tarea", detalleTareaRoutes);
+app.use("/api/calificaciones", calificacionesAlumnoRoutes);
+app.use("/api/horario", horarioAlumnoRoutes);
+app.use("/api/alumno/perfil", alumnoPerfilRoutes);
+app.use("/api/alumno/asignatura", detalleAsignaturaAlumnoRoutes);
+app.use("/api/alumno/tarea", alumnoTareaRoutes);
+app.use("/api/calificaciones/asignatura", detalleCalificacionAsignaturaRoutes);
 
 export default app;

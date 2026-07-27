@@ -54,7 +54,7 @@ export const ListaCalificaciones = async (req: any, res: any) => {
     );
 
     const [alumnos]: any = await db.query(
-      `SELECT u.id, u.nombre, u.apellidos
+      `SELECT u.id, u.nombre, u.apellidos, u.foto_url
        FROM centro_usuarios cu
        JOIN usuarios u ON u.id = cu.user_id
        WHERE cu.curso_id = ?
@@ -132,6 +132,7 @@ export const ListaCalificaciones = async (req: any, res: any) => {
         id: al.id,
         nombre: al.nombre,
         apellidos: al.apellidos,
+        fotoUrl: al.foto_url,
         notas,
         notaFinal,
       };

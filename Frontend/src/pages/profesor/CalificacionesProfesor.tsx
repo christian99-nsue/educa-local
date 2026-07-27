@@ -35,6 +35,7 @@ interface Alumno {
   apellidos: string;
   notas: Record<number, string | null>;
   notaFinal: number | string | null;
+  fotoUrl: string | null;
 }
 
 const getIniciales = (nombre: string, apellidos: string) =>
@@ -426,9 +427,15 @@ function CalificacionesProfesor() {
                     <td>{i + 1}</td>
                     <td className="col-alumno-cal-pf">
                       <div className="alumno-info-cal-pf">
-                        <span className="avatar-iniciales-cal-pf">
-                          {getIniciales(al.nombre, al.apellidos)}
-                        </span>
+                        {al.fotoUrl ? (
+                          <span className="avatar-iniciales-cal-pf">
+                            <img src={al.fotoUrl} />
+                          </span>
+                        ) : (
+                          <span className="avatar-iniciales-cal-pf">
+                            {getIniciales(al.nombre, al.apellidos)}
+                          </span>
+                        )}
                         {al.nombre} {al.apellidos}
                       </div>
                     </td>

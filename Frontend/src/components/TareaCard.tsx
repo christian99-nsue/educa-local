@@ -7,7 +7,7 @@ interface TareaCardProps {
   asignatura: string;
   fechaEntrega: string;
   diasRestantes: number;
-  estado: "activa" | "atrasada" | "entregada" | "calificada";
+  estado: "activa" | "vencida" | "entregada" | "calificada";
   nota?: number | null;
   sistemaCalificacion: "sobre 10" | "sobre 100" | "A-F";
   color: string;
@@ -20,14 +20,14 @@ type SistemaCalificacion = "sobre 10" | "sobre 100" | "A-F";
 
 const estadoLabel: Record<string, string> = {
   activa: "En curso",
-  atrasada: "Atrasada",
+  vencida: "Vencida",
   entregada: "Entregada",
   calificada: "Calificada",
 };
 
 const estadoColor: Record<string, string> = {
   activa: "#18B300",
-  atrasada: "#FC4850",
+  vencida: "#FC4850",
   entregada: "#59ADFF",
   calificada: "#B032E7",
 };
@@ -73,7 +73,7 @@ function TareaCard({
   return (
     <div className="tarea-row" onClick={onClick}>
       <div className="row-icon" style={{ background: bgColor, color }}>
-        <FontAwesomeIcon icon={icono} size="lg" />
+        <FontAwesomeIcon icon={icono} size="2xl" />
       </div>
       <div className="row-info">
         <h3>{titulo}</h3>
@@ -103,7 +103,7 @@ function TareaCard({
         )}
       </div>
       <div className="row-dias">
-        {estado === "activa" || estado === "atrasada" ? (
+        {estado === "activa" || estado === "vencida" ? (
           <span>
             {diasRestantes >= 0
               ? `Faltan ${diasRestantes} dias`

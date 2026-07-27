@@ -154,77 +154,77 @@ function PerfilProfesor() {
     <div className="content-pf perfil-page">
       <h1>Mi perfil</h1>
       <p className="subtitle">Informacion de tu cuenta.</p>
-
-      <div className="perfil-avatar-wrapper">
-        <div className="perfil-avatar-container">
-          <img
-            src={fotoPreview || perfil.foto_url || avatarDefault}
-            alt="avatar"
-            className="perfil-avatar-img"
-          />
-          <button
-            className="perfil-avatar-boton-camara"
-            onClick={() => inputFotoRef.current?.click()}
-            disabled={subiendoFoto}
-            title="Cambiar foto"
-          >
-            <Camera size={16} />
-          </button>
+      <div className="perfil-container">
+        <div className="perfil-form">
+          <label>Nombre</label>
           <input
-            type="file"
-            accept="image/jpeg,image/png"
-            ref={inputFotoRef}
-            style={{ display: "none" }}
-            onChange={handleFotoChange}
+            value={perfil.nombre}
+            onChange={(e) => {
+              setPerfil({ ...perfil, nombre: e.target.value });
+            }}
           />
+          <label>Apellidos</label>
+          <input
+            value={perfil.apellidos}
+            onChange={(e) => {
+              setPerfil({
+                ...perfil,
+                apellidos: e.target.value,
+              });
+            }}
+          />
+
+          <label>Email</label>
+          <input
+            type="email"
+            value={perfil.email}
+            onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
+          />
+
+          <label>Telefono</label>
+          <input
+            value={perfil.telefono || ""}
+            onChange={(e) => setPerfil({ ...perfil, telefono: e.target.value })}
+          />
+
+          {error && <p className="perfil-error">{error}</p>}
+          {exito && <p className="perfil-exito">{exito}</p>}
+
+          <button
+            className="btn-actualizar-perfil"
+            onClick={handleGuardar}
+            disabled={guardando}
+          >
+            {guardando ? "Guardando..." : "Actualizar informacion"}
+          </button>
         </div>
-        {subiendoFoto && (
-          <p className="perfil-subiendo-texto">Subiendo foto...</p>
-        )}
-      </div>
-
-      <div className="perfil-form">
-        <label>Nombre</label>
-        <input
-          value={perfil.nombre}
-          onChange={(e) => {
-            setPerfil({ ...perfil, nombre: e.target.value });
-          }}
-        />
-        <label>Apellidos</label>
-        <input
-          value={perfil.apellidos}
-          onChange={(e) => {
-            setPerfil({
-              ...perfil,
-              apellidos: e.target.value,
-            });
-          }}
-        />
-
-        <label>Email</label>
-        <input
-          type="email"
-          value={perfil.email}
-          onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
-        />
-
-        <label>Telefono</label>
-        <input
-          value={perfil.telefono || ""}
-          onChange={(e) => setPerfil({ ...perfil, telefono: e.target.value })}
-        />
-
-        {error && <p className="perfil-error">{error}</p>}
-        {exito && <p className="perfil-exito">{exito}</p>}
-
-        <button
-          className="btn-actualizar-perfil"
-          onClick={handleGuardar}
-          disabled={guardando}
-        >
-          {guardando ? "Guardando..." : "Actualizar informacion"}
-        </button>
+        <div className="perfil-avatar-wrapper">
+          <div className="perfil-avatar-container">
+            <img
+              src={fotoPreview || perfil.foto_url || avatarDefault}
+              alt="avatar"
+              className="perfil-avatar-img"
+            />
+            <button
+              className="perfil-avatar-boton-camara"
+              onClick={() => inputFotoRef.current?.click()}
+              disabled={subiendoFoto}
+              title="Cambiar foto"
+            >
+              <Camera size={16} />
+            </button>
+            <input
+              type="file"
+              accept="image/jpeg,image/png"
+              ref={inputFotoRef}
+              style={{ display: "none" }}
+              onChange={handleFotoChange}
+            />
+          </div>
+          {subiendoFoto && (
+            <p className="perfil-subiendo-texto">Subiendo foto...</p>
+          )}
+        </div>
       </div>
     </div>
   );

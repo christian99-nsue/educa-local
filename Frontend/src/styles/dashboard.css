@@ -94,8 +94,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #b032e7;
-  color: white;
+  background: #003152;
+  color: #addff1;
   border: none;
   padding: 10px 16px;
   border-radius: 8px;
@@ -103,7 +103,8 @@
   font-size: 12px;
 }
 .btn-lista:hover {
-  background-color: royalblue;
+  background-color: #addff1;
+  color: #003152;
 }
 
 .asignaturas-filtros {
@@ -249,6 +250,21 @@
   gap: 40px;
 }
 
+.resumen-icon {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background: #eef2ff;
+  border: 1px solid #5e6064;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.resumen-icon svg {
+  color: #1d6494;
+}
+
 .resumen-item {
   display: flex;
   align-items: center;
@@ -261,8 +277,25 @@
   text-align: center;
 }
 
+.resumen-stat-tarea {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: tomato;
+  font-size: 18px;
+}
+
+.resumen-stat-tarea span {
+  font-size: 12px;
+}
+
+.resumen-stat-as {
+  color: #11639a;
+}
+
 .resumen-stat strong {
   font-size: 18px;
+  color: #11639a;
 }
 .resumen-stat span {
   font-size: 12px;
@@ -273,6 +306,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  color: #11639a;
   background: white;
   border: 1px solid #e5e7eb;
   padding: 10px 16px;

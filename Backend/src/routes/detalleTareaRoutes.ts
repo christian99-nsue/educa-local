@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/:tareaId/detalle", verifyToken, ObtenerDetalleTarea);
 router.get("/:tareaId/entrega/:alumnoId", verifyToken, ObtenerEntrega);
-router.get(
+router.put(
   "/:tareaId/entrega/:alumnoId/calificar",
   verifyToken,
   GuardarCalificacion,

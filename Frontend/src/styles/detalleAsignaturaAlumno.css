@@ -1,0 +1,184 @@
+.detalle-asig-breadcrumb {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+.detalle-asig-breadcrumb svg {
+  margin-top: 1px;
+}
+
+.detalle-asig-breadcrumb span {
+  cursor: pointer;
+}
+
+.detalle-asig-breadcrumb span:hover {
+  text-decoration: underline;
+}
+
+.detalle-asig-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 15px 2px rgba(100, 100, 100, 0.5);
+}
+
+.detalle-asig-icono {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detalle-asig-header h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.detalle-asig-header p {
+  color: #888;
+  font-size: 13px;
+  margin: 2px 0 0;
+}
+
+.detalle-asig-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 20px;
+  align-items: start;
+}
+
+.detalle-asig-card {
+  border-radius: 12px;
+  background: #ffffff;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 15px 2px rgba(100, 100, 100, 0.5);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.detalle-asig-card div {
+  margin-bottom: 8px;
+}
+
+.detalle-asig-card h3 {
+  font-size: 15px;
+  margin-bottom: 14px;
+}
+
+.material-item-alumno {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 10px;
+  border-bottom: 1px solid #f2f2f2;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.material-item-alumno:hover {
+  background: #f4f7ff;
+}
+
+.material-item-alumno:last-child {
+  border-bottom: none;
+}
+
+.material-icono {
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.material-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.material-info strong {
+  font-size: 13px;
+}
+
+.material-info span {
+  font-size: 11px;
+  color: #999;
+}
+
+.material-fecha {
+  font-size: 11px;
+  color: #999;
+  white-space: nowrap;
+}
+
+.detalle-asig-tareas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.detalle-asig-ver-todas {
+  font-size: 12px;
+  color: #dc2626;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.detalle-asig-tarea-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px;
+  border-bottom: 1px solid #f2f2f2;
+  cursor: pointer;
+}
+
+.detalle-asig-tarea-item:hover {
+  background: #f4f7ff;
+}
+
+.detalle-asig-tarea-item:last-child {
+  border-bottom: none;
+}
+
+.pendiente-pill {
+  background: #ffedd5;
+  color: #ea580c;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.detalle-asig-info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 13px;
+}
+
+.detalle-asig-info-row:last-child {
+  border-bottom: none;
+}
+
+.detalle-asig-info-row span {
+  color: #888;
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  ArrowLeft,
+  ChevronRight,
   Pencil,
   MoreVertical,
   Calendar,
@@ -140,11 +140,15 @@ function DetalleTareaProfesor() {
   const estilo = estilos[tarea.asignaturaId % estilos.length];
   return (
     <div className="content-pf detalle-tarea-page">
-      <button className="btn-volver-tareas-pf" onClick={() => navigate(-1)}>
-        <ArrowLeft size={14} /> Volver a tareas
-      </button>
+      <div className="detalle-asig-breadcrumb">
+        <span onClick={() => navigate("/profesor/tareas")}>Tareas</span>{" "}
+        <ChevronRight size={12} /> <strong>{tarea.titulo}</strong>
+      </div>
 
-      <div className="detalle-tarea-header">
+      <div
+        className="detalle-tarea-header"
+        style={{ borderLeft: `7px solid ${estilo.bg}` }}
+      >
         <div
           className="detalle-tarea-icono"
           style={{ background: estilo.bg, color: estilo.color }}
@@ -162,7 +166,7 @@ function DetalleTareaProfesor() {
             <span>•</span>
             <span>
               {tarea.curso}
-              {tarea.rama ? ` ${tarea.rama}` : ""}
+              {tarea.rama ? ` • ${tarea.rama}` : ""}
             </span>
           </div>
         </div>
@@ -172,9 +176,6 @@ function DetalleTareaProfesor() {
             onClick={() => setModalEditarAbierto(true)}
           >
             <Pencil size={14} /> Editar
-          </button>
-          <button className="btn-mas-opciones">
-            <MoreVertical size={16} />
           </button>
         </div>
       </div>

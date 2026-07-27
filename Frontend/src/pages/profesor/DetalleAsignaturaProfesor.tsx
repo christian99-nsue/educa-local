@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getIconoAsignatura } from "../../utils/asignaturaIconos";
 import RenombrarModal from "../../components/RenombrarModal";
@@ -14,6 +14,7 @@ import {
   CalendarCheck,
   Layers,
   ArrowBigLeft,
+  ChevronRight,
 } from "lucide-react";
 import { getCentroActivo } from "../../utils/auth";
 import {
@@ -85,6 +86,7 @@ function DetalleAsignaturaProfesor() {
   const [mostrarModalCarpeta, setMostrarModalCarpeta] = useState(false);
   const [nombreCarpeta, setNombreCarpeta] = useState("");
   const [menuAbierto, setMenuAbierto] = useState<string | null>(null);
+  const navigate = useNavigate();
   const [renombrarItem, setRenombrarItem] = useState<{
     tipo: "carpeta" | "archivo";
     id: number;
@@ -298,7 +300,16 @@ function DetalleAsignaturaProfesor() {
 
   return (
     <div className="content-pf detalle-asignatura-page">
-      <div className="detalle-header">
+      <div className="detalle-asig-breadcrumb">
+        <span onClick={() => navigate("/profesor/asignaturas")}>
+          Mis Asignaturas
+        </span>{" "}
+        <ChevronRight size={12} /> <strong>{detalle.asignatura}</strong>
+      </div>
+      <div
+        className="detalle-header"
+        style={{ borderLeft: `7px solid ${estilo.color}` }}
+      >
         <div
           className="detalle-header-icono"
           style={{ background: estilo.bg, color: estilo.color }}
@@ -311,7 +322,7 @@ function DetalleAsignaturaProfesor() {
         <div>
           <h1>{detalle.asignatura}</h1>
           <p>
-            {detalle.curso} • Codigo: {detalle.codigo ?? "-"}
+            {detalle.curso} <br /> Codigo: {detalle.codigo ?? "-"}
           </p>
         </div>
       </div>
