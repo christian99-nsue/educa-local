@@ -14,7 +14,7 @@ interface Tarea {
   asignatura: string;
   fechaEntrega: string;
   diasRestantes: number;
-  estado: "activa" | "atrasada" | "entregada" | "calificada";
+  estado: "activa" | "vencida" | "entregada" | "calificada";
   nota: number | null;
 }
 
@@ -167,7 +167,7 @@ function Tareas() {
         </div>
         <div className="filtro">
           <select
-            className="filtro-select"
+            className="filtro-select-tarea"
             value={filtroAsignatura}
             onChange={(e) => {
               setFiltroAsignatura(e.target.value);
@@ -184,7 +184,7 @@ function Tareas() {
         </div>
         <div className="filtro">
           <select
-            className="filtro-select"
+            className="filtro-select-tarea"
             value={filtroEstado}
             onChange={(e) => {
               setFiltroEstado(e.target.value);
@@ -193,7 +193,7 @@ function Tareas() {
           >
             <option value="todos">Todos los estados</option>
             <option value="activa">Activas</option>
-            <option value="atrasada">Atrasadas</option>
+            <option value="vencida">Vencidas</option>
             <option value="entregada">Entregadas</option>
             <option value="calificada">Calificadas</option>
           </select>
@@ -219,7 +219,7 @@ function Tareas() {
               color={estilo.color}
               bgColor={estilo.bg}
               icono={icono}
-              onClick={() => navigate(`/alumno/tareas/${t.titulo}`)}
+              onClick={() => navigate(`/alumno/tareas/${t.id}`)}
             />
           );
         })}

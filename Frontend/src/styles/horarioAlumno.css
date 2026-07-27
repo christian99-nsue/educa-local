@@ -1,0 +1,200 @@
+.horario-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.horario-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 8px 14px;
+}
+
+.horario-nav button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #555;
+}
+
+.horario-nav span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.horario-toggle-vista {
+  display: flex;
+  background: #f3f4f6;
+  border-radius: 8px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.horario-toggle-vista button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: none;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.horario-toggle-vista button.activo {
+  background: #003152;
+  color: #addff1;
+}
+
+.horario-tabla-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  overflow-x: auto;
+}
+
+.horario-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.horario-tabla th {
+  padding: 12px;
+  font-size: 12px;
+  color: #555;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap;
+}
+
+.horario-descanso-celda {
+  text-align: center;
+  background: #fef9e7;
+}
+
+.horario-descanso-bloque {
+  font-size: 12px;
+  font-weight: 600;
+  color: #b8860b;
+  padding: 8px;
+}
+
+.horario-fecha-dia {
+  color: #aaa;
+  font-weight: 400;
+}
+
+.col-hora {
+  font-size: 11px;
+  color: #888;
+  text-align: center;
+  white-space: nowrap;
+  width: 70px;
+}
+
+.horario-tabla td {
+  border: 1px solid #f2f2f2;
+  padding: 4px;
+  height: 70px;
+  vertical-align: top;
+}
+
+.horario-bloque {
+  border-radius: 6px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  height: 100%;
+  gap: 1px;
+}
+
+.horario-bloque strong {
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.horario-bloque span {
+  color: #555;
+}
+
+.horario-lista-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.horario-lista-dia {
+  background: #fff;
+  border-radius: 12px;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  padding: 16px 20px;
+}
+
+.horario-lista-dia h3 {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.horario-lista-dia h3 span {
+  font-weight: 400;
+  color: #999;
+  font-size: 12px;
+}
+
+.horario-lista-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: #fafafa;
+  border-radius: 6px;
+}
+
+.horario-lista-hora {
+  font-size: 12px;
+  color: #888;
+  min-width: 100px;
+}
+
+.horario-lista-item div {
+  display: flex;
+  flex-direction: column;
+}
+
+.horario-lista-item strong {
+  font-size: 13px;
+}
+
+.horario-lista-item span {
+  font-size: 11px;
+  color: #888;
+}
+
+.horario-aviso {
+  margin-top: 20px;
+  background: #eef4ff;
+  color: #2563eb;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

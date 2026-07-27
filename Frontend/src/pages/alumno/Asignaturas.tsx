@@ -12,11 +12,14 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 interface Asignatura {
   id: number;
+  cursoAsignaturaId: number;
   nombre: string;
   descripcion: string;
   tareas_pendientes: number;
   asistencia: number;
   profesor: string;
+  notaActual: string | null;
+  notaColor: { bg: string; color: string } | null;
 }
 
 const estilos = [
@@ -126,8 +129,11 @@ function Asignaturas() {
         </div>
         <div className="filtro">
           <select className="filtro-select">
-            <option value="actual">Periodo actual</option>
-            <option value="anterior">Periodo anterior</option>
+            <option disabled>Elige el periodo</option>
+            <option value="todos">Año escolar</option>
+            <option value="primero">1º Trimestre</option>
+            <option value="segundo">2º Trimestre</option>
+            <option value="tercero">3º Trimestre</option>
           </select>
         </div>
         <div className="filtro">
@@ -151,7 +157,9 @@ function Asignaturas() {
               <div
                 key={a.id}
                 className="asignatura-row"
-                onClick={() => navigate(`/asignaturas/${a.nombre}`)}
+                onClick={() =>
+                  navigate(`/alumno/asignaturas/${a.cursoAsignaturaId}`)
+                }
               >
                 <div
                   className="row-icon"
@@ -194,7 +202,9 @@ function Asignaturas() {
                 </div>
                 <div className="row-nota">
                   <span>Nota actual</span>
-                  <strong>-</strong>
+                  <strong style={{ color: a.notaColor?.color ?? "#333" }}>
+                    {a.notaActual ?? "-"}
+                  </strong>
                 </div>
                 <ChevronRight size={20} color="gray" />
               </div>
@@ -215,7 +225,10 @@ function Asignaturas() {
                 bgColor={estilo.bg}
                 icono={icono}
                 asistencia={a.asistencia}
-                onClick={() => navigate(`/asignaturas/${a.nombre}`)}
+                tareasPendientes={a.tareas_pendientes}
+                onClick={() =>
+                  navigate(`/alumno/asignaturas/${a.cursoAsignaturaId}`)
+                }
               />
             );
           })}
@@ -224,7 +237,7 @@ function Asignaturas() {
       <div className="resumen-general">
         <div className="resumen-item">
           <div className="resumen-icon">
-            <FontAwesomeIcon icon={faGraduationCap} size="xl" />
+            <FontAwesomeIcon icon={faGraduationCap} size="2xl" />
           </div>
           <div>
             <strong>Resumen general</strong>
@@ -232,7 +245,9 @@ function Asignaturas() {
           </div>
         </div>
         <div className="resumen-stat">
-          <strong>{asignaturasFiltradas.length}</strong>
+          <strong className="resumen-stat-as">
+            {asignaturasFiltradas.length}
+          </strong>
           <span>Asignaturas</span>
         </div>
         {(() => {
@@ -241,7 +256,7 @@ function Asignaturas() {
             0,
           );
           return (
-            <div className="resumen-stat">
+            <div className="resumen-stat-tarea">
               <strong>{totalPendientes}</strong>
               <span>
                 {totalPendientes === 1 ? "Tarea pendiente" : "Tareas pendiente"}
@@ -263,7 +278,10 @@ function Asignaturas() {
           </strong>
           <span>Asistencia promedio</span>
         </div>
-        <button className="btn-horario">
+        <button
+          className="btn-horario"
+          onClick={() => navigate("/alumno/horario/")}
+        >
           <Calendar size={12} /> Ver mi horario
         </button>
       </div>

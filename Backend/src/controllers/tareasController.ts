@@ -64,9 +64,11 @@ export const Tareas = async (req: any, res: any) => {
       let estado = t.estado_entrega;
 
       if (estado === "pendiente" && fechaEntrega < hoy) {
-        estado = "atrasada";
+        estado = "vencida";
       } else if (estado === "pendiente") {
         estado = "activa";
+      } else {
+        estado = t.estado_entrega;
       }
 
       const diffMs = fechaEntrega.getTime() - hoy.getTime();

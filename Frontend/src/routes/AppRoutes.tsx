@@ -23,6 +23,12 @@ import HorarioProfesor from "../pages/profesor/HorarioProfesor";
 import PerfilProfesor from "../pages/profesor/perfilProfesor";
 import DetalleAsignaturaProfesor from "../pages/profesor/DetalleAsignaturaProfesor";
 import DetalleTareaProfesor from "../pages/profesor/DetalleTareaProfesor";
+import Calificaciones from "../pages/alumno/Calificaciones";
+import HorarioAlumno from "../pages/alumno/HorarioAlumno";
+import PerfilAlumno from "../pages/alumno/PerfilAlumno";
+import DetalleAsignaturaAlumno from "../pages/alumno/DetalleAsignaturaAlumno";
+import DetalleTareaAlumno from "../pages/alumno/DetalleTareaAlumno";
+import DetalleCalificacionAsignatura from "../pages/alumno/DetalleCalificacionAsignatura";
 
 export default function AppRoutes() {
   return (
@@ -56,9 +62,22 @@ export default function AppRoutes() {
           <Route path="/alumno" element={<LayoutAlumno />}>
             <Route index element={<Inicio />} />
             <Route path="asignaturas" element={<Asignaturas />} />
+            <Route
+              path="asignaturas/:cursoAsignaturaId"
+              element={<DetalleAsignaturaAlumno />}
+            />
             <Route path="tareas" element={<Tareas />} />
+            <Route path="tareas/:tareaId" element={<DetalleTareaAlumno />} />
+            <Route path="calificaciones" element={<Calificaciones />} />
+            <Route
+              path="calificaciones/:cursoAsignaturaId"
+              element={<DetalleCalificacionAsignatura />}
+            />
+            <Route path="horario" element={<HorarioAlumno />} />
+            <Route path="perfil" element={<PerfilAlumno />} />
           </Route>
         </Route>
+
         {/*--------- Zona PROFESOR: solo rol "profesor" -----*/}
         <Route element={<ProtectedRoute allowedRoles={["profesor"]} />}>
           <Route path="/profesor" element={<LayoutProfesor />}>

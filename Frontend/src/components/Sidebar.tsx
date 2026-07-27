@@ -1,6 +1,7 @@
 import { getUser } from "../utils/auth";
 import { getCentroActivo } from "../utils/auth";
 import { NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
@@ -13,14 +14,28 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import avatar from "../assets/images/avatar-default.png";
 
-const Sidebar = () => {
-  const user = getUser();
+interface SidebarProps {
+  onCerrarSesionClick: () => void;
+}
+
+const Sidebar = ({ onCerrarSesionClick }: SidebarProps) => {
+  const [user, setUser] = useState(getUser());
   const centroActivo = getCentroActivo();
+
+  useEffect(() => {
+    const actualizar = () => setUser(getUser());
+    window.addEventListener("perfil-actualizado", actualizar);
+    return () => window.removeEventListener("perfil-actualizado", actualizar);
+  }, []);
   return (
     <div className="sidebar">
       <h2 className="logo">EDUCA LOCAL</h2>
       <div className="profile">
-        <img src={avatar} alt="user" className="avatar-logo" />
+        <img
+          src={user?.foto_url || avatar}
+          alt="user"
+          className="avatar-logo-pf"
+        />
         <p>
           Nombre: {user?.nombre} <br /> Apellidos: {user?.apellidos} <br /> Rol:
           &nbsp;
@@ -84,15 +99,10 @@ const Sidebar = () => {
           <FontAwesomeIcon icon={faUser} />
           <span>Perfil</span>
         </NavLink>
-        <NavLink
-          to="cerrar-sesion"
-          className={({ isActive }) =>
-            isActive ? "nav-item active" : "nav-item"
-          }
-        >
+        <button className="nav-item nav-item-btn" onClick={onCerrarSesionClick}>
           <FontAwesomeIcon icon={faArrowRightFromBracket} />
           <span>Cerrar Sesion</span>
-        </NavLink>
+        </button>
       </nav>
     </div>
   );

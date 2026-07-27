@@ -1,0 +1,171 @@
+.detalle-tarea-alumno-page h1 {
+  font-size: 24px;
+  margin: 10px 0 4px;
+}
+
+.dta-asignatura {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 2px;
+}
+
+.dta-profesor {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 20px;
+}
+
+.dta-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 20px;
+  align-items: start;
+}
+
+.dta-card {
+  background: #fff;
+  border-radius: 12px;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.dta-tarea-vencida {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.dta-card h3 {
+  font-size: 14px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dta-card p {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.dta-estado-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+.dta-estado-header span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dta-info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-top: 1px solid #f2f2f2;
+  font-size: 12px;
+}
+
+.dta-info-row span {
+  color: #888;
+}
+
+.dta-calificacion-box {
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.dta-calificacion-box strong {
+  display: block;
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+
+.dta-calificacion-box span {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dta-entrega-realizada {
+  color: #16a34a;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.dta-sin-entrega {
+  color: #999;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.dta-comentario-box {
+  background: #f0fdf4;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.dta-comentario-box p {
+  color: #166534;
+}
+
+.dta-comentario-fecha {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #999;
+}
+
+.dta-sin-comentarios {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #999;
+}
+
+.archivo-adjunto-icono {
+  width: 26px;
+  min-width: 26px;
+  max-width: 26px;
+  height: 26px;
+  min-height: 26px;
+  max-height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-entregar-tarea {
+  width: 100%;
+  margin-top: 14px;
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-entregar-tarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

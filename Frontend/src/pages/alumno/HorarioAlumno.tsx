@@ -1,0 +1,326 @@
+import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, Info, Calendar, List } from "lucide-react";
+import { getCentroActivo } from "../../utils/auth";
+import { abreviarRama } from "../../utils/abreviarRama";
+import "../../styles/horarioAlumno.css";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+interface ClaseHorario {
+  id: number;
+  tipo: string;
+  diaSemana: number;
+  horaInicio: string;
+  horaFin: string;
+  asignatura: string;
+  rama: string | null;
+  profesor: string;
+}
+
+interface Descanso {
+  id: number;
+  nombre: string;
+  horaInicio: string;
+  horaFin: string;
+}
+
+const DIAS = [
+  { num: 1, nombre: "Lunes" },
+  { num: 2, nombre: "Martes" },
+  { num: 3, nombre: "Miercoles" },
+  { num: 4, nombre: "Jueves" },
+  { num: 5, nombre: "Viernes" },
+];
+
+const colores = [
+  { bg: "#e8eefd", borde: "#5b8def" },
+  { bg: "#e0f5e9", borde: "#3ba873" },
+  { bg: "#eee6fb", borde: "#8b5cf6" },
+  { bg: "#fdf3e0", borde: "#e0a83a" },
+  { bg: "#fde8e8", borde: "#e05a5a" },
+];
+
+function getLunesDeSemana(fecha: Date) {
+  const d = new Date(fecha);
+  const dia = d.getDay();
+  const diff = dia === 0 ? -6 : 1 - dia;
+  d.setDate(d.getDate() + diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function formatearRangoSemana(lunes: Date) {
+  const domingo = new Date(lunes);
+  domingo.setDate(lunes.getDate() + 4);
+  const inicio = lunes.toLocaleDateString("es-ES", { day: "2-digit" });
+  const fin = domingo.toLocaleDateString("es-ES", {
+    day: "2-digit",
+    month: "long",
+  });
+  return `${inicio} - ${fin}, ${domingo.getFullYear()}`;
+}
+
+function HorarioAlumno() {
+  const [clases, setClases] = useState<ClaseHorario[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [descansos, setDescansos] = useState<Descanso[]>([]);
+  const [lunesActual, setLunesActual] = useState(() =>
+    getLunesDeSemana(new Date()),
+  );
+  const [vista, setVista] = useState<"semana" | "lista">("semana");
+
+  useEffect(() => {
+    const cargar = async () => {
+      const token = localStorage.getItem("token");
+      const centroActivo = getCentroActivo();
+      if (!centroActivo?.id) {
+        setError("No se ha seleccionado un centro activo.");
+        setLoading(false);
+        return;
+      }
+      try {
+        const res = await fetch(
+          `${API_URL}/api/horario/mi-horario?centroId=${centroActivo.id}`,
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
+        const data = await res.json();
+        if (!res.ok)
+          throw new Error(data?.error || "Error al cargar el horario");
+        setClases(Array.isArray(data.clases) ? data.clases : []);
+        setDescansos(Array.isArray(data.descansos) ? data.descansos : []);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "Error al cargar el horario",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+    cargar();
+  }, []);
+
+  const franjasHorarias = Array.from(
+    new Set([
+      ...clases.map((c) => c.horaInicio),
+      ...descansos.map((d) => d.horaInicio),
+    ]),
+  ).sort();
+
+  const descansoEnHora = (horaInicio: string) =>
+    descansos.find((d) => d.horaInicio === horaInicio);
+
+  const irSemanaAnterior = () => {
+    const nueva = new Date(lunesActual);
+    nueva.setDate(nueva.getDate() - 7);
+    setLunesActual(nueva);
+  };
+
+  const irSemanaSiguiente = () => {
+    const nueva = new Date(lunesActual);
+    nueva.setDate(nueva.getDate() + 7);
+    setLunesActual(nueva);
+  };
+
+  const fechasSemana = DIAS.map((_, i) => {
+    const f = new Date(lunesActual);
+    f.setDate(f.getDate() + i);
+    return f;
+  });
+
+  const colorPorAsignatura = (asignatura: string) => {
+    let hash = 0;
+    for (let i = 0; i < asignatura.length; i++) {
+      hash = asignatura.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return colores[Math.abs(hash) % colores.length];
+  };
+
+  const clasePorDiaYHora = (diaNum: number, horaInicio: string) =>
+    clases.find((c) => c.diaSemana === diaNum && c.horaInicio === horaInicio);
+
+  if (loading) return <p>Cargando horario...</p>;
+  if (error) {
+    return (
+      <div className="content asignaturas-estado asignaturas-error">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="content horario-alumno-page">
+      <h1>Horario</h1>
+      <p className="subtitle">Consulta tu horario semanal de clases.</p>
+
+      <div className="horario-toolbar">
+        <div className="horario-nav">
+          <button onClick={irSemanaAnterior}>
+            <ChevronLeft size={16} />
+          </button>
+          <span>
+            <Calendar size={14} /> {formatearRangoSemana(lunesActual)}
+          </span>
+          <button onClick={irSemanaSiguiente}>
+            <ChevronRight size={16} />
+          </button>
+        </div>
+        <div className="horario-toggle-vista">
+          <button
+            className={vista === "semana" ? "activo" : ""}
+            onClick={() => setVista("semana")}
+          >
+            <Calendar size={14} /> Semana
+          </button>
+          <button
+            className={vista === "lista" ? "activo" : ""}
+            onClick={() => setVista("lista")}
+          >
+            <List size={14} /> Lista
+          </button>
+        </div>
+      </div>
+
+      {vista === "semana" ? (
+        <div className="horario-tabla-wrapper">
+          {franjasHorarias.length === 0 ? (
+            <p className="material-vacio">
+              No hay horario configurado todavia.
+            </p>
+          ) : (
+            <table className="horario-tabla">
+              <thead>
+                <tr>
+                  <th className="col-hora">Hora</th>
+                  {DIAS.map((d, i) => (
+                    <th key={d.num}>
+                      {d.nombre}
+                      <br />
+                      <span className="horario-fecha-dia">
+                        {fechasSemana[i].toLocaleDateString("es-ES", {
+                          day: "2-digit",
+                          month: "long",
+                        })}
+                      </span>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {franjasHorarias.map((horaInicio) => {
+                  const descanso = descansoEnHora(horaInicio);
+
+                  if (descanso) {
+                    return (
+                      <tr key={horaInicio}>
+                        <td className="col-hora">
+                          {descanso.horaInicio.slice(0, 5)} <br />{" "}
+                          {descanso.horaFin.slice(0, 5)}
+                        </td>
+                        <td
+                          colSpan={DIAS.length}
+                          className="horario-descanso-celda"
+                        >
+                          <div className="horario-descanso-bloque">
+                            {descanso.nombre}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  }
+
+                  const clasesParaCalcularFin = clases.find(
+                    (c) => c.horaInicio === horaInicio,
+                  );
+                  const horaFin = clasesParaCalcularFin?.horaFin ?? "";
+
+                  return (
+                    <tr key={horaInicio}>
+                      <td className="col-hora">
+                        {horaInicio.slice(0, 5)} <br /> {horaFin.slice(0, 5)}
+                      </td>
+                      {DIAS.map((d) => {
+                        const clase = clasePorDiaYHora(d.num, horaInicio);
+                        if (!clase) return <td key={d.num}></td>;
+                        const color = colorPorAsignatura(clase.asignatura);
+                        return (
+                          <td key={d.num}>
+                            <div
+                              className="horario-bloque"
+                              style={{
+                                background: color.bg,
+                                borderLeft: `3px solid ${color.borde}`,
+                              }}
+                            >
+                              <strong>{clase.asignatura}</strong>
+                              <span>{clase.profesor}</span>
+                              {clase.rama && (
+                                <span>{abreviarRama(clase.rama)}</span>
+                              )}
+                            </div>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
+      ) : (
+        <div className="horario-lista-wrapper">
+          {DIAS.map((d, i) => {
+            const clasesDelDia = clases
+              .filter((c) => c.diaSemana === d.num)
+              .sort((a, b) => a.horaInicio.localeCompare(b.horaInicio));
+            if (clasesDelDia.length === 0) return null;
+            return (
+              <div key={d.num} className="horario-lista-dia">
+                <h3>
+                  {d.nombre}{" "}
+                  <span>
+                    {fechasSemana[i].toLocaleDateString("es-ES", {
+                      day: "2-digit",
+                      month: "long",
+                    })}
+                  </span>
+                </h3>
+                {clasesDelDia.map((c) => {
+                  const color = colorPorAsignatura(c.asignatura);
+                  return (
+                    <div
+                      key={c.id}
+                      className="horario-lista-item"
+                      style={{ borderLeft: `3px solid ${color.borde}` }}
+                    >
+                      <span className="horario-lista-hora">
+                        {c.horaInicio.slice(0, 5)} - {c.horaFin.slice(0, 5)}
+                      </span>
+                      <div>
+                        <strong>{c.asignatura}</strong>
+                        <span>{c.profesor}</span>
+                        {c.rama && <span>{c.rama}</span>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+          {clases.length === 0 && (
+            <p className="material-vacio">No tienes clases programadas.</p>
+          )}
+        </div>
+      )}
+
+      <div className="horario-aviso">
+        <Info size={16} />
+        El horario puede estar sujeto a cambios. Revisa regularmente los
+        anuncios para actualizaciones.
+      </div>
+    </div>
+  );
+}
+
+export default HorarioAlumno;

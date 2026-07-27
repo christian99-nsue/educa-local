@@ -10,6 +10,13 @@ const passwordResetRoutes_1 = __importDefault(require("./routes/passwordResetRou
 const asignaturasRoutes_1 = __importDefault(require("./routes/asignaturasRoutes"));
 const tareasRoutes_1 = __importDefault(require("./routes/tareasRoutes"));
 const profesorAsignaturasRoutes_1 = __importDefault(require("./routes/profesorAsignaturasRoutes"));
+const profesorTareasRoutes_1 = __importDefault(require("./routes/profesorTareasRoutes"));
+const asistenciaRoutes_1 = __importDefault(require("./routes/asistenciaRoutes"));
+const calificacionesRoutes_1 = __importDefault(require("./routes/calificacionesRoutes"));
+const horarioRoutes_1 = __importDefault(require("./routes/horarioRoutes"));
+const profesorPerfilRoutes_1 = __importDefault(require("./routes/profesorPerfilRoutes"));
+const detalleAsignaturaRoutes_1 = __importDefault(require("./routes/detalleAsignaturaRoutes"));
+const detalleTareaRoutes_1 = __importDefault(require("./routes/detalleTareaRoutes"));
 const app = (0, express_1.default)();
 const allowedOrigins = [
     "https://educa-local.vercel.app",
@@ -39,4 +46,11 @@ app.use("/api/auth", passwordResetRoutes_1.default);
 app.use("/api/asignaturas", asignaturasRoutes_1.default);
 app.use("/api/tareas", tareasRoutes_1.default);
 app.use("/api/profesor/asignaturas", profesorAsignaturasRoutes_1.default);
+app.use("/api/profesor/tareas", profesorTareasRoutes_1.default);
+app.use("/api/profesor/asistencia", asistenciaRoutes_1.default);
+app.use("/api/profesor/calificaciones", calificacionesRoutes_1.default);
+app.use("/api/profesor/horario", horarioRoutes_1.default);
+app.use("/api/profesor/perfil", profesorPerfilRoutes_1.default);
+app.use("/api/profesor/asignatura", detalleAsignaturaRoutes_1.default);
+app.use("/api/profesor/tarea", detalleTareaRoutes_1.default);
 exports.default = app;

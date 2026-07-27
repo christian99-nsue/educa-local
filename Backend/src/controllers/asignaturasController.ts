@@ -1,4 +1,11 @@
 import { db } from "../config/db";
+import {
+  notaANumero,
+  formatearPromedioDisplay,
+  SistemaCalificacion,
+  getEstado,
+  estadoColor,
+} from "../utils/calificacionesUtils";
 
 export const Asignaturas = async (req: any, res: any) => {
   const usuarioId = req.user.id;
@@ -25,8 +32,17 @@ export const Asignaturas = async (req: any, res: any) => {
         .status(400)
         .json({ error: "El usuario no tiene curso asignado" });
     }
+
+    const [configRows]: any = await db.query(
+      `SELECT sistema_calificacion FROM centro_configuracion WHERE centro_id = ?`,
+      [centroId],
+    );
+    const sistemaCalificacion = (configRows[0]?.sistema_calificacion ??
+      "sobre-10") as SistemaCalificacion;
+
     const [asignaturas]: any = await db.query(
       `SELECT
+      ca.id AS curso_asignatura_id,
      a.id,
      a.nombre,
      a.descripcion,
@@ -63,8 +79,18 @@ export const Asignaturas = async (req: any, res: any) => {
       [usuarioId, usuarioId, usuarioId, curso_id, rama_id],
     );
 
+    const [notasRows]: any = await db.query(
+      `SELECT t.curso_asignatura_id, te.nota
+      FROM tareas t
+      JOIN tarea_entregas te ON te.tarea_id = t.id
+      WHERE te.usuario_id = ?
+      AND te.estado = 'calificada'
+      AND te.nota IS NOT NULL`,
+      [usuarioId],
+    );
+
     const asignaturasConDatos = asignaturas.map((a: any) => {
-      const porcentaje =
+      const porcentajeAsistencia =
         a.total_clases_registradas > 0
           ? Math.round((a.total_presentes / a.total_clases_registradas) * 100)
           : 0;
@@ -73,13 +99,35 @@ export const Asignaturas = async (req: any, res: any) => {
         ? `Prof. ${a.profesor_nombre} ${a.profesor_apellidos ?? ""}`.trim()
         : "Prof. Por asignar";
 
+      const notasDeEstaAsignatura = notasRows.filter(
+        (n: any) => n.curso_asignatura_id === a.id,
+      );
+
+      const valoresNumericos = notasDeEstaAsignatura
+        .map((n: any) => notaANumero(n.nota, sistemaCalificacion))
+        .filter((v: number | null): v is number => v !== null);
+
+      let notaActual: string | null = null;
+      let notaColor: { bg: string; color: string } | null = null;
+      if (valoresNumericos.length > 0) {
+        const promedio =
+          valoresNumericos.reduce((acc: number, v: number) => acc + v, 0) /
+          valoresNumericos.length;
+        notaActual = formatearPromedioDisplay(promedio, sistemaCalificacion);
+        const estado = getEstado(promedio);
+        notaColor = estadoColor[estado];
+      }
+
       return {
+        cursoAsignaturaId: a.curso_asignatura_id,
         id: a.id,
         nombre: a.nombre,
         descripcion: a.descripcion,
         tareas_pendientes: a.tareas_pendientes,
-        asistencia: porcentaje,
+        asistencia: porcentajeAsistencia,
         profesor,
+        notaActual,
+        notaColor,
       };
     });
 

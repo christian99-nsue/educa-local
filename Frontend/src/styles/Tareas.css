@@ -21,6 +21,18 @@
   gap: 4px;
   padding: 16px;
 }
+
+.filtro-select-tarea {
+  border: none;
+  outline: none;
+  color: #374151;
+  background: white;
+  font-size: 12px;
+  cursor: pointer;
+  height: 35px;
+  width: 230px;
+}
+
 .tareas-summary-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

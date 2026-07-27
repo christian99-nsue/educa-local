@@ -77,7 +77,7 @@ export const CrearTarea = async (req: any, res: any) => {
 
     const [result]: any = await db.query(
       `INSERT INTO tareas (titulo, descripcion, instrucciones, curso_asignatura_id, fecha_entrega, archivo_url, archivo_nombre)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
         titulo,
         descripcion || null,

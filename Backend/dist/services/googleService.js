@@ -45,6 +45,7 @@ const googleLogin = (token) => __awaiter(void 0, void 0, void 0, function* () {
             code: user.code,
             nombre: user.nombre,
             apellidos: user.apellidos,
+            foto_url: user.foto_url,
         },
         centros,
     };

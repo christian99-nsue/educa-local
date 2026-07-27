@@ -64,6 +64,7 @@ const loginUser = (identifier, password) => __awaiter(void 0, void 0, void 0, fu
             code: user.code,
             nombre: user.nombre,
             apellidos: user.apellidos,
+            foto_url: user.foto_url,
         },
         centros: centrosUnicos,
         token,
