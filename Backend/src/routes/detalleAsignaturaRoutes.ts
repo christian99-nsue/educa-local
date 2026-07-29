@@ -11,6 +11,7 @@ import {
 } from "../controllers/detalleAsignaturaController";
 import { verifyToken } from "../middlewares/authMiddleware";
 import { uploadMaterial } from "../middlewares/uploadMaterialMiddleware";
+import { limiteSubidaArchivos } from "../middlewares/rateLimitMiddleware";
 
 const router = express.Router();
 
@@ -24,6 +25,7 @@ router.post("/materiales/crear-carpeta", verifyToken, CrearCarpeta);
 router.post(
   "/materiales/subir",
   verifyToken,
+  limiteSubidaArchivos,
   uploadMaterial.single("archivo"),
   SubirMaterial,
 );

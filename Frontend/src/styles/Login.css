@@ -175,21 +175,19 @@ html {
   border: 1px solid #b7b7b7;
   background: #ffffff;
   background-blend-mode: normal;
+  display: flex;
+  align-items: center;
 }
 
 .lang svg {
   margin-left: 10px;
   margin-right: 10px;
-  margin-top: 5px;
-  width: 20px;
-  height: 20px;
   border-radius: 50%;
   color: #686868;
 }
 
 .lang select {
-  margin-top: 5px;
-  border: 0px solid white;
+  border: none;
   width: 80px;
   height: 20px;
   font-size: var(--fuente-select);

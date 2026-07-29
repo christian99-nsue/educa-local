@@ -1,6 +1,10 @@
 import express from "express";
 import { registrarCentro } from "../controllers/registroController";
 import {
+  limiteLogin,
+  limiteRegistro,
+} from "../middlewares/rateLimitMiddleware";
+import {
   googleAuth,
   login,
   microsoftAuth,
@@ -8,10 +12,10 @@ import {
 
 const router = express.Router();
 
-router.post("/login", login);
+router.post("/login", limiteLogin, login);
 
 router.post("/google", googleAuth);
 router.post("/microsoft", microsoftAuth);
-router.post("/registro/centro", registrarCentro);
+router.post("/registro/centro", limiteRegistro, registrarCentro);
 
 export default router;

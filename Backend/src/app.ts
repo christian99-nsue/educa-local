@@ -19,6 +19,7 @@ import detalleAsignaturaAlumnoRoutes from "./routes/detalleAsignaturaAlumnoRoute
 import alumnoTareaRoutes from "./routes/alumnoTareaRoutes";
 import detalleCalificacionAsignaturaRoutes from "./routes/detalleCalificacionAsignaturaRoutes";
 import notificacionesRoutes from "./routes/notificacionesRoutes";
+import { limiteGeneral } from "./middlewares/rateLimitMiddleware";
 
 const app = express();
 const allowedOrigins = [
@@ -66,5 +67,6 @@ app.use("/api/alumno/asignatura", detalleAsignaturaAlumnoRoutes);
 app.use("/api/alumno/tarea", alumnoTareaRoutes);
 app.use("/api/calificaciones/asignatura", detalleCalificacionAsignaturaRoutes);
 app.use("/api/notificaciones", notificacionesRoutes);
+app.use("/api", limiteGeneral);
 
 export default app;
