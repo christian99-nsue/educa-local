@@ -358,6 +358,9 @@ form {
   cursor: pointer;
   white-space: nowrap;
 }
+.forgot a:hover {
+  text-decoration: underline;
+}
 
 button.login {
   margin-left: 30px;
@@ -453,6 +456,8 @@ button.microsoft-button svg {
 .register p {
   font-size: var(--fuente-p);
   width: 500px;
+  display: flex;
+  align-items: center;
 }
 
 .register a {
@@ -463,12 +468,16 @@ button.microsoft-button svg {
   cursor: pointer;
 }
 
+.register p a:hover {
+  text-decoration: underline;
+}
+
 .register p a svg {
   position: relative;
-  top: 3px;
-  left: 2px;
+  top: 2px;
+  left: 4px;
   fill: var(--color-login-a);
-  width: 12px;
+  width: 10px;
   height: 12px;
 }
 .rc {

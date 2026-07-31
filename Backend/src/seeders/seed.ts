@@ -9,7 +9,7 @@ const seed = async () => {
   try {
     console.log("🚀 Iniciando seeder...");
 
-    // 🔥 LIMPIAR TABLAS (opcional pero recomendado en pruebas)
+    // LIMPIAR TABLAS (opcional pero recomendado en pruebas)
     await db.query("SET FOREIGN_KEY_CHECKS = 0");
     await db.query("TRUNCATE TABLE centro_usuarios");
     await db.query("TRUNCATE TABLE usuarios");
@@ -18,7 +18,7 @@ const seed = async () => {
 
     console.log("🧹 Tablas limpiadas");
 
-    // 🏫 CREAR CENTROS
+    // CREAR CENTROS
     const [centros]: any = await db.query(
       "INSERT INTO centros (nombre) VALUES ?",
       [
@@ -32,9 +32,9 @@ const seed = async () => {
       ],
     );
 
-    console.log("🏫 Centros creados");
+    console.log("Centros creados");
 
-    // 👤 CREAR USUARIOS
+    // CREAR USUARIOS
     const passwordHash = await bcrypt.hash("123456", 10);
 
     const [usuarios]: any = await db.query(
@@ -91,7 +91,7 @@ const seed = async () => {
       ],
     );
 
-    console.log("👤 Usuarios creados");
+    console.log(" Usuarios creados");
 
     // 🔗 CREAR RELACIONES (centro_usuarios)
 
@@ -121,12 +121,12 @@ const seed = async () => {
       ],
     );
 
-    console.log("🔗 Relaciones creadas");
+    console.log("Relaciones creadas");
 
-    console.log("✅ SEED COMPLETADO CON ÉXITO");
+    console.log(" SEED COMPLETADO CON ÉXITO");
     process.exit();
   } catch (error) {
-    console.error("❌ Error en seed:", error);
+    console.error(" Error en seed:", error);
     process.exit(1);
   }
 };
