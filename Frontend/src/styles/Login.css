@@ -35,11 +35,11 @@ html {
   display: flex;
   height: 100vh;
   font-family: sans-serif;
+  margin-left: 15dvw;
 }
 /* LEFT */
 .login-left {
   margin-top: 30px;
-  margin-left: 180px;
   width: 320px;
   height: 500px;
   border-radius: 12px 0px 0px 12px;

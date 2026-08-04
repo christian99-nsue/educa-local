@@ -5,7 +5,11 @@ import * as XLSX from "xlsx";
 import { getCentroActivo } from "../../utils/auth";
 import "../../styles/AsistenciaProfesor.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDownload,
+  faFilePdf,
+  faFileExcel,
+} from "@fortawesome/free-solid-svg-icons";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -323,8 +327,12 @@ function AsistenciaProfesor() {
           </button>
           {mostrarExportar && (
             <div className="exportar-dropdown-as-pf">
-              <button onClick={exportarPDF}>PDF</button>
-              <button onClick={exportarExcel}>Excel</button>
+              <button onClick={exportarPDF} style={{ color: "red" }}>
+                <FontAwesomeIcon icon={faFilePdf} size="sm" /> PDF
+              </button>
+              <button onClick={exportarExcel} style={{ color: "green" }}>
+                <FontAwesomeIcon icon={faFileExcel} size="sm" /> Excel
+              </button>
             </div>
           )}
         </div>

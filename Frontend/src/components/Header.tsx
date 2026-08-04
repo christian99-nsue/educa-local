@@ -2,7 +2,7 @@ import { getUser } from "../utils/auth";
 import avatar from "../assets/images/avatar-default.png";
 import { useState, useEffect } from "react";
 import NotificacionesDropdown from "./NotificacionesDropdown";
-import { ChevronDown, User, LogOut } from "lucide-react";
+import { ChevronDown, User, LogOut, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import CerrarSesionModal from "./CerrarSesionModal";
 
@@ -43,15 +43,26 @@ const Header = () => {
         </span>
         {menuAbierto && (
           <div className="header-user-dropdown">
-            <button
-              onClick={() => {
-                navigate(`/${user?.rol_en_centro}/perfil`);
-                setMenuAbierto(false);
-              }}
-            >
-              <User size={14} />
-              Perfil
-            </button>
+            {user?.rol_en_centro === "admin" ? (
+              <button
+                onClick={() => {
+                  navigate(`/${user?.rol_en_centro}/ajustes`);
+                  setMenuAbierto(false);
+                }}
+              >
+                <Settings size={14} /> Ajustes
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  navigate(`/${user?.rol_en_centro}/perfil`);
+                  setMenuAbierto(false);
+                }}
+              >
+                {" "}
+                <User size={14} /> Perfil
+              </button>
+            )}
             <button
               className="header-dropdown-cerrar"
               onClick={() => {

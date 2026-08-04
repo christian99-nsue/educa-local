@@ -1,0 +1,130 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/*CONTENT*/
+
+.inicio-admin-page .subtitle {
+  line-height: 1.6;
+}
+
+.admin-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.admin-summary-card {
+  background: #fff;
+  border-radius: 12px;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  padding: 18px;
+  display: flex;
+  gap: 14px;
+}
+
+.admin-summary-icono {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-summary-card div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-summary-card strong {
+  font-size: 26px;
+  color: #222;
+}
+
+.admin-summary-card a {
+  font-size: 12px;
+  color: #dc2626;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.admin-actividad-card {
+  background: #fff;
+  border-radius: 12px;
+  background-blend-mode: normal;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  padding: 20px;
+}
+
+.admin-actividad-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.admin-actividad-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+}
+
+.admin-actividad-header a {
+  font-size: 13px;
+  color: #dc2626;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.admin-actividad-item {
+  display: flex;
+  align-items: start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.admin-actividad-item:last-child {
+  border-bottom: none;
+}
+
+.admin-actividad-icono {
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-actividad-info {
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 3px;
+}
+
+.admin-actividad-info span {
+  font-size: 12px;
+  color: #888;
+}
+
+.admin-actividad-hora {
+  font-size: 12px;
+  color: #999;
+  white-space: nowrap;
+  margin-left: auto;
+}

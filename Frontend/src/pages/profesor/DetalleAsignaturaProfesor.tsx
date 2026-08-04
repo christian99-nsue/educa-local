@@ -15,6 +15,8 @@ import {
   Layers,
   ArrowBigLeft,
   ChevronRight,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { getCentroActivo } from "../../utils/auth";
 import {
@@ -423,6 +425,7 @@ function DetalleAsignaturaProfesor() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             <button
+                              style={{ color: "blue" }}
                               onClick={() => {
                                 setRenombrarItem({
                                   tipo: "carpeta",
@@ -432,9 +435,10 @@ function DetalleAsignaturaProfesor() {
                                 setMenuAbierto(null);
                               }}
                             >
-                              Editar
+                              <Pencil size={12} /> Editar
                             </button>
                             <button
+                              style={{ color: "red" }}
                               className="menu-eliminar"
                               onClick={() => {
                                 setEliminarItem({
@@ -445,7 +449,7 @@ function DetalleAsignaturaProfesor() {
                                 setMenuAbierto(null);
                               }}
                             >
-                              Eliminar
+                              <Trash2 size={12} /> Eliminar
                             </button>
                           </div>
                         )}
@@ -509,6 +513,7 @@ function DetalleAsignaturaProfesor() {
                             }}
                           >
                             <button
+                              style={{ color: "blue" }}
                               onClick={(e) => {
                                 e.preventDefault();
                                 setRenombrarItem({
@@ -519,9 +524,10 @@ function DetalleAsignaturaProfesor() {
                                 setMenuAbierto(null);
                               }}
                             >
-                              Editar
+                              <Pencil size={12} /> Editar
                             </button>
                             <button
+                              style={{ color: "red" }}
                               className="menu-eliminar"
                               onClick={(e) => {
                                 e.preventDefault();
@@ -533,7 +539,7 @@ function DetalleAsignaturaProfesor() {
                                 setMenuAbierto(null);
                               }}
                             >
-                              Eliminar
+                              <Trash2 size={12} /> Eliminar
                             </button>
                           </div>
                         )}

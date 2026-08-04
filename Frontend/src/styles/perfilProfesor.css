@@ -35,6 +35,8 @@
   object-fit: cover;
   display: block;
   border: 3px solid #eee;
+  display: flex;
+  margin: 0 auto;
 }
 
 .perfil-avatar-boton-camara {

@@ -259,6 +259,9 @@
   background: #fff;
   cursor: pointer;
   font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .material-menu-dropdown button:hover {

@@ -176,7 +176,6 @@ function CrearTareaModal({ onClose, onCreated }: CrearTareaModalProps) {
               value={fechaLimite}
               onChange={(e) => setFechaLimite(e.target.value)}
             />{" "}
-            <Calendar size={20} className="modal-fecha-icon" />
           </div>
 
           <label className="modal-label">Archivos y recursos</label>

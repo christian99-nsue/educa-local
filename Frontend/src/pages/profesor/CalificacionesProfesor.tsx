@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Save } from "lucide-react";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDownload,
+  faFilePdf,
+  faFileExcel,
+} from "@fortawesome/free-solid-svg-icons";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
@@ -387,8 +391,12 @@ function CalificacionesProfesor() {
               </button>
               {mostrarExportar && (
                 <div className="exportar-dropdown-cal-pf">
-                  <button onClick={exportarPDF}>PDF</button>
-                  <button onClick={exportarExcel}>Excel</button>
+                  <button onClick={exportarPDF} style={{ color: "red" }}>
+                    <FontAwesomeIcon icon={faFilePdf} size="sm" /> PDF
+                  </button>
+                  <button onClick={exportarExcel} style={{ color: "green" }}>
+                    <FontAwesomeIcon icon={faFileExcel} size="sm" /> Excel
+                  </button>
                 </div>
               )}
             </div>

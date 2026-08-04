@@ -1,6 +1,7 @@
 import { db } from "../config/db";
 import supabase from "../config/supabaseConfig";
 import { crearNotificacionesMasivas } from "../utils/notificacionesUtils";
+import { registrarActividad } from "../utils/actividadUtil";
 
 export const CrearTarea = async (req: any, res: any) => {
   const usuarioId = req.user.id;
@@ -88,6 +89,33 @@ export const CrearTarea = async (req: any, res: any) => {
         archivoUrl,
         archivoNombre,
       ],
+    );
+
+    const [infoRows]: any = await db.query(
+      `SELECT
+        u.nombre AS profesor_nombre,
+        u.apellidos AS profesor_apellidos,
+        cc.curso
+        FROM curso_asignaturas ca
+        JOIN centro_cursos cc ON cc.id = ca.curso_id
+        JOIN profesor_asignaturas pa ON pa.curso_asignatura_id = ca.id
+        JOIN centro_usuarios cu ON cu.id = pa.centro_usuario_id
+        JOIN usuarios u ON u.id = cu.user_id
+        WHERE ca.id = ?`,
+      [curso_asignatura_id],
+    );
+
+    const nombreProfesor = infoRows[0]
+      ? `${infoRows[0].profesor_nombre} ${infoRows[0].profesor_apellidos ?? ""}`.trim()
+      : "Profesor";
+
+    const curso = infoRows[0]?.curso ?? "su curso";
+
+    await registrarActividad(
+      centroId,
+      "tarea_publicada",
+      "Nueva tarea publicada",
+      `El profesor ${nombreProfesor} publico una nueva tarea en ${curso}`,
     );
 
     const [alumnosRows]: any = await db.query(

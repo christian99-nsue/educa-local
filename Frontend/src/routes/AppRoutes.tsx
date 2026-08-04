@@ -29,6 +29,10 @@ import PerfilAlumno from "../pages/alumno/PerfilAlumno";
 import DetalleAsignaturaAlumno from "../pages/alumno/DetalleAsignaturaAlumno";
 import DetalleTareaAlumno from "../pages/alumno/DetalleTareaAlumno";
 import DetalleCalificacionAsignatura from "../pages/alumno/DetalleCalificacionAsignatura";
+import LayoutAdmin from "../layouts/LayoutAdmin";
+import InicioAdmin from "../pages/admin/InicioAdmin";
+import AlumnosAdmin from "../pages/admin/AlumnosAdmin";
+import DetalleAlumnoAdmin from "../pages/admin/DetalleAlumnoAdmin";
 
 export default function AppRoutes() {
   return (
@@ -93,6 +97,15 @@ export default function AppRoutes() {
             <Route path="calificaciones" element={<CalificacionesProfesor />} />
             <Route path="horario" element={<HorarioProfesor />} />
             <Route path="perfil" element={<PerfilProfesor />} />
+          </Route>
+        </Route>
+
+        {/*--------- Zona ADMIN: solo rol "admin" -----*/}
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+          <Route path="/admin" element={<LayoutAdmin />}>
+            <Route index element={<InicioAdmin />} />
+            <Route path="alumnos" element={<AlumnosAdmin />} />
+            <Route path="alumnos/:alumnoId" element={<DetalleAlumnoAdmin />} />
           </Route>
         </Route>
       </Routes>

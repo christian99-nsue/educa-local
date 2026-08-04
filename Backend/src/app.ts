@@ -20,8 +20,11 @@ import alumnoTareaRoutes from "./routes/alumnoTareaRoutes";
 import detalleCalificacionAsignaturaRoutes from "./routes/detalleCalificacionAsignaturaRoutes";
 import notificacionesRoutes from "./routes/notificacionesRoutes";
 import { limiteGeneral } from "./middlewares/rateLimitMiddleware";
+import adminDashboardRoutes from "./routes/adminDashboardRoutes";
+import adminAlumnosRoutes from "./routes/adminAlumnosRoutes";
 
 const app = express();
+app.set("trust proxy", 1);
 const allowedOrigins = [
   "https://educa-local.vercel.app",
   "https://christian99-nsue.github.io",
@@ -67,6 +70,8 @@ app.use("/api/alumno/asignatura", detalleAsignaturaAlumnoRoutes);
 app.use("/api/alumno/tarea", alumnoTareaRoutes);
 app.use("/api/calificaciones/asignatura", detalleCalificacionAsignaturaRoutes);
 app.use("/api/notificaciones", notificacionesRoutes);
+app.use("/api/admin/dashboard", adminDashboardRoutes);
+app.use("/api/admin/alumnos", adminAlumnosRoutes);
 app.use("/api", limiteGeneral);
 
 export default app;
