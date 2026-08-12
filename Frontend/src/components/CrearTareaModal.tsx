@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { X, Upload, Calendar } from "lucide-react";
+import { X, Upload } from "lucide-react";
 import { getCentroActivo } from "../utils/auth";
 
 const API_URL = import.meta.env.VITE_API_URL;

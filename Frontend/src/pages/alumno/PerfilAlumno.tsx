@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Camera } from "lucide-react";
 import avatarDefault from "../../assets/images/avatar-default.png";
 import { getUser, getCentroActivo } from "../../utils/auth";
+import CambiarPasswordForm from "../../components/CambiarPasswordForm";
 import "../../styles/perfilAlumno.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -225,7 +226,6 @@ function PerfilAlumno() {
             {guardando ? "Guardando..." : "Actualizar informacion"}
           </button>
         </div>
-
         <div className="perfil-alumno-foto-card">
           <div className="perfil-avatar-container-alumno">
             <img
@@ -253,6 +253,7 @@ function PerfilAlumno() {
             <p className="perfil-subiendo-texto">Subiendo foto...</p>
           )}
         </div>
+        <CambiarPasswordForm />
       </div>
     </div>
   );

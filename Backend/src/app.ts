@@ -22,6 +22,13 @@ import notificacionesRoutes from "./routes/notificacionesRoutes";
 import { limiteGeneral } from "./middlewares/rateLimitMiddleware";
 import adminDashboardRoutes from "./routes/adminDashboardRoutes";
 import adminAlumnosRoutes from "./routes/adminAlumnosRoutes";
+import adminProfesoresRoutes from "./routes/adminProfesoresRoutes";
+import adminCursosRoutes from "./routes/adminCursosRoutes";
+import adminHorarioRoutes from "./routes/adminHorarioRoutes";
+import passwordRoutes from "./routes/passwordRoutes";
+import adminAjustesRoutes from "./routes/adminAjustesRoutes";
+import adminAnadirAlumnoRoutes from "./routes/adminAnadirAlumnoRoutes";
+import adminAnadirProfesorRoutes from "./routes/adminAnadirProfesorRoutes";
 
 const app = express();
 app.set("trust proxy", 1);
@@ -72,6 +79,13 @@ app.use("/api/calificaciones/asignatura", detalleCalificacionAsignaturaRoutes);
 app.use("/api/notificaciones", notificacionesRoutes);
 app.use("/api/admin/dashboard", adminDashboardRoutes);
 app.use("/api/admin/alumnos", adminAlumnosRoutes);
+app.use("/api/admin/profesores", adminProfesoresRoutes);
+app.use("/api/admin/cursos", adminCursosRoutes);
+app.use("/api/admin/horario", adminHorarioRoutes);
+app.use("/api/password", passwordRoutes);
+app.use("/api/admin/ajustes", adminAjustesRoutes);
+app.use("/api/admin/alumnos/anadir", adminAnadirAlumnoRoutes);
+app.use("/api/admin/profesores/anadir", adminAnadirProfesorRoutes);
 app.use("/api", limiteGeneral);
 
 export default app;

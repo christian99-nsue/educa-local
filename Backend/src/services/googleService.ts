@@ -7,6 +7,13 @@ dotenv.config();
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const googleLogin = async (token: string) => {
+  type CentroRaw = {
+    centro_id: number;
+    centro_nombre: string;
+    rol_en_centro: string;
+    curso_nombre: string;
+  };
+
   const ticket = await client.verifyIdToken({
     idToken: token,
     audience: process.env.GOOGLE_CLIENT_ID,
@@ -23,12 +30,28 @@ export const googleLogin = async (token: string) => {
 
   if (!user) throw new Error("Usuario no encontrado");
 
-  const [centros]: any = await db.query(
-    `SELECT c.*, cu.rol_en_centro 
-     FROM centros c
-     JOIN centro_usuarios cu ON cu.centro_id = c.id
-     WHERE cu.user_id = ?`,
+  const [centrosRaw]: any = await db.query(
+    `
+    SELECT 
+      c.id AS centro_id,
+      c.nombre AS centro_nombre,
+      cu.rol_en_centro,
+      cc.curso AS curso_nombre
+    FROM centro_usuarios cu
+    JOIN centros c ON cu.centro_id = c.id
+    LEFT JOIN centro_cursos cc ON cu.curso_id = cc.id
+    WHERE cu.user_id = ?
+    `,
     [user.id],
+  );
+  const centros = centrosRaw.map((c: CentroRaw) => ({
+    id: c.centro_id,
+    nombre: c.centro_nombre,
+    rol: c.rol_en_centro,
+    nombre_del_curso: c.curso_nombre,
+  }));
+  const centrosUnicos = Array.from(
+    new Map(centros.map((c: { id: number }) => [c.id, c])).values(),
   );
 
   const tokenJWT = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, {
@@ -45,6 +68,6 @@ export const googleLogin = async (token: string) => {
       apellidos: user.apellidos,
       foto_url: user.foto_url,
     },
-    centros,
+    centros: centrosUnicos,
   };
 };

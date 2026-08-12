@@ -37,7 +37,7 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         yield db_1.db.query(`DELETE FROM password_resets WHERE email = ?`, [email]);
         // Guardar nuevo token
         yield db_1.db.query(`INSERT INTO password_resets (email, token, expires_at) VALUES (?, ?, ?)`, [email, token, expiresAt]);
-        const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+        const resetLink = `${process.env.FRONTEND_URL}/#/reset-password?token=${token}`;
         yield (0, emailService_1.sendPasswordResetEmail)(email, resetLink);
         res.json({ message: "Si el correo existe recibirás un email" });
     }

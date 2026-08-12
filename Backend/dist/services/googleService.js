@@ -30,10 +30,24 @@ const googleLogin = (token) => __awaiter(void 0, void 0, void 0, function* () {
     const user = users[0];
     if (!user)
         throw new Error("Usuario no encontrado");
-    const [centros] = yield db_1.db.query(`SELECT c.*, cu.rol_en_centro 
-     FROM centros c
-     JOIN centro_usuarios cu ON cu.centro_id = c.id
-     WHERE cu.user_id = ?`, [user.id]);
+    const [centrosRaw] = yield db_1.db.query(`
+    SELECT 
+      c.id AS centro_id,
+      c.nombre AS centro_nombre,
+      cu.rol_en_centro,
+      cc.curso AS curso_nombre
+    FROM centro_usuarios cu
+    JOIN centros c ON cu.centro_id = c.id
+    LEFT JOIN centro_cursos cc ON cu.curso_id = cc.id
+    WHERE cu.user_id = ?
+    `, [user.id]);
+    const centros = centrosRaw.map((c) => ({
+        id: c.centro_id,
+        nombre: c.centro_nombre,
+        rol: c.rol_en_centro,
+        nombre_del_curso: c.curso_nombre,
+    }));
+    const centrosUnicos = Array.from(new Map(centros.map((c) => [c.id, c])).values());
     const tokenJWT = jsonwebtoken_1.default.sign({ id: user.id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
     });
@@ -47,7 +61,7 @@ const googleLogin = (token) => __awaiter(void 0, void 0, void 0, function* () {
             apellidos: user.apellidos,
             foto_url: user.foto_url,
         },
-        centros,
+        centros: centrosUnicos,
     };
 });
 exports.googleLogin = googleLogin;

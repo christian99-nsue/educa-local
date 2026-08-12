@@ -20,14 +20,14 @@ dotenv_1.default.config({ path: win32_1.default.resolve("../.env") });
 const seed = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log("🚀 Iniciando seeder...");
-        // 🔥 LIMPIAR TABLAS (opcional pero recomendado en pruebas)
+        // LIMPIAR TABLAS (opcional pero recomendado en pruebas)
         yield db_1.db.query("SET FOREIGN_KEY_CHECKS = 0");
         yield db_1.db.query("TRUNCATE TABLE centro_usuarios");
         yield db_1.db.query("TRUNCATE TABLE usuarios");
         yield db_1.db.query("TRUNCATE TABLE centros");
         yield db_1.db.query("SET FOREIGN_KEY_CHECKS = 1");
         console.log("🧹 Tablas limpiadas");
-        // 🏫 CREAR CENTROS
+        // CREAR CENTROS
         const [centros] = yield db_1.db.query("INSERT INTO centros (nombre) VALUES ?", [
             [
                 ["Colegio Privado Buen Pastor"],
@@ -37,8 +37,8 @@ const seed = () => __awaiter(void 0, void 0, void 0, function* () {
                 ["Colegio Emanuel"],
             ],
         ]);
-        console.log("🏫 Centros creados");
-        // 👤 CREAR USUARIOS
+        console.log("Centros creados");
+        // CREAR USUARIOS
         const passwordHash = yield bcrypt_1.default.hash("123456", 10);
         const [usuarios] = yield db_1.db.query("INSERT INTO usuarios (email, password, nombre, apellidos, code) VALUES ?", [
             [
@@ -90,7 +90,7 @@ const seed = () => __awaiter(void 0, void 0, void 0, function* () {
                 ["josenguema@gmail.com", passwordHash, "Jose", "Nguema", "J001"],
             ],
         ]);
-        console.log("👤 Usuarios creados");
+        console.log(" Usuarios creados");
         // 🔗 CREAR RELACIONES (centro_usuarios)
         yield db_1.db.query("INSERT INTO centro_usuarios (user_id, centro_id, rol_en_centro) VALUES ?", [
             [
@@ -114,12 +114,12 @@ const seed = () => __awaiter(void 0, void 0, void 0, function* () {
                 [10, 3, "alumno"],
             ],
         ]);
-        console.log("🔗 Relaciones creadas");
-        console.log("✅ SEED COMPLETADO CON ÉXITO");
+        console.log("Relaciones creadas");
+        console.log(" SEED COMPLETADO CON ÉXITO");
         process.exit();
     }
     catch (error) {
-        console.error("❌ Error en seed:", error);
+        console.error(" Error en seed:", error);
         process.exit(1);
     }
 });

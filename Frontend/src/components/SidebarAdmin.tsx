@@ -9,15 +9,14 @@ import {
   faUser,
   faUsers,
   faLayerGroup,
-  faSchool,
   faGear,
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
-interface SidebarProfesorProps {
+interface SidebarAdminProps {
   onCerrarSesionClick: () => void;
 }
-const SidebarAdmin = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
+const SidebarAdmin = ({ onCerrarSesionClick }: SidebarAdminProps) => {
   const [user, setUser] = useState(getUser());
 
   useEffect(() => {
@@ -79,15 +78,7 @@ const SidebarAdmin = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
         >
           <FontAwesomeIcon icon={faLayerGroup} /> <span>Cursos</span>
         </NavLink>
-        <NavLink
-          to="centro"
-          className={({ isActive }) =>
-            isActive ? "nav-item-ad active-ad" : "nav-item-ad"
-          }
-        >
-          <FontAwesomeIcon icon={faSchool} />
-          <span>Centro</span>
-        </NavLink>
+
         <NavLink
           to="horario"
           className={({ isActive }) =>

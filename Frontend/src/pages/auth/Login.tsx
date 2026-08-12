@@ -93,6 +93,7 @@ const Login = () => {
       })
       .catch((err) => {
         console.log("Error redirect Microsoft:", err);
+        setError("No se pudo completar el inicio de sesión con Microsoft");
       }); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -278,51 +279,16 @@ const Login = () => {
                   const res = await axios.post(`${API_URL}/api/auth/google`, {
                     token,
                   });
-                  console.log("Respuesta del backend:", res.data);
-
-                  const data = res.data;
-
-                  const centros = Array.isArray(data.centros)
-                    ? data.centros
-                    : [];
-
-                  localStorage.setItem("user", JSON.stringify(data.user));
-                  localStorage.setItem("centros", JSON.stringify(centros));
-
-                  if (centros.length > 1) {
-                    localStorage.setItem("token", data.token);
-                    navigate("/select-centro", {
-                      state: {
-                        centros: data.centros,
-                        user: data.user,
-                      },
-                    });
-                  } else if (centros.length === 1) {
-                    const centro = centros[0];
-                    const rol = centro.rol_en_centro ?? centro.rol ?? "alumno";
-
-                    const fullUser = {
-                      ...data.user,
-                      rol_en_centro: rol,
-                      centro: { nombre: centro.nombre ?? centro.centro_nombre },
-                    };
-
-                    localStorage.setItem("user", JSON.stringify(fullUser));
-                    localStorage.setItem("token", data.token);
-                    localStorage.setItem(
-                      "centroActivo",
-                      JSON.stringify(centro),
-                    );
-
-                    handleRedirectByRole(rol);
-                  } else {
-                    setError("No estás registrado en ningún centro");
-                  }
+                  finishLogin(res.data);
                 } catch (error: unknown) {
-                  console.error(error);
+                  const axiosError = error as AxiosError<{ message?: string }>;
+                  setError(
+                    axiosError.response?.data?.message ||
+                      "No se pudo iniciar sesión con Google",
+                  );
                 }
               }}
-              onError={() => console.log("Login failed")}
+              onError={() => setError("No se pudo iniciar sesión con Google")}
               theme="outline"
               size="large"
               text="signin"

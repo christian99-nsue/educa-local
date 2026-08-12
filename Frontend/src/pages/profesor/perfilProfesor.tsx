@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Camera } from "lucide-react";
 import avatarDefault from "../../assets/images/avatar-default.png";
 import { getUser } from "../../utils/auth";
+import CambiarPasswordForm from "../../components/CambiarPasswordForm";
 import "../../styles/perfilProfesor.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -155,7 +156,7 @@ function PerfilProfesor() {
       <h1>Mi perfil</h1>
       <p className="subtitle">Informacion de tu cuenta.</p>
       <div className="perfil-container">
-        <div className="perfil-form">
+        <div className="perfil-alumno-form-card">
           <label>Nombre</label>
           <input
             value={perfil.nombre}
@@ -191,14 +192,14 @@ function PerfilProfesor() {
           {exito && <p className="perfil-exito">{exito}</p>}
 
           <button
-            className="btn-actualizar-perfil"
+            className="btn-actualizar-perfil-alumno"
             onClick={handleGuardar}
             disabled={guardando}
           >
             {guardando ? "Guardando..." : "Actualizar informacion"}
           </button>
         </div>
-        <div className="perfil-avatar-wrapper">
+        <div className="perfil-alumno-foto-card">
           <div className="perfil-avatar-container">
             <img
               src={fotoPreview || perfil.foto_url || avatarDefault}
@@ -225,6 +226,7 @@ function PerfilProfesor() {
             <p className="perfil-subiendo-texto">Subiendo foto...</p>
           )}
         </div>
+        <CambiarPasswordForm />
       </div>
     </div>
   );

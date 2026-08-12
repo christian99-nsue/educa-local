@@ -98,9 +98,20 @@
   font-size: 13px;
 }
 
+p.perfil-error {
+  color: #dc2626;
+  font-size: 12px;
+  padding-top: 5px;
+}
+
 .perfil-exito {
   color: #16a34a;
   font-size: 13px;
+}
+p.perfil-exito {
+  color: #16a34a;
+  font-size: 12px;
+  padding-top: 5px;
 }
 
 .btn-actualizar-perfil {

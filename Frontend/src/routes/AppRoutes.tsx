@@ -33,6 +33,10 @@ import LayoutAdmin from "../layouts/LayoutAdmin";
 import InicioAdmin from "../pages/admin/InicioAdmin";
 import AlumnosAdmin from "../pages/admin/AlumnosAdmin";
 import DetalleAlumnoAdmin from "../pages/admin/DetalleAlumnoAdmin";
+import ProfesoresAdmin from "../pages/admin/ProfesoresAdmin";
+import CursosAdmin from "../pages/admin/CursosAdmin";
+import HorarioAdmin from "../pages/admin/HorarioAdmin";
+import AjustesAdmin from "../pages/admin/AjustesAdmin";
 
 export default function AppRoutes() {
   return (
@@ -106,6 +110,10 @@ export default function AppRoutes() {
             <Route index element={<InicioAdmin />} />
             <Route path="alumnos" element={<AlumnosAdmin />} />
             <Route path="alumnos/:alumnoId" element={<DetalleAlumnoAdmin />} />
+            <Route path="profesores" element={<ProfesoresAdmin />} />
+            <Route path="cursos" element={<CursosAdmin />} />
+            <Route path="horario" element={<HorarioAdmin />} />
+            <Route path="ajustes" element={<AjustesAdmin />} />
           </Route>
         </Route>
       </Routes>

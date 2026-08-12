@@ -73,15 +73,27 @@ const microsoftLogin = (idToken) => __awaiter(void 0, void 0, void 0, function* 
         throw new Error("No existe un usuario registrado con ese correo Microsoft");
     }
     const user = users[0];
-    const [centros] = yield db_1.db.query(`
-    SELECT cu.rol_en_centro, c.id as centro_id, c.nombre as centro_nombre
+    const [centrosRaw] = yield db_1.db.query(`
+    SELECT 
+      c.id AS centro_id,
+      c.nombre AS centro_nombre,
+      cu.rol_en_centro,
+      cc.curso AS curso_nombre
     FROM centro_usuarios cu
     JOIN centros c ON cu.centro_id = c.id
+    LEFT JOIN centro_cursos cc ON cu.curso_id = cc.id
     WHERE cu.user_id = ?
     `, [user.id]);
+    const centros = centrosRaw.map((c) => ({
+        id: c.centro_id,
+        nombre: c.centro_nombre,
+        rol: c.rol_en_centro,
+        nombre_del_curso: c.curso_nombre,
+    }));
+    const centrosUnicos = Array.from(new Map(centros.map((c) => [c.id, c])).values());
     const token = jsonwebtoken_1.default.sign({
         id: user.id,
-        centros,
+        centros: centrosUnicos,
     }, process.env.JWT_SECRET, { expiresIn: "1d" });
     return {
         user: {
@@ -92,7 +104,7 @@ const microsoftLogin = (idToken) => __awaiter(void 0, void 0, void 0, function* 
             apellidos: user.apellidos,
             foto_url: user.foto_url,
         },
-        centros,
+        centros: centrosUnicos,
         token,
     };
 });

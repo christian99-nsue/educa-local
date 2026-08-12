@@ -11,7 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Asignaturas = void 0;
 const db_1 = require("../config/db");
+const calificacionesUtils_1 = require("../utils/calificacionesUtils");
 const Asignaturas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     const usuarioId = req.user.id;
     const centroId = req.query.centroId;
     if (!centroId) {
@@ -31,7 +33,10 @@ const Asignaturas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 .status(400)
                 .json({ error: "El usuario no tiene curso asignado" });
         }
+        const [configRows] = yield db_1.db.query(`SELECT sistema_calificacion FROM centro_configuracion WHERE centro_id = ?`, [centroId]);
+        const sistemaCalificacion = ((_b = (_a = configRows[0]) === null || _a === void 0 ? void 0 : _a.sistema_calificacion) !== null && _b !== void 0 ? _b : "sobre-10");
         const [asignaturas] = yield db_1.db.query(`SELECT
+      ca.id AS curso_asignatura_id,
      a.id,
      a.nombre,
      a.descripcion,
@@ -65,21 +70,43 @@ const Asignaturas = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
    LEFT JOIN usuarios u ON u.id = cu.user_id
    WHERE ca.curso_id = ?
    AND (ca.rama_id IS NULL OR ca.rama_id = ?)`, [usuarioId, usuarioId, usuarioId, curso_id, rama_id]);
+        const [notasRows] = yield db_1.db.query(`SELECT t.curso_asignatura_id, te.nota
+      FROM tareas t
+      JOIN tarea_entregas te ON te.tarea_id = t.id
+      WHERE te.usuario_id = ?
+      AND te.estado = 'calificada'
+      AND te.nota IS NOT NULL`, [usuarioId]);
         const asignaturasConDatos = asignaturas.map((a) => {
             var _a;
-            const porcentaje = a.total_clases_registradas > 0
+            const porcentajeAsistencia = a.total_clases_registradas > 0
                 ? Math.round((a.total_presentes / a.total_clases_registradas) * 100)
                 : 0;
             const profesor = a.profesor_nombre
                 ? `Prof. ${a.profesor_nombre} ${(_a = a.profesor_apellidos) !== null && _a !== void 0 ? _a : ""}`.trim()
                 : "Prof. Por asignar";
+            const notasDeEstaAsignatura = notasRows.filter((n) => n.curso_asignatura_id === a.id);
+            const valoresNumericos = notasDeEstaAsignatura
+                .map((n) => (0, calificacionesUtils_1.notaANumero)(n.nota, sistemaCalificacion))
+                .filter((v) => v !== null);
+            let notaActual = null;
+            let notaColor = null;
+            if (valoresNumericos.length > 0) {
+                const promedio = valoresNumericos.reduce((acc, v) => acc + v, 0) /
+                    valoresNumericos.length;
+                notaActual = (0, calificacionesUtils_1.formatearPromedioDisplay)(promedio, sistemaCalificacion);
+                const estado = (0, calificacionesUtils_1.getEstado)(promedio);
+                notaColor = calificacionesUtils_1.estadoColor[estado];
+            }
             return {
+                cursoAsignaturaId: a.curso_asignatura_id,
                 id: a.id,
                 nombre: a.nombre,
                 descripcion: a.descripcion,
                 tareas_pendientes: a.tareas_pendientes,
-                asistencia: porcentaje,
+                asistencia: porcentajeAsistencia,
                 profesor,
+                notaActual,
+                notaColor,
             };
         });
         res.json(asignaturasConDatos);

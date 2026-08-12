@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BarChart3, CheckCircle2, Clock } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDownload,
+  faBookOpen,
+  faFilePdf,
+  faFileExcel,
+} from "@fortawesome/free-solid-svg-icons";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
@@ -257,8 +262,21 @@ function Calificaciones() {
               className="exportar-dropdown-cal-pf"
               onClick={(e) => e.stopPropagation()}
             >
-              <button onClick={exportarPDF}>PDF</button>
-              <button onClick={exportarExcel}>Excel</button>
+              <button onClick={exportarPDF}>
+                <FontAwesomeIcon
+                  icon={faFilePdf}
+                  size="sm"
+                  style={{ color: "red" }}
+                />{" "}
+                PDF
+              </button>
+              <button onClick={exportarExcel}>
+                <FontAwesomeIcon
+                  icon={faFileExcel}
+                  style={{ color: "green" }}
+                />{" "}
+                Excel
+              </button>
             </div>
           )}
         </div>

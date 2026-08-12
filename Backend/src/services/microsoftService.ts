@@ -64,6 +64,13 @@ const verifyMicrosoftIdToken = (idToken: string) => {
 };
 
 export const microsoftLogin = async (idToken: string) => {
+  type CentroRaw = {
+    centro_id: number;
+    centro_nombre: string;
+    rol_en_centro: string;
+    curso_nombre: string;
+  };
+
   const payload = await verifyMicrosoftIdToken(idToken);
   const email = payload.email || payload.preferred_username || payload.upn;
 
@@ -82,20 +89,34 @@ export const microsoftLogin = async (idToken: string) => {
 
   const user = users[0];
 
-  const [centros]: any = await db.query(
+  const [centrosRaw]: any = await db.query(
     `
-    SELECT cu.rol_en_centro, c.id as centro_id, c.nombre as centro_nombre
+    SELECT 
+      c.id AS centro_id,
+      c.nombre AS centro_nombre,
+      cu.rol_en_centro,
+      cc.curso AS curso_nombre
     FROM centro_usuarios cu
     JOIN centros c ON cu.centro_id = c.id
+    LEFT JOIN centro_cursos cc ON cu.curso_id = cc.id
     WHERE cu.user_id = ?
     `,
     [user.id],
+  );
+  const centros = centrosRaw.map((c: CentroRaw) => ({
+    id: c.centro_id,
+    nombre: c.centro_nombre,
+    rol: c.rol_en_centro,
+    nombre_del_curso: c.curso_nombre,
+  }));
+  const centrosUnicos = Array.from(
+    new Map(centros.map((c: { id: number }) => [c.id, c])).values(),
   );
 
   const token = jwt.sign(
     {
       id: user.id,
-      centros,
+      centros: centrosUnicos,
     },
     process.env.JWT_SECRET!,
     { expiresIn: "1d" },
@@ -110,7 +131,7 @@ export const microsoftLogin = async (idToken: string) => {
       apellidos: user.apellidos,
       foto_url: user.foto_url,
     },
-    centros,
+    centros: centrosUnicos,
     token,
   };
 };

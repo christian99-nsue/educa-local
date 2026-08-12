@@ -16,6 +16,36 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `actividad_log`
+--
+
+DROP TABLE IF EXISTS `actividad_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `actividad_log` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `centro_id` int NOT NULL,
+  `tipo` enum('alumno_registrado','profesor_registrado','asignatura_creada','tarea_publicada') DEFAULT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `centro_id` (`centro_id`),
+  CONSTRAINT `actividad_log_ibfk_1` FOREIGN KEY (`centro_id`) REFERENCES `centros` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `actividad_log`
+--
+
+LOCK TABLES `actividad_log` WRITE;
+/*!40000 ALTER TABLE `actividad_log` DISABLE KEYS */;
+INSERT INTO `actividad_log` VALUES (1,2,'tarea_publicada','Nueva tarea publicada','El profesor Christian Nsue publico una nueva tarea en 2º Bach','2026-08-02 14:25:18'),(2,2,'tarea_publicada','Nueva tarea publicada','El profesor Deogracias Ondo Nsue Nzang publico una nueva tarea en 2º Bach','2026-08-04 13:04:01');
+/*!40000 ALTER TABLE `actividad_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `asignaturas`
 --
 
@@ -40,8 +70,41 @@ CREATE TABLE `asignaturas` (
 
 LOCK TABLES `asignaturas` WRITE;
 /*!40000 ALTER TABLE `asignaturas` DISABLE KEYS */;
-INSERT INTO `asignaturas` VALUES (1,'Literatura',NULL,2,NULL),(2,'Historia',NULL,2,NULL),(3,'Filosofia',NULL,2,NULL),(4,'Ciencias Naturales',NULL,2,NULL),(5,'Economia',NULL,2,NULL),(6,'Religion',NULL,2,NULL),(7,'Frances',NULL,2,NULL),(8,'Ingles',NULL,2,NULL),(9,'Matematicas',NULL,2,NULL),(10,'Electrotecnia',NULL,2,NULL),(11,'Quimica',NULL,2,NULL),(12,'Fisica',NULL,2,NULL),(13,'Geologia',NULL,2,NULL),(14,'Tecnologia Industrial II',NULL,2,'TEC-02'),(15,'Dibujo Tecnico',NULL,2,'DIB-02'),(16,'Matematicas Aplicadas',NULL,2,'MTA-02'),(17,'Historia del Arte',NULL,2,'HIA-02'),(18,'Latin',NULL,2,'LAT-02'),(19,'Griego',NULL,2,'GRI-02');
+INSERT INTO `asignaturas` VALUES (1,'Literatura',NULL,2,'Lit-2'),(2,'Historia',NULL,2,'His-2'),(3,'Filosofia',NULL,2,'Fil-2'),(4,'Ciencias Naturales',NULL,2,'CN-2'),(5,'Economia',NULL,2,'Eco-2'),(6,'Religion',NULL,2,'Rel-2'),(7,'Frances',NULL,2,'Fran-2'),(8,'Ingles',NULL,2,'Ing-2'),(9,'Matematicas','En esta asignatura aprenderas los conceptos fundamentales de matematicas, aplicadas a la resolucion de problemas en diversas areas.',2,'Mat-2'),(10,'Electrotecnia',NULL,2,'Ele-2'),(11,'Quimica',NULL,2,'Qui-2'),(12,'Fisica',NULL,2,'Fis-2'),(13,'Geologia',NULL,2,'Geo-2'),(14,'Tecnologia Industrial II',NULL,2,'TEC-02'),(15,'Dibujo Tecnico',NULL,2,'DIB-02'),(16,'Matematicas Aplicadas',NULL,2,'MTA-02'),(17,'Historia del Arte',NULL,2,'HIA-02'),(18,'Latin',NULL,2,'LAT-02'),(19,'Griego',NULL,2,'GRI-02');
 /*!40000 ALTER TABLE `asignaturas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `asistencias`
+--
+
+DROP TABLE IF EXISTS `asistencias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `asistencias` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `curso_asignatura_id` int NOT NULL,
+  `usuario_id` int NOT NULL,
+  `fecha` date NOT NULL,
+  `estado` enum('presente','ausente','justificado') NOT NULL DEFAULT 'presente',
+  `observaciones` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unico_asistencia` (`curso_asignatura_id`,`usuario_id`,`fecha`),
+  KEY `curso_asignatura_id` (`curso_asignatura_id`),
+  KEY `usuario_id` (`usuario_id`),
+  CONSTRAINT `asistencias_ibfk_1` FOREIGN KEY (`curso_asignatura_id`) REFERENCES `curso_asignaturas` (`id`),
+  CONSTRAINT `asistencias_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `asistencias`
+--
+
+LOCK TABLES `asistencias` WRITE;
+/*!40000 ALTER TABLE `asistencias` DISABLE KEYS */;
+INSERT INTO `asistencias` VALUES (1,9,3,'2026-07-13','presente',NULL),(2,9,16,'2026-07-13','presente',NULL),(3,9,3,'2026-07-01','presente',NULL),(4,9,16,'2026-07-01','presente',NULL),(5,9,3,'2026-07-02','ausente',NULL),(6,9,16,'2026-07-02','presente',NULL),(7,9,3,'2026-07-03','presente',NULL),(8,9,16,'2026-07-03','justificado',NULL),(9,9,3,'2026-07-06','presente',NULL),(10,9,16,'2026-07-06','presente',NULL),(11,9,3,'2026-07-07','presente',NULL),(12,9,16,'2026-07-07','presente',NULL),(13,3,20,'2026-07-17','ausente',NULL),(14,3,3,'2026-07-17','justificado',NULL),(15,3,18,'2026-07-17','presente',NULL),(16,3,16,'2026-07-17','presente',NULL),(17,3,17,'2026-07-17','presente',NULL),(18,3,19,'2026-07-17','presente',NULL),(19,3,20,'2026-07-15','presente',NULL),(20,3,3,'2026-07-15','presente',NULL),(21,3,18,'2026-07-15','presente',NULL),(22,3,16,'2026-07-15','presente',NULL),(23,3,17,'2026-07-15','presente',NULL),(24,3,19,'2026-07-15','presente',NULL),(25,3,20,'2026-07-16','presente',NULL),(26,3,3,'2026-07-16','presente',NULL),(27,3,18,'2026-07-16','presente',NULL),(28,3,16,'2026-07-16','presente',NULL),(29,3,17,'2026-07-16','presente',NULL),(30,3,19,'2026-07-16','presente',NULL),(31,9,3,'2026-07-20','presente',NULL),(32,9,16,'2026-07-20','justificado',NULL),(33,9,3,'2026-07-21','presente',NULL),(34,9,16,'2026-07-21','presente',NULL),(35,21,18,'2026-07-15','presente',NULL),(36,21,17,'2026-07-15','presente',NULL),(37,21,18,'2026-07-16','presente',NULL),(38,21,17,'2026-07-16','presente',NULL),(39,21,18,'2026-07-17','presente',NULL),(40,21,17,'2026-07-17','ausente',NULL),(41,21,18,'2026-07-06','presente',NULL),(42,21,17,'2026-07-06','presente',NULL),(43,21,18,'2026-07-07','presente',NULL),(44,21,17,'2026-07-07','presente',NULL),(45,21,18,'2026-07-08','presente',NULL),(46,21,17,'2026-07-08','presente',NULL),(47,21,18,'2026-07-09','ausente',NULL),(48,21,17,'2026-07-09','presente',NULL),(49,21,18,'2026-07-10','presente',NULL),(50,21,17,'2026-07-10','presente',NULL),(51,11,3,'2026-07-06','presente',NULL),(52,11,16,'2026-07-06','presente',NULL),(53,11,3,'2026-07-07','presente',NULL),(54,11,16,'2026-07-07','presente',NULL),(55,11,3,'2026-07-08','presente',NULL),(56,11,16,'2026-07-08','presente',NULL),(57,11,3,'2026-07-09','presente',NULL),(58,11,16,'2026-07-09','presente',NULL),(59,11,3,'2026-07-10','ausente',NULL),(60,11,16,'2026-07-10','presente',NULL),(61,11,3,'2026-07-13','presente',NULL),(62,11,16,'2026-07-13','ausente',NULL),(63,11,3,'2026-07-14','presente',NULL),(64,11,16,'2026-07-14','presente',NULL),(65,11,3,'2026-07-15','presente',NULL),(66,11,16,'2026-07-15','presente',NULL),(67,11,3,'2026-07-16','presente',NULL),(68,11,16,'2026-07-16','presente',NULL),(69,11,3,'2026-07-17','presente',NULL),(70,11,16,'2026-07-17','presente',NULL);
+/*!40000 ALTER TABLE `asistencias` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -64,7 +127,7 @@ CREATE TABLE `centro_configuracion` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_centro_config` (`centro_id`),
   CONSTRAINT `fk_config_centro` FOREIGN KEY (`centro_id`) REFERENCES `centros` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +136,7 @@ CREATE TABLE `centro_configuracion` (
 
 LOCK TABLES `centro_configuracion` WRITE;
 /*!40000 ALTER TABLE `centro_configuracion` DISABLE KEYS */;
-INSERT INTO `centro_configuracion` VALUES (1,12,'2024-2025','Español','Africa/Malabo','Sobre 10','2026-09-09','2026-07-03 01:21:33','2026-07-03 01:21:33'),(2,13,'2024-2025','Español','Africa/Malabo','Sobre 10','2026-09-06','2026-07-03 02:11:26','2026-07-03 02:11:26');
+INSERT INTO `centro_configuracion` VALUES (1,12,'2024-2025','Español','Africa/Malabo','Sobre 10','2026-09-09','2026-07-03 01:21:33','2026-07-03 01:21:33'),(2,13,'2024-2025','Español','Africa/Malabo','Sobre 10','2026-09-06','2026-07-03 02:11:26','2026-07-03 02:11:26'),(3,14,'2026-2027','Español','Africa/Douala','Sobre 10','2026-09-09','2026-07-17 18:11:09','2026-07-17 18:11:09'),(4,15,'2026-2027','Español','Africa/Malabo','Sobre 100','2026-09-06','2026-07-17 18:31:53','2026-07-17 18:31:53');
 /*!40000 ALTER TABLE `centro_configuracion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +156,7 @@ CREATE TABLE `centro_cursos` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_centro_nivel_curso` (`centro_id`,`nivel`,`curso`),
   CONSTRAINT `fk_cursos_centro` FOREIGN KEY (`centro_id`) REFERENCES `centros` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +165,7 @@ CREATE TABLE `centro_cursos` (
 
 LOCK TABLES `centro_cursos` WRITE;
 /*!40000 ALTER TABLE `centro_cursos` DISABLE KEYS */;
-INSERT INTO `centro_cursos` VALUES (1,12,'primaria','1° Primaria','2026-07-03 01:21:33'),(2,12,'primaria','2° Primaria','2026-07-03 01:21:33'),(3,12,'primaria','3° Primaria','2026-07-03 01:21:33'),(4,12,'primaria','4º Primaria','2026-07-03 01:21:33'),(5,12,'primaria','5º Primaria','2026-07-03 01:21:33'),(6,12,'primaria','6º Primaria','2026-07-03 01:21:33'),(7,12,'secundaria','1° Esba','2026-07-03 01:21:33'),(8,12,'secundaria','2° Esba','2026-07-03 01:21:33'),(9,12,'secundaria','3° Esba','2026-07-03 01:21:33'),(10,12,'secundaria','4º Esba','2026-07-03 01:21:33'),(11,12,'bachillerato','1° Bach','2026-07-03 01:21:33'),(12,12,'bachillerato','2º Bach','2026-07-03 01:21:33'),(13,13,'secundaria','1° Esba','2026-07-03 02:11:26'),(14,13,'secundaria','2° Esba','2026-07-03 02:11:26'),(15,13,'secundaria','3° Esba','2026-07-03 02:11:26'),(16,13,'secundaria','4º Esba','2026-07-03 02:11:26'),(17,13,'bachillerato','1° Bach','2026-07-03 02:11:26'),(18,13,'bachillerato','2º Bach','2026-07-03 02:11:26'),(19,1,'primaria','1º Primaria','2026-07-04 21:58:30'),(20,1,'primaria','2º Primaria','2026-07-04 21:58:30'),(21,1,'primaria','3º Primaria','2026-07-04 21:58:30'),(22,1,'primaria','4º Primaria','2026-07-04 21:58:30'),(23,1,'primaria','5º Primaria','2026-07-04 21:58:30'),(24,1,'primaria','6º Primaria','2026-07-04 21:58:30'),(25,1,'secundaria','1º Esba','2026-07-04 21:58:30'),(26,1,'secundaria','2º Esba','2026-07-04 21:58:30'),(27,1,'secundaria','3º Esba','2026-07-04 21:58:30'),(28,1,'secundaria','4º Esba','2026-07-04 21:58:30'),(29,1,'bachillerato','1º Bach','2026-07-04 21:58:30'),(30,1,'bachillerato','2º Bach','2026-07-04 21:58:30'),(31,2,'primaria','1º Primaria','2026-07-04 21:58:30'),(32,2,'primaria','2º Primaria','2026-07-04 21:58:30'),(33,2,'primaria','3º Primaria','2026-07-04 21:58:30'),(34,2,'primaria','4º Primaria','2026-07-04 21:58:30'),(35,2,'primaria','5º Primaria','2026-07-04 21:58:30'),(36,2,'primaria','6º Primaria','2026-07-04 21:58:30'),(37,2,'secundaria','1º Esba','2026-07-04 21:58:30'),(38,2,'secundaria','2º Esba','2026-07-04 21:58:30'),(39,2,'secundaria','3º Esba','2026-07-04 21:58:30'),(40,2,'secundaria','4º Esba','2026-07-04 21:58:30'),(41,2,'bachillerato','1º Bach','2026-07-04 21:58:30'),(42,2,'bachillerato','2º Bach','2026-07-04 21:58:30'),(43,3,'primaria','1º Primaria','2026-07-04 21:58:30'),(44,3,'primaria','2º Primaria','2026-07-04 21:58:30'),(45,3,'primaria','3º Primaria','2026-07-04 21:58:30'),(46,3,'primaria','4º Primaria','2026-07-04 21:58:30'),(47,3,'primaria','5º Primaria','2026-07-04 21:58:30'),(48,3,'primaria','6º Primaria','2026-07-04 21:58:30'),(49,3,'secundaria','1º Esba','2026-07-04 21:58:30'),(50,3,'secundaria','2º Esba','2026-07-04 21:58:30'),(51,3,'secundaria','3º Esba','2026-07-04 21:58:30'),(52,3,'secundaria','4º Esba','2026-07-04 21:58:30'),(53,3,'bachillerato','1º Bach','2026-07-04 21:58:30'),(54,3,'bachillerato','2º Bach','2026-07-04 21:58:30'),(55,4,'primaria','1º Primaria','2026-07-04 21:58:30'),(56,4,'primaria','2º Primaria','2026-07-04 21:58:30'),(57,4,'primaria','3º Primaria','2026-07-04 21:58:30'),(58,4,'primaria','4º Primaria','2026-07-04 21:58:30'),(59,4,'primaria','5º Primaria','2026-07-04 21:58:30'),(60,4,'primaria','6º Primaria','2026-07-04 21:58:30'),(61,4,'secundaria','1º Esba','2026-07-04 21:58:30'),(62,4,'secundaria','2º Esba','2026-07-04 21:58:30'),(63,4,'secundaria','3º Esba','2026-07-04 21:58:30'),(64,4,'secundaria','4º Esba','2026-07-04 21:58:30'),(65,4,'bachillerato','1º Bach','2026-07-04 21:58:30'),(66,4,'bachillerato','2º Bach','2026-07-04 21:58:30'),(67,5,'primaria','1º Primaria','2026-07-04 21:58:30'),(68,5,'primaria','2º Primaria','2026-07-04 21:58:30'),(69,5,'primaria','3º Primaria','2026-07-04 21:58:30'),(70,5,'primaria','4º Primaria','2026-07-04 21:58:30'),(71,5,'primaria','5º Primaria','2026-07-04 21:58:30'),(72,5,'primaria','6º Primaria','2026-07-04 21:58:30'),(73,5,'secundaria','1º Esba','2026-07-04 21:58:30'),(74,5,'secundaria','2º Esba','2026-07-04 21:58:30'),(75,5,'secundaria','3º Esba','2026-07-04 21:58:30'),(76,5,'secundaria','4º Esba','2026-07-04 21:58:30'),(77,5,'bachillerato','1º Bach','2026-07-04 21:58:30'),(78,5,'bachillerato','2º Bach','2026-07-04 21:58:30');
+INSERT INTO `centro_cursos` VALUES (1,12,'primaria','1° Primaria','2026-07-03 01:21:33'),(2,12,'primaria','2° Primaria','2026-07-03 01:21:33'),(3,12,'primaria','3° Primaria','2026-07-03 01:21:33'),(4,12,'primaria','4º Primaria','2026-07-03 01:21:33'),(5,12,'primaria','5º Primaria','2026-07-03 01:21:33'),(6,12,'primaria','6º Primaria','2026-07-03 01:21:33'),(7,12,'secundaria','1° Esba','2026-07-03 01:21:33'),(8,12,'secundaria','2° Esba','2026-07-03 01:21:33'),(9,12,'secundaria','3° Esba','2026-07-03 01:21:33'),(10,12,'secundaria','4º Esba','2026-07-03 01:21:33'),(11,12,'bachillerato','1° Bach','2026-07-03 01:21:33'),(12,12,'bachillerato','2º Bach','2026-07-03 01:21:33'),(13,13,'secundaria','1° Esba','2026-07-03 02:11:26'),(14,13,'secundaria','2° Esba','2026-07-03 02:11:26'),(15,13,'secundaria','3° Esba','2026-07-03 02:11:26'),(16,13,'secundaria','4º Esba','2026-07-03 02:11:26'),(17,13,'bachillerato','1° Bach','2026-07-03 02:11:26'),(18,13,'bachillerato','2º Bach','2026-07-03 02:11:26'),(19,1,'primaria','1º Primaria','2026-07-04 21:58:30'),(20,1,'primaria','2º Primaria','2026-07-04 21:58:30'),(21,1,'primaria','3º Primaria','2026-07-04 21:58:30'),(22,1,'primaria','4º Primaria','2026-07-04 21:58:30'),(23,1,'primaria','5º Primaria','2026-07-04 21:58:30'),(24,1,'primaria','6º Primaria','2026-07-04 21:58:30'),(25,1,'secundaria','1º Esba','2026-07-04 21:58:30'),(26,1,'secundaria','2º Esba','2026-07-04 21:58:30'),(27,1,'secundaria','3º Esba','2026-07-04 21:58:30'),(28,1,'secundaria','4º Esba','2026-07-04 21:58:30'),(29,1,'bachillerato','1º Bach','2026-07-04 21:58:30'),(30,1,'bachillerato','2º Bach','2026-07-04 21:58:30'),(31,2,'primaria','1º Primaria','2026-07-04 21:58:30'),(32,2,'primaria','2º Primaria','2026-07-04 21:58:30'),(33,2,'primaria','3º Primaria','2026-07-04 21:58:30'),(34,2,'primaria','4º Primaria','2026-07-04 21:58:30'),(35,2,'primaria','5º Primaria','2026-07-04 21:58:30'),(36,2,'primaria','6º Primaria','2026-07-04 21:58:30'),(37,2,'secundaria','1º Esba','2026-07-04 21:58:30'),(38,2,'secundaria','2º Esba','2026-07-04 21:58:30'),(39,2,'secundaria','3º Esba','2026-07-04 21:58:30'),(40,2,'secundaria','4º Esba','2026-07-04 21:58:30'),(41,2,'bachillerato','1º Bach','2026-07-04 21:58:30'),(42,2,'bachillerato','2º Bach','2026-07-04 21:58:30'),(43,3,'primaria','1º Primaria','2026-07-04 21:58:30'),(44,3,'primaria','2º Primaria','2026-07-04 21:58:30'),(45,3,'primaria','3º Primaria','2026-07-04 21:58:30'),(46,3,'primaria','4º Primaria','2026-07-04 21:58:30'),(47,3,'primaria','5º Primaria','2026-07-04 21:58:30'),(48,3,'primaria','6º Primaria','2026-07-04 21:58:30'),(49,3,'secundaria','1º Esba','2026-07-04 21:58:30'),(50,3,'secundaria','2º Esba','2026-07-04 21:58:30'),(51,3,'secundaria','3º Esba','2026-07-04 21:58:30'),(52,3,'secundaria','4º Esba','2026-07-04 21:58:30'),(53,3,'bachillerato','1º Bach','2026-07-04 21:58:30'),(54,3,'bachillerato','2º Bach','2026-07-04 21:58:30'),(55,4,'primaria','1º Primaria','2026-07-04 21:58:30'),(56,4,'primaria','2º Primaria','2026-07-04 21:58:30'),(57,4,'primaria','3º Primaria','2026-07-04 21:58:30'),(58,4,'primaria','4º Primaria','2026-07-04 21:58:30'),(59,4,'primaria','5º Primaria','2026-07-04 21:58:30'),(60,4,'primaria','6º Primaria','2026-07-04 21:58:30'),(61,4,'secundaria','1º Esba','2026-07-04 21:58:30'),(62,4,'secundaria','2º Esba','2026-07-04 21:58:30'),(63,4,'secundaria','3º Esba','2026-07-04 21:58:30'),(64,4,'secundaria','4º Esba','2026-07-04 21:58:30'),(65,4,'bachillerato','1º Bach','2026-07-04 21:58:30'),(66,4,'bachillerato','2º Bach','2026-07-04 21:58:30'),(67,5,'primaria','1º Primaria','2026-07-04 21:58:30'),(68,5,'primaria','2º Primaria','2026-07-04 21:58:30'),(69,5,'primaria','3º Primaria','2026-07-04 21:58:30'),(70,5,'primaria','4º Primaria','2026-07-04 21:58:30'),(71,5,'primaria','5º Primaria','2026-07-04 21:58:30'),(72,5,'primaria','6º Primaria','2026-07-04 21:58:30'),(73,5,'secundaria','1º Esba','2026-07-04 21:58:30'),(74,5,'secundaria','2º Esba','2026-07-04 21:58:30'),(75,5,'secundaria','3º Esba','2026-07-04 21:58:30'),(76,5,'secundaria','4º Esba','2026-07-04 21:58:30'),(77,5,'bachillerato','1º Bach','2026-07-04 21:58:30'),(78,5,'bachillerato','2º Bach','2026-07-04 21:58:30'),(79,14,'primaria','1° Primaria','2026-07-17 18:11:09'),(80,14,'primaria','2° Primaria','2026-07-17 18:11:09'),(81,14,'primaria','3° Primaria','2026-07-17 18:11:09'),(82,14,'primaria','4º Primaria','2026-07-17 18:11:09'),(83,14,'primaria','5º Primaria','2026-07-17 18:11:09'),(84,14,'primaria','6º Primaria','2026-07-17 18:11:09'),(85,14,'secundaria','1° Esba','2026-07-17 18:11:09'),(86,14,'secundaria','2° Esba','2026-07-17 18:11:09'),(87,14,'secundaria','3° Esba','2026-07-17 18:11:09'),(88,14,'secundaria','4º Esba','2026-07-17 18:11:09'),(89,14,'bachillerato','1° Bach','2026-07-17 18:11:09'),(90,14,'bachillerato','2º Bach','2026-07-17 18:11:09'),(91,15,'primaria','1° Primaria','2026-07-17 18:31:53'),(92,15,'primaria','2° Primaria','2026-07-17 18:31:53'),(93,15,'primaria','3° Primaria','2026-07-17 18:31:53'),(94,15,'secundaria','1° Esba','2026-07-17 18:31:53'),(95,15,'secundaria','2° Esba','2026-07-17 18:31:53'),(96,15,'secundaria','3° Esba','2026-07-17 18:31:53'),(97,15,'bachillerato','1° Bach','2026-07-17 18:31:53');
 /*!40000 ALTER TABLE `centro_cursos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,7 +197,7 @@ CREATE TABLE `centro_usuarios` (
   CONSTRAINT `centro_usuarios_ibfk_4` FOREIGN KEY (`centro_id`) REFERENCES `centros` (`id`),
   CONSTRAINT `centro_usuarios_ibfk_5` FOREIGN KEY (`curso_id`) REFERENCES `centro_cursos` (`id`),
   CONSTRAINT `centro_usuarios_ibfk_6` FOREIGN KEY (`rama_id`) REFERENCES `ramas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +206,7 @@ CREATE TABLE `centro_usuarios` (
 
 LOCK TABLES `centro_usuarios` WRITE;
 /*!40000 ALTER TABLE `centro_usuarios` DISABLE KEYS */;
-INSERT INTO `centro_usuarios` VALUES (1,1,1,'profesor',NULL,NULL,NULL,NULL,NULL),(2,2,1,'alumno',NULL,NULL,NULL,NULL,NULL),(3,3,2,'alumno',NULL,NULL,NULL,42,1),(4,4,3,'profesor',NULL,NULL,NULL,NULL,NULL),(5,4,5,'profesor',NULL,NULL,NULL,NULL,NULL),(6,4,1,'profesor',NULL,NULL,NULL,NULL,NULL),(7,1,2,'profesor',NULL,NULL,NULL,NULL,NULL),(8,1,3,'profesor',NULL,NULL,NULL,NULL,NULL),(9,1,4,'profesor',NULL,NULL,NULL,NULL,NULL),(10,4,2,'profesor',NULL,NULL,NULL,NULL,NULL),(11,5,1,'profesor',NULL,NULL,NULL,NULL,NULL),(12,6,3,'alumno',NULL,NULL,NULL,NULL,NULL),(13,7,4,'admin',NULL,NULL,NULL,NULL,NULL),(14,7,2,'admin',NULL,NULL,NULL,NULL,NULL),(15,8,5,'alumno',NULL,NULL,NULL,NULL,NULL),(16,8,1,'profesor',NULL,NULL,NULL,NULL,NULL),(17,9,5,'alumno',NULL,NULL,NULL,NULL,NULL),(18,10,3,'alumno',NULL,NULL,NULL,NULL,NULL),(20,14,12,'admin',NULL,NULL,NULL,NULL,NULL),(21,15,13,'admin',NULL,NULL,NULL,NULL,NULL),(22,16,2,'alumno',NULL,NULL,NULL,42,1),(23,17,2,'alumno',NULL,NULL,NULL,42,2),(24,18,2,'alumno',NULL,NULL,NULL,42,2),(25,19,2,'alumno',NULL,NULL,NULL,42,3),(26,20,2,'alumno',NULL,NULL,NULL,42,3);
+INSERT INTO `centro_usuarios` VALUES (1,1,1,'profesor',NULL,NULL,NULL,NULL,NULL),(2,2,1,'alumno',NULL,NULL,NULL,NULL,NULL),(3,3,2,'alumno',NULL,NULL,NULL,42,1),(4,4,3,'profesor',NULL,NULL,NULL,NULL,NULL),(5,4,5,'profesor',NULL,NULL,NULL,NULL,NULL),(6,4,1,'profesor',NULL,NULL,NULL,NULL,NULL),(7,1,2,'profesor',NULL,NULL,NULL,NULL,NULL),(8,1,3,'profesor',NULL,NULL,NULL,NULL,NULL),(9,1,4,'profesor',NULL,NULL,NULL,NULL,NULL),(10,4,2,'profesor',NULL,NULL,NULL,NULL,NULL),(11,5,1,'profesor',NULL,NULL,NULL,NULL,NULL),(12,6,3,'alumno',NULL,NULL,NULL,NULL,NULL),(13,7,4,'admin',NULL,NULL,NULL,NULL,NULL),(14,7,2,'admin',NULL,NULL,NULL,NULL,NULL),(15,8,5,'alumno',NULL,NULL,NULL,NULL,NULL),(16,8,1,'profesor',NULL,NULL,NULL,NULL,NULL),(17,9,5,'alumno',NULL,NULL,NULL,NULL,NULL),(18,10,3,'alumno',NULL,NULL,NULL,NULL,NULL),(20,14,12,'admin',NULL,NULL,NULL,NULL,NULL),(21,15,13,'admin',NULL,NULL,NULL,NULL,NULL),(22,16,2,'alumno',NULL,NULL,NULL,42,1),(23,17,2,'alumno',NULL,NULL,NULL,42,2),(24,18,2,'alumno',NULL,NULL,NULL,42,2),(25,19,2,'alumno',NULL,NULL,NULL,42,3),(26,20,2,'alumno',NULL,NULL,NULL,42,3),(27,21,14,'admin',NULL,NULL,NULL,NULL,NULL),(28,22,15,'admin',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `centro_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +233,7 @@ CREATE TABLE `centros` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `codigo` (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +242,7 @@ CREATE TABLE `centros` (
 
 LOCK TABLES `centros` WRITE;
 /*!40000 ALTER TABLE `centros` DISABLE KEYS */;
-INSERT INTO `centros` VALUES (1,'Colegio Privado Buen Pastor','Colegio',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'Colegio Claret','Colegio',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'Colegio Adventista','Colegio',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,'Colegio Ewaiso Ipola','Colegio',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'Colegio Emanuel','Colegio',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(12,'Colegio Maria Cano','Colegio',NULL,'Sampaka','Malabo','Guinea Ecuatorial','+240 222123456','mariacano@gmail.com',NULL,NULL,NULL,NULL),(13,'Ines Aneja Luter King','Instituto','S5184','Calle Rey Bonkoro','Malabo','Guinea Ecuatorial','+240 222284414','aneja@gmail.com',NULL,NULL,NULL,NULL);
+INSERT INTO `centros` VALUES (1,'Colegio Privado Buen Pastor','Colegio',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'Colegio Claret','Colegio',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'Colegio Adventista','Colegio',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,'Colegio Ewaiso Ipola','Colegio',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'Colegio Emanuel','Colegio',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(12,'Colegio Maria Cano','Colegio',NULL,'Sampaka','Malabo','Guinea Ecuatorial','+240 222123456','mariacano@gmail.com',NULL,NULL,NULL,NULL),(13,'Ines Aneja Luter King','Instituto','S5184','Calle Rey Bonkoro','Malabo','Guinea Ecuatorial','+240 222284414','aneja@gmail.com',NULL,NULL,NULL,NULL),(14,'La Salle','Colegio','A2777','Colacesga, Bata','Bata','Guinea Ecuatorial','+240 222707378','lasalle@gmail.com',NULL,NULL,NULL,NULL),(15,'Argentina','Instituto','K3961','Argentina, Malabo','Malabo','Guinea Ecuatorial','+240 222984658','argentina.malabo@gmail.com',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `centros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,6 +279,159 @@ INSERT INTO `curso_asignaturas` VALUES (1,42,1,NULL),(2,42,2,NULL),(3,42,3,NULL)
 UNLOCK TABLES;
 
 --
+-- Table structure for table `horario_clases`
+--
+
+DROP TABLE IF EXISTS `horario_clases`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `horario_clases` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tipo` enum('clase','refuerzo','tutoria') NOT NULL DEFAULT 'clase',
+  `dia_semana` tinyint NOT NULL,
+  `hora_inicio` time NOT NULL,
+  `hora_fin` time NOT NULL,
+  `curso_asignatura_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `horario_clases_ibfk_ca` (`curso_asignatura_id`),
+  CONSTRAINT `horario_clases_ibfk_ca` FOREIGN KEY (`curso_asignatura_id`) REFERENCES `curso_asignaturas` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `horario_clases`
+--
+
+LOCK TABLES `horario_clases` WRITE;
+/*!40000 ALTER TABLE `horario_clases` DISABLE KEYS */;
+INSERT INTO `horario_clases` VALUES (29,'clase',1,'13:10:00','14:00:00',9),(30,'clase',3,'14:00:00','14:50:00',9),(31,'clase',5,'13:10:00','14:00:00',9),(33,'clase',2,'13:10:00','14:00:00',21),(34,'clase',4,'16:10:00','17:00:00',21),(35,'tutoria',5,'17:00:00','17:50:00',21),(36,'clase',1,'17:00:00','17:50:00',11),(37,'clase',3,'13:10:00','14:00:00',11),(38,'clase',2,'17:50:00','18:40:00',12),(39,'clase',4,'13:10:00','14:00:00',12),(40,'clase',1,'14:00:00','14:50:00',1),(41,'clase',1,'14:50:00','15:40:00',3),(42,'clase',1,'17:50:00','18:40:00',2),(43,'clase',2,'13:10:00','14:00:00',1),(44,'clase',2,'14:00:00','14:50:00',9),(45,'clase',2,'14:50:00','15:40:00',4),(46,'clase',2,'17:00:00','17:50:00',5),(47,'clase',2,'16:10:00','17:00:00',6),(48,'clase',3,'14:50:00','15:40:00',1),(49,'clase',3,'16:10:00','17:00:00',5),(50,'clase',3,'17:00:00','17:50:00',3),(51,'clase',3,'17:50:00','18:40:00',7),(52,'clase',4,'14:00:00','14:50:00',1),(53,'clase',4,'14:50:00','15:40:00',9),(54,'clase',4,'16:10:00','17:00:00',10),(55,'clase',4,'17:00:00','17:50:00',11),(56,'clase',4,'17:50:00','18:40:00',12),(57,'clase',5,'14:00:00','14:50:00',13),(58,'clase',5,'14:50:00','15:40:00',8),(59,'clase',5,'16:10:00','17:00:00',5),(60,'clase',5,'17:00:00','17:50:00',3),(61,'clase',5,'17:50:00','18:40:00',4),(62,'clase',1,'16:10:00','17:00:00',10);
+/*!40000 ALTER TABLE `horario_clases` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `horario_descansos`
+--
+
+DROP TABLE IF EXISTS `horario_descansos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `horario_descansos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `centro_id` int NOT NULL,
+  `nombre` varchar(50) NOT NULL DEFAULT 'Recreo',
+  `hora_inicio` time NOT NULL,
+  `hora_fin` time NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `centro_id` (`centro_id`),
+  CONSTRAINT `horario_descansos_ibfk_1` FOREIGN KEY (`centro_id`) REFERENCES `centros` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `horario_descansos`
+--
+
+LOCK TABLES `horario_descansos` WRITE;
+/*!40000 ALTER TABLE `horario_descansos` DISABLE KEYS */;
+INSERT INTO `horario_descansos` VALUES (1,2,'Recreo','15:40:00','16:10:00');
+/*!40000 ALTER TABLE `horario_descansos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `material_carpetas`
+--
+
+DROP TABLE IF EXISTS `material_carpetas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `material_carpetas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `curso_asignatura_id` int NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `curso_asignatura_id` (`curso_asignatura_id`),
+  CONSTRAINT `material_carpetas_ibfk_1` FOREIGN KEY (`curso_asignatura_id`) REFERENCES `curso_asignaturas` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `material_carpetas`
+--
+
+LOCK TABLES `material_carpetas` WRITE;
+/*!40000 ALTER TABLE `material_carpetas` DISABLE KEYS */;
+INSERT INTO `material_carpetas` VALUES (1,9,'Unidad 1: Los Numeros','2026-07-19 15:51:41');
+/*!40000 ALTER TABLE `material_carpetas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `materiales`
+--
+
+DROP TABLE IF EXISTS `materiales`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `materiales` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `curso_asignatura_id` int NOT NULL,
+  `carpeta_id` int DEFAULT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `extension` varchar(10) NOT NULL,
+  `archivo_url` varchar(500) NOT NULL,
+  `tamano_bytes` int DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `curso_asignatura_id` (`curso_asignatura_id`),
+  KEY `carpeta_id` (`carpeta_id`),
+  CONSTRAINT `materiales_ibfk_1` FOREIGN KEY (`curso_asignatura_id`) REFERENCES `curso_asignaturas` (`id`),
+  CONSTRAINT `materiales_ibfk_2` FOREIGN KEY (`carpeta_id`) REFERENCES `material_carpetas` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `materiales`
+--
+
+LOCK TABLES `materiales` WRITE;
+/*!40000 ALTER TABLE `materiales` DISABLE KEYS */;
+INSERT INTO `materiales` VALUES (1,9,1,'Tema 1: Los numeros reales.pdf','pdf','https://luhpbawdchmwmfgecrlr.supabase.co/storage/v1/object/public/materiales/1784473446944-Tema_1_Numeros_reales.pdf',65801,'2026-07-19 16:04:10');
+/*!40000 ALTER TABLE `materiales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notificaciones`
+--
+
+DROP TABLE IF EXISTS `notificaciones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notificaciones` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `usuario_id` int NOT NULL,
+  `tipo` enum('tarea_publicada','tarea_calificada','material_publicado','tarea_entregada') NOT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `mensaje` varchar(500) NOT NULL,
+  `enlace` varchar(255) DEFAULT NULL,
+  `leida` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `usuario_id` (`usuario_id`),
+  CONSTRAINT `notificaciones_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notificaciones`
+--
+
+LOCK TABLES `notificaciones` WRITE;
+/*!40000 ALTER TABLE `notificaciones` DISABLE KEYS */;
+INSERT INTO `notificaciones` VALUES (1,4,'tarea_entregada','Nueva entrega recibida','Eliseo Obama Nsue Nzang ha entregado la tarea \"Ecuaciones bicuadradas\".','http://localhost:5173/profesor/tareas/25',1,'2026-07-27 22:23:15'),(2,3,'tarea_calificada','Tarea calificada','Tu tarea \"Ecuaciones bicuadradas\" ha sido calificada con 10.','http://localhost:5173/alumno/tareas/25',1,'2026-07-27 22:26:20'),(3,3,'tarea_publicada','Nueva tarea publicada','Se ha publicado la tarea \"Ecuaciones redox\" en Quimica. Fecha limite: 2026-09-01.','http://localhost:5173/alumno/tareas/27',1,'2026-08-02 14:01:42'),(4,16,'tarea_publicada','Nueva tarea publicada','Se ha publicado la tarea \"Ecuaciones redox\" en Quimica. Fecha limite: 2026-09-01.','http://localhost:5173/alumno/tareas/27',0,'2026-08-02 14:01:42'),(5,3,'tarea_publicada','Nueva tarea publicada','Se ha publicado la tarea \"Ejercicios de densidad y volumen\" en Fisica. Fecha limite: 2026-09-08.','http://localhost:5173/alumno/tareas/28',1,'2026-08-02 14:25:18'),(6,16,'tarea_publicada','Nueva tarea publicada','Se ha publicado la tarea \"Ejercicios de densidad y volumen\" en Fisica. Fecha limite: 2026-09-08.','http://localhost:5173/alumno/tareas/28',0,'2026-08-02 14:25:18'),(7,3,'tarea_publicada','Nueva tarea publicada','Se ha publicado la tarea \"Vida de Socrates\" en Filosofia. Fecha limite: 2026-09-16.','http://localhost:5173/alumno/tareas/29',0,'2026-08-04 13:04:01'),(8,16,'tarea_publicada','Nueva tarea publicada','Se ha publicado la tarea \"Vida de Socrates\" en Filosofia. Fecha limite: 2026-09-16.','http://localhost:5173/alumno/tareas/29',0,'2026-08-04 13:04:01'),(9,19,'tarea_publicada','Nueva tarea publicada','Se ha publicado la tarea \"Vida de Socrates\" en Filosofia. Fecha limite: 2026-09-16.','http://localhost:5173/alumno/tareas/29',0,'2026-08-04 13:04:01'),(10,18,'tarea_publicada','Nueva tarea publicada','Se ha publicado la tarea \"Vida de Socrates\" en Filosofia. Fecha limite: 2026-09-16.','http://localhost:5173/alumno/tareas/29',0,'2026-08-04 13:04:01'),(11,17,'tarea_publicada','Nueva tarea publicada','Se ha publicado la tarea \"Vida de Socrates\" en Filosofia. Fecha limite: 2026-09-16.','http://localhost:5173/alumno/tareas/29',0,'2026-08-04 13:04:01'),(12,20,'tarea_publicada','Nueva tarea publicada','Se ha publicado la tarea \"Vida de Socrates\" en Filosofia. Fecha limite: 2026-09-16.','http://localhost:5173/alumno/tareas/29',0,'2026-08-04 13:04:01');
+/*!40000 ALTER TABLE `notificaciones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `password_resets`
 --
 
@@ -229,7 +445,7 @@ CREATE TABLE `password_resets` (
   `expires_at` datetime NOT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,7 +454,7 @@ CREATE TABLE `password_resets` (
 
 LOCK TABLES `password_resets` WRITE;
 /*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
-INSERT INTO `password_resets` VALUES (3,'pilarndong12@gmail.com','a987b03cedd18f84d55068747489450c6c95acf75ede592c3eafa4b55da4ebee','2026-06-28 22:28:27','2026-06-28 21:28:26'),(4,'christiannsue00@gmail.com','469e63d26f406647e5ec0cc84e172194c6e9188dd18c87795c30baca7bf2da3f','2026-06-30 19:44:24','2026-06-30 18:44:24');
+INSERT INTO `password_resets` VALUES (3,'pilarndong12@gmail.com','a987b03cedd18f84d55068747489450c6c95acf75ede592c3eafa4b55da4ebee','2026-06-28 22:28:27','2026-06-28 21:28:26');
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,12 +528,16 @@ CREATE TABLE `tarea_entregas` (
   `estado` enum('pendiente','entregada','calificada') NOT NULL DEFAULT 'pendiente',
   `fecha_entrega_real` datetime DEFAULT NULL,
   `nota` varchar(10) DEFAULT NULL,
+  `archivo_url` varchar(500) DEFAULT NULL,
+  `archivo_nombre` varchar(255) DEFAULT NULL,
+  `archivo_tamano` int DEFAULT NULL,
+  `comentario` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unico_tarea_usuario` (`tarea_id`,`usuario_id`),
   KEY `usuario_id` (`usuario_id`),
   CONSTRAINT `tarea_entregas_ibfk_1` FOREIGN KEY (`tarea_id`) REFERENCES `tareas` (`id`),
   CONSTRAINT `tarea_entregas_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -326,7 +546,7 @@ CREATE TABLE `tarea_entregas` (
 
 LOCK TABLES `tarea_entregas` WRITE;
 /*!40000 ALTER TABLE `tarea_entregas` DISABLE KEYS */;
-INSERT INTO `tarea_entregas` VALUES (1,14,3,'calificada','2026-05-04 10:00:00','9.00'),(2,15,3,'calificada','2026-06-01 12:34:05','7.30'),(3,19,3,'calificada','2026-05-30 13:40:30','8.50'),(4,7,3,'entregada','2026-06-10 09:25:34',NULL);
+INSERT INTO `tarea_entregas` VALUES (1,18,3,'calificada','2026-07-11 23:18:38','7.5',NULL,NULL,NULL,NULL),(2,22,3,'calificada','2026-07-20 23:18:38','7.8',NULL,NULL,NULL,NULL),(3,2,3,'calificada','2026-07-23 17:18:38','8.0',NULL,NULL,NULL,NULL),(4,1,3,'calificada','2026-07-25 20:10:38','8.5',NULL,NULL,NULL,'Tienes buen dominio de las integrales pero te falta por mejorar en las definidas has fallado en el ejercicio numero 5.'),(5,18,16,'calificada',NULL,'7.5',NULL,NULL,NULL,NULL),(6,22,16,'calificada',NULL,'8.0',NULL,NULL,NULL,NULL),(7,2,16,'calificada',NULL,'7.8',NULL,NULL,NULL,NULL),(8,1,16,'calificada',NULL,'8.9',NULL,NULL,NULL,NULL),(9,5,3,'calificada','2026-07-21 23:18:38','9.2',NULL,NULL,NULL,NULL),(10,7,3,'calificada','2026-07-10 22:18:38','7.8',NULL,NULL,NULL,NULL),(11,5,16,'calificada',NULL,'7.5',NULL,NULL,NULL,NULL),(12,7,16,'calificada',NULL,'8.0',NULL,NULL,NULL,NULL),(22,24,3,'calificada','2026-07-26 23:04:40','9.5','https://luhpbawdchmwmfgecrlr.supabase.co/storage/v1/object/public/entregas-alumnos/24-3-1785103475580-practicas.pdf','practicas.pdf',60606,'Muy buen concepto de las ponderaciones, enhorabuena sigue asi.'),(24,25,3,'calificada','2026-07-27 22:23:15','10','https://luhpbawdchmwmfgecrlr.supabase.co/storage/v1/object/public/entregas-alumnos/25-3-1785187388752-Carreras_y_Tafunell-La_depresion_de_los_30_en_Espana.pdf','Carreras_y_Tafunell-La_depresion_de_los_30_en_Espana.pdf',288441,'Bien hecho, buen trabajo');
 /*!40000 ALTER TABLE `tarea_entregas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,17 +561,16 @@ CREATE TABLE `tareas` (
   `id` int NOT NULL AUTO_INCREMENT,
   `titulo` varchar(150) NOT NULL,
   `descripcion` text,
-  `asignatura_id` int NOT NULL,
-  `curso_id` int NOT NULL,
-  `rama_id` int DEFAULT NULL,
   `fecha_entrega` date NOT NULL,
   `fecha_creacion` datetime DEFAULT CURRENT_TIMESTAMP,
+  `curso_asignatura_id` int NOT NULL,
+  `archivo_url` varchar(500) DEFAULT NULL,
+  `archivo_nombre` varchar(255) DEFAULT NULL,
+  `instrucciones` text,
   PRIMARY KEY (`id`),
-  KEY `asignatura_id` (`asignatura_id`),
-  KEY `curso_id` (`curso_id`),
-  CONSTRAINT `tareas_ibfk_1` FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas` (`id`),
-  CONSTRAINT `tareas_ibfk_2` FOREIGN KEY (`curso_id`) REFERENCES `centro_cursos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `tareas_ibfk_ca` (`curso_asignatura_id`),
+  CONSTRAINT `tareas_ibfk_ca` FOREIGN KEY (`curso_asignatura_id`) REFERENCES `curso_asignaturas` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,7 +579,7 @@ CREATE TABLE `tareas` (
 
 LOCK TABLES `tareas` WRITE;
 /*!40000 ALTER TABLE `tareas` DISABLE KEYS */;
-INSERT INTO `tareas` VALUES (1,'Ejercicios de integrales','Resolver los ejercicios del tema 5',9,42,NULL,'2026-10-15','2026-07-07 23:14:58'),(2,'Estequimetria','Practica de calculos estequiometricos',11,42,NULL,'2026-09-07','2026-07-07 23:14:58'),(7,'Ejercicios de funciones','Resuelve los ejercicios de funciones con los metodos aprendidos en clase',9,42,NULL,'2026-06-15','2026-07-08 00:20:12'),(8,'Ejercicios de MRU','Resuelve los ejercicios de movimiento rectilineo uniforme',12,42,NULL,'2026-07-13','2026-07-08 00:20:12'),(9,'Resumen de la vida de Antonio Machado','Investiga la vida de Antonio Machado',1,42,NULL,'2026-06-30','2026-07-08 00:41:02'),(10,'Exposicion sobre la primera Guerra Mundial','Investiga la primera Guerra Mundia y prepara una presentacion sobre ello',2,42,NULL,'2026-07-13','2026-07-08 00:41:02'),(11,'Mito de las Cabernas de Platon','Investiga la obra del mito de las cabernas de Platon',3,42,NULL,'2026-08-21','2026-07-08 00:49:08'),(12,'ADN','Realiza un trabajo de investigacion sobre el ADN',4,42,NULL,'2026-07-09','2026-07-08 00:49:08'),(13,'Teoria de la moneda de Karl Max','Investiga la que opina o lo que dice Karl Max sobre la moneda',5,42,NULL,'2026-07-15','2026-07-08 00:56:05'),(14,'Trabajo sobre Jacob','Investiga y haz un resumen de la vida de Jacob',6,42,NULL,'2026-05-09','2026-07-08 00:56:05'),(15,'Vervo étre','Conjuba el verbo étre en todos los tiempos',7,42,NULL,'2026-06-05','2026-07-08 01:00:40'),(16,'Verbo Get','Investiga 15 Phrasal Verbs que se pueden usar con el verbo Get',8,42,NULL,'2026-09-09','2026-07-08 01:00:40'),(17,'Corriente alterna','Completa estos ejercicios de corriente alterna',10,42,NULL,'2026-08-05','2026-07-08 01:04:22'),(18,'Quimica organica','Investiga sobre la quimica organica y los diferentes tipos de compuestos organicos',11,42,NULL,'2026-07-10','2026-07-08 01:04:22'),(19,'La Fuerza','Investiga sobre los diferentes tipos de fuerzas que existen',12,42,NULL,'2026-06-05','2026-07-08 01:07:01'),(20,'Placas tectonicas','Haz un resumen sobre la teoria tectonica de placas',13,42,NULL,'2026-07-15','2026-07-08 01:07:01');
+INSERT INTO `tareas` VALUES (1,'Ejercicios de integrales','Resuelve estos ejercicios de integrales','2026-08-15','2026-07-10 18:12:51',9,NULL,NULL,NULL),(2,'Ejercicios de derivadas','Resuelve estos ejercicios de derivadas','2026-08-10','2026-07-10 18:12:51',9,NULL,NULL,NULL),(3,'Ejercicios de integrales','Resuelve estos ejercicios de integrales','2026-08-15','2026-07-10 18:12:51',21,NULL,NULL,NULL),(4,'Ejercicios de derivadas','Resuelve estos ejercicios de derivadas','2026-08-10','2026-07-10 18:12:51',21,NULL,NULL,NULL),(5,'Ejercicios de corriente alterna','Resuelve estos ejercicios de corriente alterna','2026-07-25','2026-07-10 18:12:51',10,NULL,NULL,NULL),(6,'Ejercicios de corriente alterna','Resuelve estos ejercicios de corriente alterna','2026-07-25','2026-07-10 18:12:51',14,NULL,NULL,NULL),(7,'Ejercicios de MRU','Resuelve estos ejercicios de movimiento rectilineo uniforme','2026-07-10','2026-07-10 18:12:51',12,NULL,NULL,NULL),(8,'Resumen de motores','Investiga los diferentes tipos de motores que existen','2026-07-03','2026-07-10 18:12:51',15,NULL,NULL,NULL),(9,'Obras de Platon','Investiga la obra de el Mito de las Cabernas de Platon','2026-08-03','2026-07-10 18:12:51',3,NULL,NULL,NULL),(10,'Primera Guerra Mundial','Investiga las causas de la Primera Guerra Mundial','2026-08-30','2026-07-10 18:12:51',2,NULL,NULL,NULL),(11,'Diferencias entre artes','Investiga las direfencias entre el arte contemporaneo y el medieval','2026-06-30','2026-07-10 18:12:51',18,NULL,NULL,NULL),(12,'Ecuaciones','Resuelve estas ecuaciones de segundo grado','2026-07-28','2026-07-10 18:12:51',17,NULL,NULL,NULL),(13,'Ejercicios de velocidad de la luz','Resuelve estos ejercicios de velocidad de la luz','2026-07-30','2026-07-11 21:35:48',12,NULL,NULL,NULL),(14,'Estequiometria','Resuelve estos compuestos quimicos y su estequiometria','2026-08-05','2026-07-11 21:46:36',11,NULL,NULL,NULL),(15,'Alcoholes','Investiga sobre los alcoholes y como son sus compuestos','2026-08-03','2026-07-11 21:49:01',11,NULL,NULL,NULL),(16,'Matrices','Resuelve estos ejercicios de suma, resta, multiplicacion y division de matrices','2026-08-08','2026-07-11 21:51:27',21,NULL,NULL,NULL),(17,'Potencia','Resuelve estos ejercicios de potencia','2026-08-20','2026-07-11 21:55:13',12,NULL,NULL,NULL),(18,'Limites','Resuelve estos ejercicios de limites como aprendimos en clase','2026-07-11','2026-07-11 21:57:43',9,NULL,NULL,NULL),(19,'Presocraticos','Investigas las escuelas presocraticas y cuales fueron sus ideales','2026-07-10','2026-07-12 16:18:02',3,NULL,NULL,NULL),(20,'Motores asincronos','Investiga sobre los motores asincronos','2026-07-15','2026-07-12 16:21:08',14,NULL,NULL,NULL),(21,'Energia','Investiga sobre los diferentes tipos de energia que existen','2026-08-05','2026-07-12 16:24:10',10,NULL,NULL,NULL),(22,'Ecuaciones de segundo grado','Resuelve estas ecuaciones de segundo grado','2026-08-06','2026-07-15 17:27:26',9,'https://luhpbawdchmwmfgecrlr.supabase.co/storage/v1/object/public/tareas/1784132844940-Ejercicios.docx','Ejercicios.docx','Lee cuidadosamente cada ejercicio.\r\nResuelve y muestra todos los pasos.\r\nEntrega en formato pdf o imagen clara.'),(23,'Trigonometria','Resuelve estos ejercicios de trigonometria','2026-08-13','2026-07-16 12:36:27',9,NULL,NULL,NULL),(24,'Ponderaciones','Resuelve estos ejercicios de ponderaciones','2026-07-27','2026-07-16 12:58:05',9,NULL,NULL,NULL),(25,'Ecuaciones bicuadradas','Resuelve estas ecuaciones bicuadradas','2026-08-05','2026-07-16 13:18:34',9,NULL,NULL,NULL),(26,'Derivadas y diferenciales','Resuelve estos ejercicios de derivadas y diferenciales siguiendo las reglas aprendidas en clase.','2026-08-07','2026-07-26 02:01:40',9,NULL,NULL,'Lee cuidadosamente cada ejercicio.\r\nResuelve como aprendiste en clase.\r\nentrega el ejercicio en pdf o imagen clara'),(27,'Ecuaciones redox','Resuelve estas ecuaciones de redox','2026-09-01','2026-08-02 14:01:41',11,NULL,NULL,'Lee cuidadosamente cada ecuacion\r\nResuelve las ecuaciones redox'),(28,'Ejercicios de densidad y volumen','Resuelve estos ejercicios de densidad y volumen','2026-09-08','2026-08-02 14:25:18',12,NULL,NULL,'Lee cuidadosamente cada ejercicio'),(29,'Vida de Socrates','Investiga la vida de Socrates y sus obras','2026-09-16','2026-08-04 13:04:01',3,NULL,NULL,'Investiga todas las obras de Socrates');
 /*!40000 ALTER TABLE `tareas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -379,15 +598,15 @@ CREATE TABLE `usuarios` (
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `telefono` varchar(255) DEFAULT NULL,
-  `foto_perfil` text,
   `estado` varchar(255) DEFAULT NULL,
   `ultimo_login` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `foto_url` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -396,7 +615,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'A001','Deogracias Ondo','Nsue Nzang','deograciasondonsuenzang@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(2,'M001','Benjamin Nsue','Nsue Nzang','benjamin.nsue@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(3,'S001','Eliseo Obama','Nsue Nzang','eliseo.obama@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(4,'C001','Christian','Nsue','christiannsue00@gmail.com','$2b$10$JX6lxFBOeFIdrmBbZMiEQuizaX8Pu3ovDivW3jszD0ujppyF26Pim',NULL,NULL,NULL,NULL,NULL,NULL),(5,'B001','Manuel','Mbela','manuelmbela@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(6,'Z001','Gabriel','Nguema','gabrielnguema@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(7,'P001','Pilar','Ndong','pilarndong12@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(8,'C002','Catherine','Boñao','catherineboñao@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(9,'H001','Hilario','Ndong','hilicristiano@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(10,'J001','Jose','Nguema','josenguema@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(14,'E5947','Cesar Ramon','Robinson Rivas','cesarrivas@gmail.com','$2b$10$upmIzu.xy/YXLp26PzrzIeLMPZrntu3C7/B3vPkQCzNrJ0wlwwPgK','555123456',NULL,NULL,NULL,NULL,NULL),(15,'IAL4602','Christian','Nguba Alais','christiannguba@gmail.com','$2b$10$VOwBW4CLCgRe3TOkENGotOxhkFc5vh2Ma6ZJ9g2bBXZYzSZ9c7bNO','555775766',NULL,NULL,NULL,NULL,NULL),(16,'CC0912','Jose Antonio','Oyono Abang','jose.antonio@gmail.com','$2b$10$4bMd9SzbEX6WUmMsXVcr6.YiUyt7na53chxpK/C.pM6Z4o78S/URC',NULL,NULL,NULL,NULL,NULL,NULL),(17,'CC0724','Mardoqueo','Sabana Tobileri','mardoqueo.sabana@gmail.com','$2b$10$4bMd9SzbEX6WUmMsXVcr6.YiUyt7na53chxpK/C.pM6Z4o78S/URC',NULL,NULL,NULL,NULL,NULL,NULL),(18,'CC0095','Minerva Rosabel Ngui','Ondo Andeme','minerva.rosabel@gmail.com','$2b$10$4bMd9SzbEX6WUmMsXVcr6.YiUyt7na53chxpK/C.pM6Z4o78S/URC',NULL,NULL,NULL,NULL,NULL,NULL),(19,'CC0007','Pergentino','Segura Bodipo','pergentino.segura@gmail.com','$2b$10$4bMd9SzbEX6WUmMsXVcr6.YiUyt7na53chxpK/C.pM6Z4o78S/URC',NULL,NULL,NULL,NULL,NULL,NULL),(20,'CC3201','Maria Auxiliadora Angue','Ekua Esidang','maria.auxiliadora@gmail.com','$2b$10$4bMd9SzbEX6WUmMsXVcr6.YiUyt7na53chxpK/C.pM6Z4o78S/URC',NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `usuarios` VALUES (1,'A001','Deogracias Ondo','Nsue Nzang','deograciasondonsuenzang@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,'https://luhpbawdchmwmfgecrlr.supabase.co/storage/v1/object/public/avatars/1-1784483151619-16.jpg'),(2,'M001','Benjamin Nsue','Nsue Nzang','benjamin.nsue@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(3,'S001','Eliseo Obama','Nsue Nzang','eliseo.obama@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG','+240222179314',NULL,NULL,NULL,NULL,'https://luhpbawdchmwmfgecrlr.supabase.co/storage/v1/object/public/avatars/3-1785173929051-eliseo.JPG'),(4,'C001','Christian','Nsue','christiannsue00@gmail.com','$2b$10$WP1aJF5aPwv4wzHr3Gj9CuD6ub85DHe2F.YKwnD30h2qe8Z8gqq0i','+240222783320',NULL,NULL,NULL,NULL,'https://luhpbawdchmwmfgecrlr.supabase.co/storage/v1/object/public/avatars/4-1784468056810-6.jpg'),(5,'B001','Manuel','Mbela','manuelmbela@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(6,'Z001','Gabriel','Nguema','gabrielnguema@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(7,'P001','Pilar','Ndong','pilarndong12@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(8,'C002','Catherine','Boñao','catherineboñao@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(9,'H001','Hilario','Ndong','hilicristiano@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(10,'J001','Jose','Nguema','josenguema@gmail.com','$2b$10$gy3Jlose16nrvhS8RfI0t.XZ5f57OOFekwvzDWnchjmk/iY4ZWWvG',NULL,NULL,NULL,NULL,NULL,NULL),(14,'E5947','Cesar Ramon','Robinson Rivas','cesarrivas@gmail.com','$2b$10$upmIzu.xy/YXLp26PzrzIeLMPZrntu3C7/B3vPkQCzNrJ0wlwwPgK','555123456',NULL,NULL,NULL,NULL,NULL),(15,'IAL4602','Christian','Nguba Alais','christiannguba@gmail.com','$2b$10$VOwBW4CLCgRe3TOkENGotOxhkFc5vh2Ma6ZJ9g2bBXZYzSZ9c7bNO','555775766',NULL,NULL,NULL,NULL,NULL),(16,'CC0912','Jose Antonio','Oyono Abang','jose.antonio@gmail.com','$2b$10$4bMd9SzbEX6WUmMsXVcr6.YiUyt7na53chxpK/C.pM6Z4o78S/URC',NULL,NULL,NULL,NULL,NULL,NULL),(17,'CC0724','Mardoqueo','Sabana Tobileri','mardoqueo.sabana@gmail.com','$2b$10$4bMd9SzbEX6WUmMsXVcr6.YiUyt7na53chxpK/C.pM6Z4o78S/URC',NULL,NULL,NULL,NULL,NULL,NULL),(18,'CC0095','Minerva Rosabel Ngui','Ondo Andeme','minerva.rosabel@gmail.com','$2b$10$4bMd9SzbEX6WUmMsXVcr6.YiUyt7na53chxpK/C.pM6Z4o78S/URC',NULL,NULL,NULL,NULL,NULL,NULL),(19,'CC0007','Pergentino','Segura Bodipo','pergentino.segura@gmail.com','$2b$10$4bMd9SzbEX6WUmMsXVcr6.YiUyt7na53chxpK/C.pM6Z4o78S/URC',NULL,NULL,NULL,NULL,NULL,NULL),(20,'CC3201','Maria Auxiliadora Angue','Ekua Esidang','maria.auxiliadora@gmail.com','$2b$10$4bMd9SzbEX6WUmMsXVcr6.YiUyt7na53chxpK/C.pM6Z4o78S/URC',NULL,NULL,NULL,NULL,NULL,NULL),(21,'S1802','Melisa','Castillo Roca','melisa.roca@gmail.com','$2b$10$spi0eVz6Arw0IwcbwjFP6.fFDnEkhdTfg4YHb/JnucFNbmYTigtly','555238746',NULL,NULL,NULL,NULL,NULL),(22,'A5263','Petronila Renata','Ebehe Andeme','petronila.andeme@gmail.com','$2b$10$OXyDLDCvEEqyfDii0gZNTevHbKoQIBH7FbJQ1AwYA4.ZiWEOUcbe2','555982378',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -409,4 +628,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-07-10 16:49:08
+-- Dump completed on 2026-08-06  2:06:15

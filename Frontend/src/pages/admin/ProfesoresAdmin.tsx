@@ -8,42 +8,43 @@ import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
 import { getCentroActivo } from "../../utils/auth";
 import ConfirmarEliminarModal from "../../components/ConfirmarEliminarModal";
-import AnadirAlumnoModal, {
-  type AlumnoCreado,
-} from "../../components/AnadirAlumnoModal";
+import AnadirProfesorModal, {
+  type ProfesorCreado,
+} from "../../components/AnadirProfesorModal";
 import "../../styles/adminAlumnos.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-interface Alumno {
+interface Profesor {
   id: number;
   nombre: string;
   apellidos: string;
   email: string;
   codigo: string | null;
   fotoUrl: string | null;
-  cursoId: number | null;
-  curso: string | null;
-  ramaId: number | null;
-  rama: string | null;
-  nivel: string | null;
+  asignaturas: string[];
+  cursos: string[];
+  cursosIds: number[];
+  niveles: string[];
 }
 
 const PAGE_SIZE = 10;
 
-function AlumnosAdmin() {
-  const [alumnos, setAlumnos] = useState<Alumno[]>([]);
+function ProfesoresAdmin() {
+  const [profesores, setProfesores] = useState<Profesor[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [busqueda, setBusqueda] = useState("");
-  const [filtroCurso, setFiltroCurso] = useState("todos");
   const [filtroNivel, setFiltroNivel] = useState("todos");
+  const [filtroCurso, setFiltroCurso] = useState("todos");
   const [pagina, setPagina] = useState(1);
   const [mostrarExportar, setMostrarExportar] = useState(false);
-  const [eliminarAlumno, setEliminarAlumno] = useState<Alumno | null>(null);
+  const [eliminarProfesor, setEliminarProfesor] = useState<Profesor | null>(
+    null,
+  );
   const [modalAnadirAbierto, setModalAnadirAbierto] = useState(false);
-  const [alumnosCreadosSesion, setAlumnosCreadosSesion] = useState<
-    AlumnoCreado[]
+  const [profesoresCreadosSesion, setProfesoresCreadosSesion] = useState<
+    ProfesorCreado[]
   >([]);
   const navigate = useNavigate();
 
@@ -52,23 +53,25 @@ function AlumnosAdmin() {
     const centroActivo = getCentroActivo();
     try {
       const res = await fetch(
-        `${API_URL}/api/admin/alumnos?centroId=${centroActivo.id}`,
+        `${API_URL}/api/admin/profesores?centroId=${centroActivo.id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
       );
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Error al cargar alumnos");
-      setAlumnos(Array.isArray(data) ? data : []);
+      if (!res.ok) throw new Error(data?.error || "Error al cargar profesores");
+      setProfesores(Array.isArray(data) ? data : []);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al cargar alumnos");
+      setError(
+        err instanceof Error ? err.message : "Error al cargar profesores",
+      );
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    //eslint-disable-next-line react-hooks/set-state-in-effect -- carga inicial de datos al montar, patron estandar
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- carga inicial de datos al montar, patron estandar
     cargar();
   }, []);
 
@@ -79,36 +82,18 @@ function AlumnosAdmin() {
   }, [mostrarExportar]);
 
   const nivelesUnicos = Array.from(
-    new Set(alumnos.filter((a) => a.nivel).map((a) => a.nivel)),
-  ) as string[];
-
-  const cursosUnicos = Array.from(
-    new Map(
-      alumnos
-        .filter(
-          (a) =>
-            a.cursoId && (filtroNivel === "todos" || a.nivel === filtroNivel),
-        )
-        .map((a) => [a.cursoId, a.curso]),
-    ).entries(),
+    new Set(profesores.flatMap((p) => p.niveles)),
   );
 
-  const alumnosFiltrados = alumnos.filter((a) => {
-    const nombreCompleto = `${a.nombre} ${a.apellidos ?? ""}`.toLowerCase();
-    const coincideBusqueda =
-      nombreCompleto.includes(busqueda.toLowerCase()) ||
-      a.email.toLowerCase().includes(busqueda.toLowerCase()) ||
-      (a.codigo ?? "").toLowerCase().includes(busqueda.toLowerCase());
-    const coincideNivel = filtroNivel === "todos" || a.nivel === filtroNivel;
-    const coincideCurso =
-      filtroCurso === "todos" || String(a.cursoId) === filtroCurso;
-    return coincideBusqueda && coincideNivel && coincideCurso;
-  });
-
-  const handleAlumnoCreado = (alumno: AlumnoCreado) => {
-    setAlumnosCreadosSesion((prev) => [...prev, alumno]);
-    cargar();
-  };
+  const cursosUnicos = Array.from(
+    new Set(
+      profesores
+        .filter(
+          (p) => filtroNivel === "todos" || p.niveles.includes(filtroNivel),
+        )
+        .flatMap((p) => p.cursos),
+    ),
+  );
 
   const handleCambiarNivel = (nivel: string) => {
     setFiltroNivel(nivel);
@@ -116,21 +101,39 @@ function AlumnosAdmin() {
     setPagina(1);
   };
 
+  const profesoresFiltrados = profesores.filter((p) => {
+    const nombreCompleto = `${p.nombre} ${p.apellidos ?? ""}`.toLowerCase();
+    const coincideBusqueda =
+      nombreCompleto.includes(busqueda.toLowerCase()) ||
+      p.email.toLowerCase().includes(busqueda.toLowerCase()) ||
+      (p.codigo ?? "").toLowerCase().includes(busqueda.toLowerCase());
+    const coincideNivel =
+      filtroNivel === "todos" || p.niveles.includes(filtroNivel);
+    const coincideCurso =
+      filtroCurso === "todos" || p.cursos.includes(filtroCurso);
+    return coincideBusqueda && coincideNivel && coincideCurso;
+  });
+
+  const handleProfesorCreado = (profesor: ProfesorCreado) => {
+    setProfesoresCreadosSesion((prev) => [...prev, profesor]);
+    cargar();
+  };
+
   const totalPaginas = Math.max(
     1,
-    Math.ceil(alumnosFiltrados.length / PAGE_SIZE),
+    Math.ceil(profesoresFiltrados.length / PAGE_SIZE),
   );
-  const alumnosPagina = alumnosFiltrados.slice(
+  const profesoresPagina = profesoresFiltrados.slice(
     (pagina - 1) * PAGE_SIZE,
     pagina * PAGE_SIZE,
   );
 
   const handleEliminar = async () => {
-    if (!eliminarAlumno) return;
+    if (!eliminarProfesor) return;
     const token = localStorage.getItem("token");
     const centroActivo = getCentroActivo();
     const res = await fetch(
-      `${API_URL}/api/admin/alumnos/${eliminarAlumno.id}?centroId=${centroActivo.id}`,
+      `${API_URL}/api/admin/profesores/${eliminarProfesor.id}?centroId=${centroActivo.id}`,
       { method: "DELETE", headers: { Authorization: `Bearer ${token}` } },
     );
     const data = await res.json();
@@ -141,69 +144,89 @@ function AlumnosAdmin() {
   const exportarPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(14);
-    doc.text("Alumnos", 14, 15);
+    doc.text("Profesores", 14, 15);
     autoTable(doc, {
       startY: 22,
-      head: [["Alumno", "Codigo", "Curso", "Correo"]],
-      body: alumnosFiltrados.map((a) => [
-        `${a.nombre} ${a.apellidos ?? ""}`,
-        a.codigo ?? "-",
-        `${a.curso ?? "-"}${a.rama ? " " + a.rama : ""}`,
-        a.email,
+      head: [["Profesor", "Codigo", "Asignaturas", "Cursos", "Correo"]],
+      body: profesoresFiltrados.map((p) => [
+        `${p.nombre} ${p.apellidos ?? ""}`,
+        p.codigo ?? "-",
+        p.asignaturas.join(", ") || "-",
+        p.cursos.join(", ") || "-",
+        p.email,
       ]),
     });
-    doc.save("alumnos.pdf");
+    doc.save("profesores.pdf");
     setMostrarExportar(false);
   };
 
   const exportarExcel = () => {
-    const filas = alumnosFiltrados.map((a) => ({
-      Alumno: `${a.nombre} ${a.apellidos ?? ""}`,
-      Codigo: a.codigo ?? "-",
-      Curso: `${a.curso ?? "-"}${a.rama ? " " + a.rama : ""}`,
-      Correo: a.email,
+    const filas = profesoresFiltrados.map((p) => ({
+      Profesor: `${p.nombre} ${p.apellidos ?? ""}`,
+      Codigo: p.codigo ?? "-",
+      Asignaturas: p.asignaturas.join(", ") || "-",
+      Cursos: p.cursos.join(", ") || "-",
+      Correo: p.email,
     }));
     const hoja = XLSX.utils.json_to_sheet(filas);
     const libro = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(libro, hoja, "Alumnos");
-    XLSX.writeFile(libro, "alumnos.xlsx");
+    XLSX.utils.book_append_sheet(libro, hoja, "Profesores");
+    XLSX.writeFile(libro, "profesores.xlsx");
     setMostrarExportar(false);
   };
 
   const exportarCredencialesPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(14);
-    doc.text("Credenciales de acceso - Alumnos nuevos", 14, 15);
+    doc.text("Credenciales de acceso - Profesores nuevos", 14, 15);
     autoTable(doc, {
       startY: 22,
-      head: [["Nombre", "Codigo", "Curso", "Contraseña"]],
-      body: alumnosCreadosSesion.map((a) => [
-        `${a.nombre} ${a.apellidos ?? ""}`,
-        a.codigo,
-        a.curso,
-        a.password ?? "(ya tenia cuenta)",
+      head: [["Nombre", "Codigo", "Asignaturas", "Contraseña"]],
+      body: profesoresCreadosSesion.map((p) => [
+        `${p.nombre} ${p.apellidos ?? ""}`,
+        p.codigo,
+        p.asignaturas,
+        p.password ?? "(ya tenia cuenta)",
       ]),
     });
-    doc.save("credenciales_alumnos.pdf");
+    doc.save("credenciales_profesores.pdf");
   };
 
   const exportarCredencialesExcel = () => {
-    const filas = alumnosCreadosSesion.map((a) => ({
-      Nombre: `${a.nombre} ${a.apellidos ?? ""}`,
-      Codigo: a.codigo,
-      Curso: a.curso,
-      Contraseña: a.password ?? "(ya tenia cuenta)",
+    const filas = profesoresCreadosSesion.map((p) => ({
+      Nombre: `${p.nombre} ${p.apellidos ?? ""}`,
+      Codigo: p.codigo,
+      Asignaturas: p.asignaturas,
+      Contraseña: p.password ?? "(ya tenia cuenta)",
     }));
     const hoja = XLSX.utils.json_to_sheet(filas);
     const libro = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(libro, hoja, "Credenciales");
-    XLSX.writeFile(libro, "credenciales_alumnos.xlsx");
+    XLSX.writeFile(libro, "credenciales_profesores.xlsx");
   };
 
   const getIniciales = (nombre: string, apellidos: string) =>
     `${nombre[0] ?? ""}${apellidos?.[0] ?? ""}`.toUpperCase();
 
-  if (loading) return <p>Cargando alumnos...</p>;
+  const renderBadges = (items: string[], colorClass: string) => {
+    if (items.length === 0) return <span className="admin-badge-vacio">-</span>;
+    const visibles = items.slice(0, 2);
+    const restantes = items.length - visibles.length;
+    return (
+      <div className="admin-badges-wrapper">
+        {visibles.map((item) => (
+          <span key={item} className={`admin-badge ${colorClass}`}>
+            {item}
+          </span>
+        ))}
+        {restantes > 0 && (
+          <span className="admin-badge admin-badge-mas">+{restantes}</span>
+        )}
+      </div>
+    );
+  };
+
+  if (loading) return <p>Cargando profesores...</p>;
   if (error) {
     return (
       <div className="content">
@@ -216,23 +239,24 @@ function AlumnosAdmin() {
     <div className="content admin-alumnos-page">
       <div className="admin-alumnos-header">
         <div>
-          <h1>Alumnos</h1>
-          <p>Gestiona todos los alumnos registrados en el centro.</p>
+          <h1>Profesores</h1>
+          <p>Gestiona todos los profesores que forman parte del centro.</p>
         </div>
         <button
           className="btn-agregar-curso"
           onClick={() => setModalAnadirAbierto(true)}
         >
-          <Plus size={16} /> Agregar alumno
+          <Plus size={16} /> Agregar profesor
         </button>
       </div>
 
-      {alumnosCreadosSesion.length > 0 && (
+      {profesoresCreadosSesion.length > 0 && (
         <div
           className="modal-aviso-entregas"
           style={{ background: "#dcfce7", color: "#166534", marginBottom: 16 }}
         >
-          Has añadido {alumnosCreadosSesion.length} alumno(s) en esta sesion.{" "}
+          Has añadido {profesoresCreadosSesion.length} profesor(s) en esta
+          sesion.{" "}
           <span
             style={{ textDecoration: "underline", cursor: "pointer" }}
             onClick={exportarCredencialesPDF}
@@ -253,7 +277,7 @@ function AlumnosAdmin() {
         <div className="buscador-ad">
           <Search size={18} />
           <input
-            placeholder="Buscar alumnos por nombre, correo o codigo..."
+            placeholder="Buscar profesor por nombre, correo o codigo..."
             value={busqueda}
             onChange={(e) => {
               setBusqueda(e.target.value);
@@ -268,9 +292,9 @@ function AlumnosAdmin() {
             onChange={(e) => handleCambiarNivel(e.target.value)}
           >
             <option value="todos">Todos los niveles</option>
-            {nivelesUnicos.map((nivel) => (
-              <option key={nivel} value={nivel}>
-                {nivel}
+            {nivelesUnicos.map((n) => (
+              <option key={n} value={n}>
+                {n}
               </option>
             ))}
           </select>
@@ -285,9 +309,9 @@ function AlumnosAdmin() {
             }}
           >
             <option value="todos">Todos los cursos</option>
-            {cursosUnicos.map(([id, nombre]) => (
-              <option key={id ?? "sin-curso"} value={id ?? ""}>
-                {nombre}
+            {cursosUnicos.map((c) => (
+              <option key={c} value={c}>
+                {c}
               </option>
             ))}
           </select>
@@ -324,58 +348,55 @@ function AlumnosAdmin() {
           <thead>
             <tr>
               <th>#</th>
-              <th>Alumno</th>
+              <th>Profesor</th>
               <th>Codigo</th>
-              <th>Curso</th>
+              <th>Asignaturas que imparte</th>
+              <th>Cursos</th>
               <th>Correo</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {alumnosPagina.map((a, i) => (
-              <tr key={a.id}>
+            {profesoresPagina.map((p, i) => (
+              <tr key={p.id}>
                 <td>{(pagina - 1) * PAGE_SIZE + i + 1}</td>
                 <td>
                   <div className="admin-alumno-col">
                     <div className="admin-alumno-avatar">
-                      {a.fotoUrl ? (
-                        <img src={a.fotoUrl} alt={a.nombre} />
+                      {p.fotoUrl ? (
+                        <img src={p.fotoUrl} alt={p.nombre} />
                       ) : (
-                        <span>{getIniciales(a.nombre, a.apellidos)}</span>
+                        <span>{getIniciales(p.nombre, p.apellidos)}</span>
                       )}
                     </div>
                     <span>
-                      {a.nombre} {a.apellidos}
+                      {p.nombre} {p.apellidos}
                     </span>
                   </div>
                 </td>
-                <td>{a.codigo ?? "-"}</td>
-                <td>
-                  {a.curso ?? "-"}
-                  {a.rama && (
-                    <span className="admin-alumno-rama"> {a.rama}</span>
-                  )}
-                </td>
-                <td>{a.email}</td>
+                <td>{p.codigo ?? "-"}</td>
+                <td>{renderBadges(p.asignaturas, "admin-badge-azul")}</td>
+                <td>{renderBadges(p.cursos, "admin-badge-verde")}</td>
+                <td>{p.email}</td>
                 <td>
                   <div className="admin-acciones">
                     <button
                       className="admin-accion-btn ver"
-                      onClick={() => navigate(`/admin/alumnos/${a.id}`)}
+                      onClick={() => navigate(`/admin/profesores/${p.id}`)}
                     >
                       <Eye size={14} />
                     </button>
                     <button
                       className="admin-accion-btn editar"
                       onClick={() =>
-                        navigate(`/admin/alumnos/${a.id}?editar=1`)
+                        navigate(`/admin/profesores/${p.id}?editar=1`)
                       }
                     >
                       <Pencil size={14} />
                     </button>
                     <button
                       className="admin-accion-btn eliminar"
-                      onClick={() => setEliminarAlumno(a)}
+                      onClick={() => setEliminarProfesor(p)}
                     >
                       <Trash2 size={14} />
                     </button>
@@ -383,10 +404,10 @@ function AlumnosAdmin() {
                 </td>
               </tr>
             ))}
-            {alumnosPagina.length === 0 && (
+            {profesoresPagina.length === 0 && (
               <tr>
-                <td colSpan={6} className="material-vacio">
-                  No se encontraron alumnos.
+                <td colSpan={7} className="material-vacio">
+                  No se encontraron profesores.
                 </td>
               </tr>
             )}
@@ -394,12 +415,12 @@ function AlumnosAdmin() {
         </table>
       </div>
 
-      {alumnosFiltrados.length > 0 && (
+      {profesoresFiltrados.length > 0 && (
         <div className="tareas-paginacion">
           <span>
             Mostrando {(pagina - 1) * PAGE_SIZE + 1} a{" "}
-            {Math.min(pagina * PAGE_SIZE, alumnosFiltrados.length)} de{" "}
-            {alumnosFiltrados.length} alumnos
+            {Math.min(pagina * PAGE_SIZE, profesoresFiltrados.length)} de{" "}
+            {profesoresFiltrados.length} profesores
           </span>
           <div className="paginacion-botones">
             <button
@@ -426,24 +447,23 @@ function AlumnosAdmin() {
           </div>
         </div>
       )}
-
-      {eliminarAlumno && (
+      {eliminarProfesor && (
         <ConfirmarEliminarModal
-          titulo="Eliminar alumno"
-          mensaje={`¿Seguro que quieres eliminar a ${eliminarAlumno.nombre} ${eliminarAlumno.apellidos ?? ""} del centro?`}
-          onClose={() => setEliminarAlumno(null)}
+          titulo="Eliminar profesor"
+          mensaje={`¿Seguro que quieres eliminar a ${eliminarProfesor.nombre} ${eliminarProfesor.apellidos ?? ""} del centro?`}
+          onClose={() => setEliminarProfesor(null)}
           onConfirmar={handleEliminar}
         />
       )}
 
       {modalAnadirAbierto && (
-        <AnadirAlumnoModal
+        <AnadirProfesorModal
           onClose={() => setModalAnadirAbierto(false)}
-          onCreado={handleAlumnoCreado}
+          onCreado={handleProfesorCreado}
         />
       )}
     </div>
   );
 }
 
-export default AlumnosAdmin;
+export default ProfesoresAdmin;
