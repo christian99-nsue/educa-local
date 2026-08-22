@@ -190,7 +190,10 @@ function CursosAdmin() {
             pertenecen a cada curso.
           </p>
         </div>
-        <button className="btn-agregar-curso">
+        <button
+          className="btn-agregar-curso"
+          onClick={() => navigate("/admin/cursos/crear")}
+        >
           <Plus size={16} /> Agregar curso
         </button>
       </div>

@@ -74,7 +74,7 @@ export const ObtenerDetalleTareaAlumno = async (req: any, res: any) => {
     const entrega = entregaRows[0];
 
     let calificacion = null;
-    if (entrega?.estado === "calificada" && entrega.nota) {
+    if (entrega?.nota) {
       const valor = notaANumero(entrega.nota, sistemaCalificacion);
       const nota =
         sistemaCalificacion === "A-F"

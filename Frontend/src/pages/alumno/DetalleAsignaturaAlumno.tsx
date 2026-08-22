@@ -81,6 +81,13 @@ function DetalleAsignaturaAlumno() {
   const cargarDetalle = async () => {
     const token = localStorage.getItem("token");
     const centroActivo = getCentroActivo();
+
+    if (!centroActivo?.id) {
+      setError("No se ha seleccionado un centro activo.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch(
         `${API_URL}/api/alumno/asignatura/${cursoAsignaturaId}/detalle?centroId=${centroActivo.id}`,
@@ -100,6 +107,11 @@ function DetalleAsignaturaAlumno() {
   const cargarTareas = async () => {
     const token = localStorage.getItem("token");
     const centroActivo = getCentroActivo();
+
+    if (!centroActivo?.id) {
+      return;
+    }
+
     try {
       const res = await fetch(
         `${API_URL}/api/alumno/asignatura/${cursoAsignaturaId}/tareas-pendientes?centroId=${centroActivo.id}`,
@@ -116,6 +128,14 @@ function DetalleAsignaturaAlumno() {
   const cargarMateriales = async (carpetaId?: number) => {
     const token = localStorage.getItem("token");
     const centroActivo = getCentroActivo();
+
+    if (!centroActivo?.id) {
+      setError("No se ha seleccionado un centro activo.");
+      setLoadingMateriales(false);
+      setLoading(false);
+      return;
+    }
+
     try {
       const url = carpetaId
         ? `${API_URL}/api/alumno/asignatura/${cursoAsignaturaId}/materiales?centroId=${centroActivo.id}&carpetaId=${carpetaId}`

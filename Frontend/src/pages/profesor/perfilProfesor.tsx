@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Camera } from "lucide-react";
 import avatarDefault from "../../assets/images/avatar-default.png";
 import { getUser } from "../../utils/auth";
+import { setSecureUser } from "../../utils/secureStorage";
 import CambiarPasswordForm from "../../components/CambiarPasswordForm";
 import "../../styles/perfilProfesor.css";
 
@@ -84,7 +85,7 @@ function PerfilProfesor() {
         ...usuarioActual,
         foto_url: data.foto_url,
       };
-      localStorage.setItem("user", JSON.stringify(usuarioActualizado));
+      setSecureUser(usuarioActualizado);
       window.dispatchEvent(new Event("perfil-actualizado"));
 
       setExito("Foto de perfil actualizada");
@@ -130,7 +131,7 @@ function PerfilProfesor() {
         nombre: data.nombre,
         apellidos: data.apellidos,
       };
-      localStorage.setItem("user", JSON.stringify(usuarioActualizado));
+      setSecureUser(usuarioActualizado);
 
       setExito("Perfil actualizado correctamente");
     } catch (err) {

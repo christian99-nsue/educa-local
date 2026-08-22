@@ -3,6 +3,7 @@ import { useState } from "react";
 import CerrarSesionModal from "../components/CerrarSesionModal";
 import SidebarAdmin from "../components/SidebarAdmin";
 import Header from "../components/Header";
+import { clearSecureStorage } from "../utils/secureStorage";
 import "../styles/LayoutAdmin.css";
 
 const LayoutAdmin = () => {
@@ -10,6 +11,7 @@ const LayoutAdmin = () => {
   const navigate = useNavigate();
 
   const handleCerrarSesion = () => {
+    clearSecureStorage();
     localStorage.clear();
     sessionStorage.clear();
     navigate("/");

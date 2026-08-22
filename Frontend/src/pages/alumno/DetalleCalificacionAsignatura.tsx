@@ -79,6 +79,13 @@ function DetalleCalificacionAsignatura() {
     const cargar = async () => {
       const token = localStorage.getItem("token");
       const centroActivo = getCentroActivo();
+
+      if (!centroActivo?.id) {
+        setError("No se ha seleccionado un centro activo.");
+        setLoading(false);
+        return;
+      }
+
       try {
         const res = await fetch(
           `${API_URL}/api/calificaciones/asignatura/${cursoAsignaturaId}/detalle?centroId=${centroActivo.id}`,

@@ -65,7 +65,7 @@ export const loginUser = async (identifier: string, password: string) => {
       id: user.id,
       centros: centrosUnicos,
     },
-    process.env.JWT_SECRET!,
+    process.env.JWT_SECRET as string,
     { expiresIn: "1d" },
   );
 

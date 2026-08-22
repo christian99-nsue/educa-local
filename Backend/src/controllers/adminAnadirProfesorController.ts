@@ -1,5 +1,6 @@
 import { db } from "../config/db";
 import bcrypt from "bcrypt";
+import { registrarActividad } from "../utils/actividadUtil";
 
 const generarPassword = () => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
@@ -193,6 +194,13 @@ export const CrearProfesorNuevo = async (req: any, res: any) => {
       [cursoAsignaturaIds],
     );
 
+    await registrarActividad(
+      centroId,
+      "profesor_registrado",
+      "Nuevo profesor registrado",
+      `El profesor ${nombre} ${apellidos ?? ""} ha sido registrado`.trim(),
+    );
+
     res.status(201).json({
       id: result.insertId,
       nombre,
@@ -264,6 +272,13 @@ export const AnadirProfesorExistente = async (req: any, res: any) => {
        JOIN centro_cursos cc ON cc.id = ca.curso_id
        WHERE ca.id IN (?)`,
       [cursoAsignaturaIds],
+    );
+
+    await registrarActividad(
+      centroId,
+      "profesor_registrado",
+      "Profesor añadido al centro",
+      `El profesor ${userRows[0].nombre} ${userRows[0].apellidos ?? ""} se ha unido al centro`.trim(),
     );
 
     res.status(201).json({

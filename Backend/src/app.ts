@@ -29,6 +29,8 @@ import passwordRoutes from "./routes/passwordRoutes";
 import adminAjustesRoutes from "./routes/adminAjustesRoutes";
 import adminAnadirAlumnoRoutes from "./routes/adminAnadirAlumnoRoutes";
 import adminAnadirProfesorRoutes from "./routes/adminAnadirProfesorRoutes";
+import adminCrearCursoRoutes from "./routes/adminCrearCursoRoutes";
+import adminHorariosBuilderRoutes from "./routes/adminHorariosBuilderRoutes";
 
 const app = express();
 app.set("trust proxy", 1);
@@ -53,11 +55,16 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
-  res.setHeader("Cross-Origin-Embedder_policy", "unsafe-none");
+  // Headers CORS más seguros por defecto
+  // Si necesitas compartir recursos entre orígenes específicos, usa valores restrictivos
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  res.setHeader("Cross-Origin-Embedder-Policy", "cross-origin");
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
   next();
 });
 app.use(express.json());
+app.use("/api", limiteGeneral);
+
 app.use("/api/auth", authRoutes);
 app.use("/api/auth", passwordResetRoutes);
 app.use("/api/asignaturas", asignaturasRoutes);
@@ -86,6 +93,7 @@ app.use("/api/password", passwordRoutes);
 app.use("/api/admin/ajustes", adminAjustesRoutes);
 app.use("/api/admin/alumnos/anadir", adminAnadirAlumnoRoutes);
 app.use("/api/admin/profesores/anadir", adminAnadirProfesorRoutes);
-app.use("/api", limiteGeneral);
+app.use("/api/admin/cursos/crear", adminCrearCursoRoutes);
+app.use("/api/admin/horarios", adminHorariosBuilderRoutes);
 
 export default app;

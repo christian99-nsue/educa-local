@@ -136,7 +136,7 @@ export const ObtenerDetalleProfesor = async (req: any, res: any) => {
 export const EditarProfesor = async (req: any, res: any) => {
   const usuarioId = req.user.id;
   const { profesorId } = req.params;
-  const { centroId, nombre, apellidos, email, telefono } = req.body;
+  const { centroId, nombre, apellidos, email, telefono, estado } = req.body;
 
   if (!centroId || !nombre || !email) {
     return res.status(400).json({ error: "Faltan datos requeridos" });
@@ -153,6 +153,13 @@ export const EditarProfesor = async (req: any, res: any) => {
       `UPDATE usuarios SET nombre = ?, apellidos = ?, email = ?, telefono = ? WHERE id = ?`,
       [nombre, apellidos || null, email, telefono || null, profesorId],
     );
+
+    if (estado) {
+      await db.query(
+        `UPDATE centro_usuarios SET estado = ? WHERE user_id = ? AND centro_id = ? AND rol_en_centro = 'profesor'`,
+        [estado, profesorId, centroId],
+      );
+    }
 
     res.json({ mensaje: "Profesor actualizado correctamente" });
   } catch (error) {

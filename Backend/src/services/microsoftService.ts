@@ -118,7 +118,7 @@ export const microsoftLogin = async (idToken: string) => {
       id: user.id,
       centros: centrosUnicos,
     },
-    process.env.JWT_SECRET!,
+    process.env.JWT_SECRET as string,
     { expiresIn: "1d" },
   );
 

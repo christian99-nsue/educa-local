@@ -3,6 +3,7 @@ import { useState } from "react";
 import CerrarSesionModal from "../components/CerrarSesionModal";
 import SidebarProfesor from "../components/SidebarProfesor";
 import Header from "../components/Header";
+import { clearSecureStorage } from "../utils/secureStorage";
 import "../styles/LayoutProfesor.css";
 
 const LayoutProfesor = () => {
@@ -10,6 +11,7 @@ const LayoutProfesor = () => {
   const navigate = useNavigate();
 
   const handleCerrarSesion = () => {
+    clearSecureStorage();
     localStorage.clear();
     sessionStorage.clear();
     navigate("/");

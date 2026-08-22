@@ -1,5 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import SelectCenter from "./SelectCentro";
+import {
+  setSecureUser,
+  setSecureCentro,
+  getSecureUser,
+} from "../../utils/secureStorage";
 
 interface CentroRaw {
   id?: number;
@@ -29,15 +34,15 @@ export default function SelectCenterPage() {
       onSelect={(centro) => {
         const rol = centro.rol_en_centro ?? centro.rol ?? "alumno";
 
-        localStorage.setItem("centroActivo", JSON.stringify(centro));
+        setSecureCentro(centro);
 
-        const existingUser = JSON.parse(localStorage.getItem("user") || "{}");
+        const existingUser = getSecureUser() || {};
         const fullUser = {
           ...(state?.user ?? existingUser),
           rol_en_centro: rol,
           centro: { nombre: centro.nombre },
         };
-        localStorage.setItem("user", JSON.stringify(fullUser));
+        setSecureUser(fullUser);
 
         if (rol === "admin") navigate("/admin");
         else if (rol === "profesor") navigate("/profesor");

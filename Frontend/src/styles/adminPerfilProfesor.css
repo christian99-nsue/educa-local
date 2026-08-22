@@ -1,0 +1,170 @@
+.ppa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.ppa-header-izq {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.ppa-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ppa-header h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.ppa-subtitulo {
+  font-size: 12px;
+  color: #888;
+  margin: 2px 0;
+  line-height: 1.6;
+}
+
+.ppa-codigo {
+  font-size: 12px;
+  color: #888;
+  margin: 0 0 6px;
+  line-height: 1.6;
+}
+
+.estado-activo {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.estado-inactivo {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.btn-editar-perfil-admin {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid rgb(67, 67, 253);
+  color: rgb(67, 67, 253);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-editar-perfil-admin svg {
+  color: rgb(67, 67, 253);
+}
+
+.ppa-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.ppa-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  padding: 20px;
+}
+
+.ppa-card h3 {
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+.ppa-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.ppa-info-grid span {
+  font-size: 11px;
+  color: #999;
+  display: block;
+}
+
+.ppa-info-grid strong {
+  font-size: 13px;
+}
+
+.ppa-asignatura-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.ppa-asignatura-item strong {
+  font-size: 13px;
+  display: block;
+}
+
+.ppa-asignatura-item p {
+  font-size: 11px;
+  color: #888;
+  margin: 2px 0 0;
+}
+
+.ppa-total-asignaciones {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #666;
+  margin-top: 12px;
+}
+
+p.ppa-ver-completo {
+  text-align: right;
+  font-size: 12px;
+  color: #2563eb;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.editar-profesor-tabs {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+
+.editar-profesor-tabs button {
+  border: none;
+  background: none;
+  padding: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #999;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.editar-profesor-tabs button.activo {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+}
+
+.editar-profesor-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}

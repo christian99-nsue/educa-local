@@ -1,7 +1,15 @@
+import { getSecureUser, getSecureCentro } from "./secureStorage";
+
+/**
+ * Obtiene el usuario autenticado desde almacenamiento seguro
+ */
 export const getUser = () => {
-  return JSON.parse(localStorage.getItem("user") || "null");
+  return getSecureUser();
 };
 
+/**
+ * Obtiene el centro activo desde almacenamiento seguro
+ */
 export const getCentroActivo = () => {
-  return JSON.parse(localStorage.getItem("centroActivo") || "{}");
+  return getSecureCentro() || {};
 };

@@ -389,7 +389,7 @@ function ProfesoresAdmin() {
                     <button
                       className="admin-accion-btn editar"
                       onClick={() =>
-                        navigate(`/admin/profesores/${p.id}?editar=1`)
+                        navigate(`/admin/profesores/${p.id}/editar`)
                       }
                     >
                       <Pencil size={14} />

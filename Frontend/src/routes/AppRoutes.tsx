@@ -35,8 +35,13 @@ import AlumnosAdmin from "../pages/admin/AlumnosAdmin";
 import DetalleAlumnoAdmin from "../pages/admin/DetalleAlumnoAdmin";
 import ProfesoresAdmin from "../pages/admin/ProfesoresAdmin";
 import CursosAdmin from "../pages/admin/CursosAdmin";
-import HorarioAdmin from "../pages/admin/HorarioAdmin";
 import AjustesAdmin from "../pages/admin/AjustesAdmin";
+import CrearCursoAdmin from "../pages/admin/CrearCursoAdmin";
+import EditorHorarioAdmin from "../pages/admin/EditorHorarioAdmin";
+import CrearHorarioWizard from "../pages/admin/CrearHorarioWizard";
+import HorariosListaAdmin from "../pages/admin/HorariosListaAdmin";
+import PerfilProfesorAdmin from "../pages/admin/PerfilProfesorAdmin";
+import EditarProfesorAdmin from "../pages/admin/EditarProfesorAdmin";
 
 export default function AppRoutes() {
   return (
@@ -111,9 +116,23 @@ export default function AppRoutes() {
             <Route path="alumnos" element={<AlumnosAdmin />} />
             <Route path="alumnos/:alumnoId" element={<DetalleAlumnoAdmin />} />
             <Route path="profesores" element={<ProfesoresAdmin />} />
+            <Route
+              path="profesores/:profesorId"
+              element={<PerfilProfesorAdmin />}
+            />
             <Route path="cursos" element={<CursosAdmin />} />
-            <Route path="horario" element={<HorarioAdmin />} />
+            <Route path="horarios" element={<HorariosListaAdmin />} />
+            <Route path="horarios/crear" element={<CrearHorarioWizard />} />
+            <Route
+              path="horarios/:centroCursoId"
+              element={<EditorHorarioAdmin />}
+            />
             <Route path="ajustes" element={<AjustesAdmin />} />
+            <Route path="cursos/crear" element={<CrearCursoAdmin />} />
+            <Route
+              path="profesores/:profesorId/editar"
+              element={<EditarProfesorAdmin />}
+            />
           </Route>
         </Route>
       </Routes>

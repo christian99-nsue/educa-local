@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID as string);
 
 export const googleLogin = async (token: string) => {
   type CentroRaw = {
@@ -16,7 +16,7 @@ export const googleLogin = async (token: string) => {
 
   const ticket = await client.verifyIdToken({
     idToken: token,
-    audience: process.env.GOOGLE_CLIENT_ID,
+    audience: process.env.GOOGLE_CLIENT_ID as string,
   });
   const payload = ticket.getPayload();
   const email = payload?.email;
@@ -54,12 +54,16 @@ export const googleLogin = async (token: string) => {
     new Map(centros.map((c: { id: number }) => [c.id, c])).values(),
   );
 
-  const tokenJWT = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, {
-    expiresIn: "1d",
-  });
+  const token = jwt.sign(
+    {
+      id: user.id,
+      centros: centrosUnicos,
+    },
+    process.env.JWT_SECRET as string,
+    { expiresIn: "1d" },
+  );
 
   return {
-    token: tokenJWT,
     user: {
       id: user.id,
       email: user.email,
@@ -69,5 +73,6 @@ export const googleLogin = async (token: string) => {
       foto_url: user.foto_url,
     },
     centros: centrosUnicos,
+    token,
   };
 };

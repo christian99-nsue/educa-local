@@ -3,6 +3,7 @@ import { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import CerrarSesionModal from "../components/CerrarSesionModal";
+import { clearSecureStorage } from "../utils/secureStorage";
 import "../styles/LayoutAlumno.css";
 
 const LayoutAlumno = () => {
@@ -10,6 +11,7 @@ const LayoutAlumno = () => {
   const navigate = useNavigate();
 
   const handleCerrarSesion = () => {
+    clearSecureStorage();
     localStorage.clear();
     sessionStorage.clear();
     navigate("/");

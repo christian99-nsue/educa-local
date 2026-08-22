@@ -80,7 +80,7 @@ const SidebarAdmin = ({ onCerrarSesionClick }: SidebarAdminProps) => {
         </NavLink>
 
         <NavLink
-          to="horario"
+          to="horarios"
           className={({ isActive }) =>
             isActive ? "nav-item-ad active-ad" : "nav-item-ad"
           }

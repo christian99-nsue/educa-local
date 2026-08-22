@@ -16,6 +16,7 @@ import {
   isMicrosoftAuthConfigured,
   microsoftLoginRequest,
 } from "../../authConfig";
+import { setSecureUser, setSecureCentro } from "../../utils/secureStorage";
 import "../../styles/Login.css";
 
 // IMAGES
@@ -69,8 +70,8 @@ const Login = () => {
         },
       };
 
-      localStorage.setItem("user", JSON.stringify(fullUser));
-      localStorage.setItem("centroActivo", JSON.stringify(centro));
+      setSecureUser(fullUser);
+      setSecureCentro(centro);
 
       handleRedirectByRole(rol);
     } else {
