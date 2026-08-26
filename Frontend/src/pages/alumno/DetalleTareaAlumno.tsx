@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder } from "@fortawesome/free-solid-svg-icons";
 import { getCentroActivo } from "../../utils/auth";
 import { getMaterialIcono, formatearTamano } from "../../utils/materialIconos";
-import "../../styles/detalleTareaAlumno.css";
+import "../../styles/alumno/detalleTareaAlumno.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

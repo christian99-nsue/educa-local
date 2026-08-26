@@ -1,5 +1,5 @@
 import { X, LogOut } from "lucide-react";
-import "../styles/cerrarSesionModal.css";
+import "../styles/auth/cerrarSesionModal.css";
 
 interface CerrarSesionModalProps {
   onCancel: () => void;

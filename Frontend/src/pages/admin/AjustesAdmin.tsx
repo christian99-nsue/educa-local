@@ -3,7 +3,7 @@ import { Camera } from "lucide-react";
 import { getCentroActivo } from "../../utils/auth";
 import avatarDefault from "../../assets/images/avatar-default.png";
 import logoCentro from "../../assets/images/instituto.png";
-import "../../styles/adminAjustes.css";
+import "../../styles/admin/adminAjustes.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

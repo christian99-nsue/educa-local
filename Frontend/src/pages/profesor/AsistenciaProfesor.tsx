@@ -3,7 +3,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
 import { getCentroActivo } from "../../utils/auth";
-import "../../styles/AsistenciaProfesor.css";
+import "../../styles/profesor/AsistenciaProfesor.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDownload,

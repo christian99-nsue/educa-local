@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Info, Calendar, List } from "lucide-react";
 import { getCentroActivo } from "../../utils/auth";
 import { abreviarRama } from "../../utils/abreviarRama";
-import "../../styles/horarioAlumno.css";
+import "../../styles/alumno/horarioAlumno.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

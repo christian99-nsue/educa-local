@@ -11,7 +11,7 @@ import {
   faLock,
 } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
-import "../../styles/Login.css";
+import "../../styles/auth/Login.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

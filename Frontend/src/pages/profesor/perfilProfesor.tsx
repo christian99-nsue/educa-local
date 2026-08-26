@@ -4,7 +4,7 @@ import avatarDefault from "../../assets/images/avatar-default.png";
 import { getUser } from "../../utils/auth";
 import { setSecureUser } from "../../utils/secureStorage";
 import CambiarPasswordForm from "../../components/CambiarPasswordForm";
-import "../../styles/perfilProfesor.css";
+import "../../styles/profesor/perfilProfesor.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

@@ -5,7 +5,7 @@ import { getIconoAsignatura } from "../../utils/asignaturaIconos";
 import AsignaturaCardProfesor from "../../components/AsignaturaCardProfesor";
 import { useNavigate } from "react-router-dom";
 import { getCentroActivo } from "../../utils/auth";
-import "../../styles/dashboardProfesor.css";
+import "../../styles/profesor/dashboardProfesor.css";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 
 const API_URL = import.meta.env.VITE_API_URL;

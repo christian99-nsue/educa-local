@@ -11,7 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getCentroActivo } from "../../utils/auth";
 import { getIconoRama } from "../../utils/ramaIconos";
-import "../../styles/adminCrearCurso.css";
+import "../../styles/admin/adminCrearCurso.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

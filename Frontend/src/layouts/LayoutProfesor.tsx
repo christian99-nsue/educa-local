@@ -4,7 +4,7 @@ import CerrarSesionModal from "../components/CerrarSesionModal";
 import SidebarProfesor from "../components/SidebarProfesor";
 import Header from "../components/Header";
 import { clearSecureStorage } from "../utils/secureStorage";
-import "../styles/LayoutProfesor.css";
+import "../styles/profesor/LayoutProfesor.css";
 
 const LayoutProfesor = () => {
   const [modalCerrarSesion, setModalCerrarSesion] = useState(false);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { getCentroActivo } from "../../utils/auth";
-import "../../styles/adminHorariosBuilder.css";
+import "../../styles/admin/adminHorariosBuilder.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

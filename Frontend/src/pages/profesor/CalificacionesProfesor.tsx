@@ -9,7 +9,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
 import { getCentroActivo } from "../../utils/auth";
-import "../../styles/calificacionesProfesor.css";
+import "../../styles/profesor/calificacionesProfesor.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const API_URL = import.meta.env.VITE_API_URL;

@@ -14,7 +14,7 @@ import * as XLSX from "xlsx";
 import { getIconoAsignatura } from "../../utils/asignaturaIconos";
 import { getCentroActivo } from "../../utils/auth";
 import { ChevronRight } from "lucide-react";
-import "../../styles/calificaciones.css";
+import "../../styles/alumno/calificaciones.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -67,7 +67,7 @@ function Calificaciones() {
       }
       try {
         const res = await fetch(
-          `${API_URL}/api/calificaciones/mis-calificaciones?centroId=${centroActivo.id}`,
+          `${API_URL}/api/alumno/calificaciones/mis-calificaciones?centroId=${centroActivo.id}`,
           { headers: { Authorization: `Bearer ${token}` } },
         );
         const json = await res.json();

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ChevronRight, Search } from "lucide-react";
 import { getCentroActivo } from "../../utils/auth";
 import CrearTareaModal from "../../components/CrearTareaModal";
-import "../../styles/tareasProfesor.css";
+import "../../styles/profesor/tareasProfesor.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

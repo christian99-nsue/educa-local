@@ -13,7 +13,7 @@ import {
   ArrowRight,
   type LucideIcon,
 } from "lucide-react";
-import "../../styles/dashboardAdmin.css";
+import "../../styles/admin/dashboardAdmin.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

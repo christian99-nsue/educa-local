@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Plus, Eye, Pencil, Trash2 } from "lucide-react";
 import { getCentroActivo } from "../../utils/auth";
 import ConfirmarEliminarModal from "../../components/ConfirmarEliminarModal";
-import "../../styles/adminAlumnos.css";
-import "../../styles/adminHorariosBuilder.css";
+import "../../styles/admin/adminAlumnos.css";
+import "../../styles/admin/adminHorariosBuilder.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

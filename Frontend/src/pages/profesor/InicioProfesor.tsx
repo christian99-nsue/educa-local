@@ -1,6 +1,6 @@
 import SummaryGridProfesor from "../../components/SummaryGridProfesor";
 import { getUser } from "../../utils/auth";
-import "../../styles/dashboardProfesor.css";
+import "../../styles/profesor/dashboardProfesor.css";
 
 const InicioProfesor = () => {
   const user = getUser();

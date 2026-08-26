@@ -42,6 +42,8 @@ import CrearHorarioWizard from "../pages/admin/CrearHorarioWizard";
 import HorariosListaAdmin from "../pages/admin/HorariosListaAdmin";
 import PerfilProfesorAdmin from "../pages/admin/PerfilProfesorAdmin";
 import EditarProfesorAdmin from "../pages/admin/EditarProfesorAdmin";
+import DetalleCursoAdmin from "../pages/admin/DetalleCursoAdmin";
+import EditarCursoAdmin from "../pages/admin/EditarCursoAdmin";
 
 export default function AppRoutes() {
   return (
@@ -132,6 +134,11 @@ export default function AppRoutes() {
             <Route
               path="profesores/:profesorId/editar"
               element={<EditarProfesorAdmin />}
+            />
+            <Route path="cursos/:cursoId" element={<DetalleCursoAdmin />} />
+            <Route
+              path="cursos/:cursoId/editar"
+              element={<EditarCursoAdmin />}
             />
           </Route>
         </Route>

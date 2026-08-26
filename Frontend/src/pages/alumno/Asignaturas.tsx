@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGraduationCap } from "@fortawesome/free-solid-svg-icons";
 import { getIconoAsignatura } from "../../utils/asignaturaIconos";
 import { getCentroActivo } from "../../utils/auth";
-import "../../styles/dashboard.css";
+import "../../styles/alumno/dashboard.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -55,7 +55,7 @@ function Asignaturas() {
 
       try {
         const res = await fetch(
-          `${API_URL}/api/asignaturas/mis-asignaturas?centroId=${centroActivo.id}`,
+          `${API_URL}/api/alumno/asignaturas/mis-asignaturas?centroId=${centroActivo.id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           },

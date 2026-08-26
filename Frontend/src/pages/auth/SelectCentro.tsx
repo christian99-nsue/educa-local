@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../styles/SelectCenter.css";
+import "../../styles/auth/SelectCenter.css";
 
 interface Centro {
   id: number;

@@ -4,7 +4,7 @@ import CerrarSesionModal from "../components/CerrarSesionModal";
 import SidebarAdmin from "../components/SidebarAdmin";
 import Header from "../components/Header";
 import { clearSecureStorage } from "../utils/secureStorage";
-import "../styles/LayoutAdmin.css";
+import "../styles/admin/LayoutAdmin.css";
 
 const LayoutAdmin = () => {
   const [modalCerrarSesion, setModalCerrarSesion] = useState(false);

@@ -7,7 +7,7 @@ import { obtenerZonaHorariaLocal } from "../../utils/timezones";
 import DatePicker from "react-datepicker";
 import { faCalendarAlt, faUsers } from "@fortawesome/free-solid-svg-icons";
 import "react-datepicker/dist/react-datepicker.css";
-import "../../styles/Login.css";
+import "../../styles/auth/Login.css";
 
 // IMAGES
 import logo from "../../assets/images/Libro1.1.png";

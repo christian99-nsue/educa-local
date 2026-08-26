@@ -6,7 +6,7 @@ import RegisterSteps from "../../components/RegisterSteps";
 import CountrySelect from "../../components/CountrySelect";
 import PhoneInput from "../../components/PhoneInput";
 import type { Pais } from "../../utils/countries";
-import "../../styles/Login.css";
+import "../../styles/auth/Login.css";
 
 // IMAGES
 import logo from "../../assets/images/Libro1.1.png";

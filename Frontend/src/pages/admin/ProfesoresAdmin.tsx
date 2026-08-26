@@ -11,7 +11,7 @@ import ConfirmarEliminarModal from "../../components/ConfirmarEliminarModal";
 import AnadirProfesorModal, {
   type ProfesorCreado,
 } from "../../components/AnadirProfesorModal";
-import "../../styles/adminAlumnos.css";
+import "../../styles/admin/adminAlumnos.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

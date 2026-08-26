@@ -14,7 +14,7 @@ import { getIconoAsignatura } from "../../utils/asignaturaIconos";
 import { getMaterialIcono } from "../../utils/materialIconos";
 import CalificarModal from "../../components/CalificarModal";
 import EditarTareaModal from "../../components/EditarTareaModal";
-import "../../styles/detalleTareaProfesor.css";
+import "../../styles/profesor/detalleTareaProfesor.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

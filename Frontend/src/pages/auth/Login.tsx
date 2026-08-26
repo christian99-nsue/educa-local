@@ -17,7 +17,7 @@ import {
   microsoftLoginRequest,
 } from "../../authConfig";
 import { setSecureUser, setSecureCentro } from "../../utils/secureStorage";
-import "../../styles/Login.css";
+import "../../styles/auth/Login.css";
 
 // IMAGES
 import logo from "../../assets/images/Libro1.1.png";

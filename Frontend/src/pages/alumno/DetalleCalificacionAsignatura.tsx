@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getCentroActivo } from "../../utils/auth";
 import { getIconoAsignatura } from "../../utils/asignaturaIconos";
 import { ChevronRight } from "lucide-react";
-import "../../styles/detalleCalificacionAsignatura.css";
+import "../../styles/alumno/detalleCalificacionAsignatura.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -88,7 +88,7 @@ function DetalleCalificacionAsignatura() {
 
       try {
         const res = await fetch(
-          `${API_URL}/api/calificaciones/asignatura/${cursoAsignaturaId}/detalle?centroId=${centroActivo.id}`,
+          `${API_URL}/api/alumno/calificaciones/asignatura/${cursoAsignaturaId}/detalle?centroId=${centroActivo.id}`,
           { headers: { Authorization: `Bearer ${token}` } },
         );
         const json = await res.json();

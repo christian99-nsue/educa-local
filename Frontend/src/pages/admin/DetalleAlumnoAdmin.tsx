@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import avatarDefault from "../../assets/images/avatar-default.png";
 import { getCentroActivo } from "../../utils/auth";
 import { ChevronRight } from "lucide-react";
-import "../../styles/adminAlumnos.css";
+import "../../styles/admin/adminAlumnos.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

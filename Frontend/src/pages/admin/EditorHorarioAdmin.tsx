@@ -11,7 +11,7 @@ import {
 import { getCentroActivo } from "../../utils/auth";
 import ClaseModal from "../../components/ClaseModal";
 import ConfirmarEliminarModal from "../../components/ConfirmarEliminarModal";
-import "../../styles/adminHorariosBuilder.css";
+import "../../styles/admin/adminHorariosBuilder.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -47,11 +47,14 @@ const DIAS = [
 ];
 
 const colores = [
-  { bg: "#e8eefd", borde: "#5b8def", texto: "Matematicas" },
-  { bg: "#e0f5e9", borde: "#3ba873", texto: "Fisica" },
-  { bg: "#fdf3e0", borde: "#e0a83a", texto: "Quimica" },
-  { bg: "#eee6fb", borde: "#8b5cf6", texto: "Ingles" },
-  { bg: "#fde8e8", borde: "#e05a5a", texto: "Historia" },
+  { bg: "#f0d5fc", borde: "#B032E7", texto: "Matematicas" },
+  { bg: "#c5def8", borde: "#59ADFF", texto: "Literatura" },
+  { bg: "#ffe3e4", borde: "#FC4850", texto: "Ingles" },
+  { bg: "#e7fdb8", borde: "#5f8408", texto: "Geologia" },
+  { bg: "#ffeba1", borde: "#F8C822", texto: "Ciencias Naturales" },
+  { bg: "#e6e6e6", borde: "#686868", texto: "Frances" },
+  { bg: "#ddffd8", borde: "#18B300", texto: "Economia" },
+  { bg: "#ffc9c9", borde: "#ff0000", texto: "Filosofia" },
 ];
 
 function EditorHorarioAdmin() {
@@ -73,6 +76,34 @@ function EditorHorarioAdmin() {
     clase?: Clase;
   } | null>(null);
   const [eliminarHorario, setEliminarHorario] = useState(false);
+  const [modalDescansoAbierto, setModalDescansoAbierto] = useState(false);
+  const [nombreDescanso, setNombreDescanso] = useState("Recreo");
+  const [horaInicioDescansoH, setHoraInicioDescansoH] = useState("12");
+  const [horaInicioDescansoM, setHoraInicioDescansoM] = useState("00");
+  const [horaFinDescansoH, setHoraFinDescansoH] = useState("12");
+  const [horaFinDescansoM, setHoraFinDescansoM] = useState("20");
+
+  const handleCrearDescanso = async () => {
+    const token = localStorage.getItem("token");
+    const centroActivo = getCentroActivo();
+    const res = await fetch(`${API_URL}/api/admin/horarios/descansos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        centroId: centroActivo.id,
+        nombre: nombreDescanso,
+        horaInicio: `${horaInicioDescansoH}:${horaInicioDescansoM}`,
+        horaFin: `${horaFinDescansoH}:${horaFinDescansoM}`,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error || "Error al crear el descanso");
+    setModalDescansoAbierto(false);
+    cargar();
+  };
 
   const cargar = async () => {
     const token = localStorage.getItem("token");
@@ -98,7 +129,6 @@ function EditorHorarioAdmin() {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- carga inicial de datos al montar, patron estandar
     cargar();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [centroCursoId]);
@@ -236,6 +266,12 @@ function EditorHorarioAdmin() {
           onClick={() => setEliminarHorario(true)}
         >
           <Trash2 size={14} /> Eliminar horario
+        </button>
+        <button
+          className="btn-guardar-verde"
+          onClick={() => setModalDescansoAbierto(true)}
+        >
+          <Plus size={14} /> Añadir descanso
         </button>
       </div>
 
@@ -433,6 +469,95 @@ function EditorHorarioAdmin() {
           onClose={() => setEliminarHorario(false)}
           onConfirmar={handleEliminarHorarioCompleto}
         />
+      )}
+
+      {modalDescansoAbierto && (
+        <div
+          className="modal-overlay"
+          onClick={() => setModalDescansoAbierto(false)}
+        >
+          <div
+            className="modal-content"
+            style={{ width: 380 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>Añadir descanso</h2>
+            <label className="modal-label">Nombre</label>
+            <input
+              className="modal-input"
+              value={nombreDescanso}
+              onChange={(e) => setNombreDescanso(e.target.value)}
+            />
+            <label className="modal-label">Hora inicio</label>
+            <div className="modal-hora-selects">
+              <select
+                className="modal-select"
+                value={horaInicioDescansoH}
+                onChange={(e) => setHoraInicioDescansoH(e.target.value)}
+              >
+                {Array.from({ length: 24 }, (_, i) =>
+                  String(i).padStart(2, "0"),
+                ).map((h) => (
+                  <option key={h} value={h}>
+                    {h}
+                  </option>
+                ))}
+              </select>
+              <span>:</span>
+              <select
+                className="modal-select"
+                value={horaInicioDescansoM}
+                onChange={(e) => setHoraInicioDescansoM(e.target.value)}
+              >
+                {["00", "10", "15", "20", "30", "40", "45", "50"].map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <label className="modal-label">Hora fin</label>
+            <div className="modal-hora-selects">
+              <select
+                className="modal-select"
+                value={horaFinDescansoH}
+                onChange={(e) => setHoraFinDescansoH(e.target.value)}
+              >
+                {Array.from({ length: 24 }, (_, i) =>
+                  String(i).padStart(2, "0"),
+                ).map((h) => (
+                  <option key={h} value={h}>
+                    {h}
+                  </option>
+                ))}
+              </select>
+              <span>:</span>
+              <select
+                className="modal-select"
+                value={horaFinDescansoM}
+                onChange={(e) => setHoraFinDescansoM(e.target.value)}
+              >
+                {["00", "10", "15", "20", "30", "40", "45", "50"].map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="modal-botones">
+              <button
+                className="modal-btn-cancelar"
+                onClick={() => setModalDescansoAbierto(false)}
+              >
+                Cancelar
+              </button>
+              <button className="modal-btn-crear" onClick={handleCrearDescanso}>
+                Crear
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

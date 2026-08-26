@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 import TareaCard from "../../components/TareaCard";
 import { getIconoAsignatura } from "../../utils/asignaturaIconos";
 import { getCentroActivo } from "../../utils/auth";
-import "../../styles/Tareas.css";
+import "../../styles/alumno/Tareas.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -58,7 +58,7 @@ function Tareas() {
 
       try {
         const res = await fetch(
-          `${API_URL}/api/tareas/mis-tareas?centroId=${centroActivo.id}`,
+          `${API_URL}/api/alumno/tareas/mis-tareas?centroId=${centroActivo.id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           },

@@ -4,7 +4,7 @@ import axios from "axios";
 import logo from "../../assets/images/Libro1.1.png";
 import illustration from "../../assets/images/IMG3.1.png";
 import { useTranslation } from "react-i18next";
-import "../../styles/Login.css";
+import "../../styles/auth/Login.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,

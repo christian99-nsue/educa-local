@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ChevronRight, Pencil, Users } from "lucide-react";
+import { ChevronRight, Pencil, Users, PowerOff, Trash2 } from "lucide-react";
 import avatarDefault from "../../assets/images/avatar-default.png";
 import { getCentroActivo } from "../../utils/auth";
 import { getIconoAsignatura } from "../../utils/asignaturaIconos";
-import "../../styles/adminPerfilProfesor.css";
+import "../../styles/admin/adminPerfilProfesor.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ConfirmarEliminarModal from "../../components/ConfirmarEliminarModal";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -55,6 +56,8 @@ function PerfilProfesorAdmin() {
   const [perfil, setPerfil] = useState<PerfilProfesor | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [modalDesactivar, setModalDesactivar] = useState(false);
+  const [modalEliminar, setModalEliminar] = useState(false);
 
   useEffect(() => {
     const cargar = async () => {
@@ -79,6 +82,49 @@ function PerfilProfesorAdmin() {
     };
     cargar();
   }, [profesorId]);
+
+  const handleDesactivar = async () => {
+    const token = localStorage.getItem("token");
+    const centroActivo = getCentroActivo();
+    const res = await fetch(`${API_URL}/api/admin/profesores/${profesorId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        centroId: centroActivo.id,
+        nombre: perfil!.nombre,
+        apellidos: perfil!.apellidos,
+        email: perfil!.email,
+        telefono: perfil!.telefono,
+        estado: perfil!.estado === "activo" ? "inactivo" : "activo",
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok)
+      throw new Error(data?.error || "Error al actualizar el estado");
+    setPerfil((prev) =>
+      prev
+        ? { ...prev, estado: prev.estado === "activo" ? "inactivo" : "activo" }
+        : prev,
+    );
+  };
+
+  const handleEliminar = async () => {
+    const token = localStorage.getItem("token");
+    const centroActivo = getCentroActivo();
+    const res = await fetch(
+      `${API_URL}/api/admin/profesores/${profesorId}?centroId=${centroActivo.id}`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error || "Error al eliminar");
+    navigate("/admin/profesores");
+  };
 
   const formatearFecha = (fecha: string | null) =>
     fecha
@@ -194,7 +240,7 @@ function PerfilProfesorAdmin() {
                 >
                   <FontAwesomeIcon
                     icon={icono}
-                    size="xl"
+                    size="2xl"
                     color={estilo.color}
                   />
                 </div>
@@ -269,6 +315,69 @@ function PerfilProfesorAdmin() {
           Ver horario completo →
         </p>
       </div>
+
+      <div className="ppa-card" style={{ marginTop: 20 }}>
+        <h3>Zona de peligro</h3>
+        <div className="ppa-zona-peligro">
+          <div className="ppa-peligro-item">
+            <PowerOff size={18} color="#d97706" />
+            <div>
+              <strong>
+                {perfil.estado === "activo" ? "Desactivar" : "Activar"} profesor
+              </strong>
+              <p>
+                {perfil.estado === "activo"
+                  ? "El profesor no podra iniciar sesion ni acceder a la plataforma, pero se mantendran todos sus datos, asignaciones y el historial."
+                  : "El profesor podra volver a iniciar sesion en la plataforma."}
+              </p>
+            </div>
+            <button
+              className="btn-peligro-naranja"
+              onClick={() => setModalDesactivar(true)}
+            >
+              {perfil.estado === "activo" ? "Desactivar" : "Activar"}
+            </button>
+          </div>
+          <div className="ppa-peligro-item">
+            <Trash2 size={18} color="#dc2626" />
+            <div>
+              <strong>Eliminar profesor</strong>
+              <p>
+                Esta accion no se puede deshacer. Se eliminaran todos sus datos
+                de forma permanente del sistema.
+              </p>
+            </div>
+            <button
+              className="btn-peligro-rojo"
+              onClick={() => setModalEliminar(true)}
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {modalDesactivar && (
+        <ConfirmarEliminarModal
+          titulo={`${perfil.estado === "activo" ? "Desactivar" : "Activar"} profesor`}
+          mensaje={`¿${perfil.estado === "activo" ? "Desactivar" : "Activar"} a ${perfil.nombre} ${perfil.apellidos}? ${
+            perfil.estado === "activo"
+              ? "El profesor no podra iniciar sesion ni acceder a la plataforma, pero se mantendran todos sus datos, asignaciones y el historial."
+              : ""
+          }`}
+          onClose={() => setModalDesactivar(false)}
+          onConfirmar={handleDesactivar}
+        />
+      )}
+
+      {modalEliminar && (
+        <ConfirmarEliminarModal
+          titulo="Eliminar profesor"
+          mensaje={`¿Eliminar a ${perfil.nombre} ${perfil.apellidos}? Esta accion no se puede deshacer. Se eliminaran todos sus datos de forma permanente del sistema.`}
+          onClose={() => setModalEliminar(false)}
+          onConfirmar={handleEliminar}
+        />
+      )}
     </div>
   );
 }

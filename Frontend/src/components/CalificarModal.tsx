@@ -3,7 +3,7 @@ import { X, ArrowLeft, Download } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getCentroActivo } from "../utils/auth";
 import { getMaterialIcono } from "../utils/materialIconos";
-import "../styles/calificarModal.css";
+import "../styles/profesor/calificarModal.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

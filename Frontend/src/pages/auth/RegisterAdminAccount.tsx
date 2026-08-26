@@ -4,7 +4,7 @@ import PhoneInput from "../../components/PhoneInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faUsers } from "@fortawesome/free-solid-svg-icons";
 import RegisterSteps from "../../components/RegisterSteps";
-import "../../styles/Login.css";
+import "../../styles/auth/Login.css";
 
 // IMAGES
 import logo from "../../assets/images/Libro1.1.png";

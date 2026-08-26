@@ -1,0 +1,246 @@
+.dca-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.dca-header-izq {
+  display: flex;
+  gap: 16px;
+}
+
+.dca-icono {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: #f3e8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.dca-icono svg {
+  color: #f3e8ff;
+  fill: rgb(232, 30, 232);
+}
+
+.dca-titulo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dca-header h1 {
+  font-size: 19px;
+  margin: 0;
+}
+
+.dca-meta {
+  font-size: 12px;
+  color: #888;
+  margin: 4px 0 0;
+}
+
+.dca-descripcion {
+  font-size: 12px;
+  color: #888;
+  margin: 4px 0 0;
+}
+
+.dca-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr 1fr;
+  gap: 20px;
+}
+
+.dca-col-der {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dca-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.dca-card-header h3 {
+  margin: 0;
+}
+
+.dca-ver-todos {
+  font-size: 12px;
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.dca-info-row {
+  display: grid;
+  grid-template-columns: 16px 160px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f2f2f2;
+  color: #666;
+}
+
+.dca-info-row span:nth-child(2) {
+  font-size: 13px;
+}
+
+.dca-info-row strong {
+  font-size: 13px;
+  color: #222;
+}
+
+.dca-grupo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.dca-grupo-item div {
+  flex: 1;
+}
+
+.dca-grupo-item strong {
+  font-size: 13px;
+  display: block;
+}
+
+.dca-grupo-item p {
+  font-size: 11px;
+  color: #888;
+  margin: 2px 0 0;
+}
+
+.dca-asignatura-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  font-size: 13px;
+}
+
+.dca-asignatura-punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: #16a34a;
+  display: inline-block;
+}
+
+.estado-pill-pf {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: auto;
+  display: flex;
+}
+
+.dca-mas-texto {
+  font-size: 12px;
+  color: #2563eb;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.dca-profesores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.dca-profesor-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dca-profesor-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #eee;
+}
+
+.dca-profesor-item strong {
+  font-size: 13px;
+  display: block;
+}
+
+.dca-profesor-item p {
+  font-size: 11px;
+  color: #888;
+  margin: 2px 0 0;
+}
+
+.editar-curso-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.ppa-ayuda {
+  font-size: 11px;
+  color: #999;
+  margin-top: 4px;
+}
+
+.row-icon-ad {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dca-asignaturas-container {
+  display: flex;
+  gap: 30px;
+}
+
+.dca-asignaturas-columna {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.dca-profesores-container {
+  display: flex;
+  gap: 30px;
+}
+
+.dca-profesores-columna {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.dca-profesor-asignaturas {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dca-profesor-asignaturas p {
+  margin: 0;
+}

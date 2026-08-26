@@ -9,7 +9,7 @@ import {
   getCarpetaIcono,
   formatearTamano,
 } from "../../utils/materialIconos";
-import "../../styles/detalleAsignaturaAlumno.css";
+import "../../styles/alumno/detalleAsignaturaAlumno.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

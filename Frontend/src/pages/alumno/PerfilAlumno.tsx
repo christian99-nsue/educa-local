@@ -3,7 +3,7 @@ import { Camera } from "lucide-react";
 import avatarDefault from "../../assets/images/avatar-default.png";
 import { getUser, getCentroActivo } from "../../utils/auth";
 import CambiarPasswordForm from "../../components/CambiarPasswordForm";
-import "../../styles/perfilAlumno.css";
+import "../../styles/alumno/perfilAlumno.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

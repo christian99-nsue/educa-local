@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import RegisterSteps from "../../components/RegisterSteps";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
-import "../../styles/Login.css";
+import "../../styles/auth/Login.css";
 
 // IMAGES
 import logo from "../../assets/images/Libro1.1.png";

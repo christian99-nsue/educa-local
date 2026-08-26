@@ -16,8 +16,8 @@ import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
 import { getCentroActivo } from "../../utils/auth";
 import ConfirmarEliminarModal from "../../components/ConfirmarEliminarModal";
-import "../../styles/adminAlumnos.css";
-import "../../styles/adminCursos.css";
+import "../../styles/admin/adminAlumnos.css";
+import "../../styles/admin/adminCursos.css";
 import {
   faFileExcel,
   faFilePdf,
@@ -367,7 +367,7 @@ function CursosAdmin() {
                     </button>
                     <button
                       className="admin-accion-btn editar"
-                      onClick={() => navigate(`/admin/cursos/${c.id}?editar=1`)}
+                      onClick={() => navigate(`/admin/cursos/${c.id}/editar`)}
                     >
                       <Pencil size={14} />
                     </button>
