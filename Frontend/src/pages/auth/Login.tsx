@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
@@ -175,17 +175,22 @@ const Login = () => {
     }
   };
 
+  const googleWrapperRef = useRef<HTMLDivElement>(null);
   const [googleWidth, setGoogleWidth] = useState(150);
 
   useEffect(() => {
     const updateGoogleWidth = () => {
-      setGoogleWidth(window.innerWidth <= 767 ? 350 : 150);
+      if (window.innerWidth <= 767) {
+        const anchoReal = googleWrapperRef.current?.offsetWidth;
+        setGoogleWidth(anchoReal || 300);
+      } else {
+        setGoogleWidth(150);
+      }
     };
     updateGoogleWidth();
     window.addEventListener("resize", updateGoogleWidth);
     return () => window.removeEventListener("resize", updateGoogleWidth);
   }, []);
-
   return (
     <div className="login-container">
       {/* LEFT SIDE */}
@@ -294,7 +299,7 @@ const Login = () => {
           <span>{t("o continua con")}</span>
         </div>
         <div className="social">
-          <div className="google-button">
+          <div className="google-button" ref={googleWrapperRef}>
             {/*Login con google */}
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
