@@ -16,6 +16,7 @@ import {
   isMicrosoftAuthConfigured,
   microsoftLoginRequest,
 } from "../../authConfig";
+import educaIcon from "../../assets/images/educaIcon.jpg";
 import { setSecureUser, setSecureCentro } from "../../utils/secureStorage";
 import "../../styles/auth/Login.css";
 
@@ -220,7 +221,11 @@ const Login = () => {
         {/* TOP BAR: logo (solo visible en móvil) + selector de idioma */}
         <div className="topbar">
           <div className="mobile-logo">
-            <img src={logo} className="logo-img-mobile" alt="Educa Local" />
+            <img
+              src={educaIcon}
+              className="logo-img-mobile"
+              alt="Educa Local"
+            />
             <span>EDUCA LOCAL</span>
           </div>
           <div className="lang">

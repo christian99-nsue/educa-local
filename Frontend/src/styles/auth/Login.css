@@ -1463,6 +1463,7 @@ textarea {
     justify-content: center;
     text-align: center;
     padding-left: 30px;
+    font-size: 14.5px;
   }
 
   button.microsoft-button svg {
@@ -1536,7 +1537,7 @@ textarea {
   .google-button {
     margin-left: 0;
     margin-bottom: 0;
-    width: 100%;
+    width: 350px;
   }
   .google-button > div {
     width: 100% !important;
