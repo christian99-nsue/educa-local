@@ -1301,42 +1301,257 @@ textarea {
   margin: 0;
 }
 
+/* --- Barra superior con logo móvil (oculta en desktop) --- */
+.topbar {
+  display: contents;
+}
+
+.mobile-logo {
+  display: none;
+}
+
+/* ================= TABLET (768px - 1024px) ================= */
+@media (max-width: 1024px) {
+  .login-container {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .login-left {
+    width: 260px;
+    height: 460px;
+  }
+  .edu-local-logo {
+    font-size: 1.2rem;
+  }
+  .edu {
+    width: 190px;
+    font-size: 1.8rem;
+    margin-left: 25px;
+  }
+  .login-left p {
+    width: 210px;
+    margin-left: 25px;
+  }
+  .illustration {
+    width: 230px;
+    margin-left: 15px;
+  }
+  .illustration img {
+    width: 200px;
+  }
+  .oval {
+    margin-left: 25px;
+  }
+  .oval-note small {
+    width: 130px;
+  }
+
+  .login-right {
+    width: 420px;
+    height: 460px;
+  }
+  .login-right h1 {
+    width: 100%;
+    margin-left: 25px;
+    font-size: 1.9rem;
+  }
+  .login-right p {
+    margin-left: 25px;
+  }
+  .lang {
+    margin-right: 25px;
+    margin-top: 25px;
+  }
+  .em,
+  .psw {
+    margin-left: 25px;
+  }
+  .input-box,
+  .input-box-password {
+    width: 300px;
+    margin-left: 25px;
+  }
+  .input-box input,
+  .input-box-password input {
+    width: 220px;
+  }
+  .error-forgot {
+    width: 300px;
+    margin-left: 25px;
+  }
+  button.login {
+    width: 300px;
+    margin-left: 25px;
+  }
+  .divider {
+    width: 295px;
+    margin-left: 25px;
+  }
+  .social {
+    margin-left: 25px;
+    gap: 20px;
+  }
+  .register,
+  .register p {
+    width: 420px;
+  }
+}
+
+/* ================= MÓVIL (hasta 767px) ================= */
 @media (max-width: 767px) {
+  .login-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* El panel morado con la ilustración no se muestra en móvil */
   .login-left {
     display: none;
   }
 
-  .login-container {
-    flex-direction: column;
+  .login-right {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0 auto;
+    padding-bottom: 24px;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 20px 0;
+  }
+
+  .mobile-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-img-mobile {
+    width: 34px;
+    height: 30px;
+    border-radius: 10px;
+  }
+
+  /* Corrige el "top: -20px" heredado de .login-right p en móvil */
+  .login-right p {
+    top: 0;
+  }
+
+  .register {
+    margin-top: 12px;
+  }
+
+  /* Que el botón de Microsoft se vea centrado como el de Google */
+  button.microsoft-button {
+    position: relative;
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 90dvw;
-    height: 80dvh;
-    margin: 0 auto;
+    text-align: center;
+    padding-left: 30px;
   }
-  .login-right {
-    margin: 5dvh 5dvw;
-    width: 90dvw;
-    height: 90dvh;
-    border: 1px;
-    border-radius: 12px;
+
+  button.microsoft-button svg {
+    position: absolute;
+    left: 16px;
   }
+
+  .mobile-logo span {
+    font-family: "Dai Banna SIL";
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #061431;
+  }
+
+  .topbar .lang {
+    margin: 0;
+    align-self: center;
+  }
+
+  .login-right h1 {
+    width: 100%;
+    margin-left: 20px;
+    font-size: 1.8rem;
+  }
+  .login-right p {
+    width: calc(100% - 40px);
+    margin-left: 20px;
+  }
+
+  .em,
+  .psw {
+    margin-left: 20px;
+    width: calc(100% - 40px);
+  }
+
   .input-box,
-  .input-box-password,
-  button.login,
-  .divider {
-    width: 290px;
+  .input-box-password {
+    width: calc(100% - 40px);
+    margin-left: 20px;
+  }
+  .input-box input,
+  .input-box-password input {
+    width: 100%;
   }
 
   .error-forgot {
-    margin-left: 30px;
-    width: 290px;
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    flex-wrap: wrap;
+    height: auto;
+    gap: 4px;
   }
 
-  .lang {
-    margin-right: 30px;
+  button.login {
+    width: calc(100% - 40px);
+    margin-left: 20px;
   }
-  .lang svg {
-    width: 15px;
+
+  .divider {
+    width: calc(100% - 40px);
+    margin-left: 20px;
+  }
+
+  .social {
+    flex-direction: column;
+    margin-left: 20px;
+    width: calc(100% - 40px);
+    gap: 10px;
+  }
+
+  .google-button {
+    margin-left: 0;
+    margin-bottom: 0;
+    width: 100%;
+  }
+  .google-button > div {
+    width: 100% !important;
+  }
+  .google-button iframe {
+    width: 100% !important;
+  }
+
+  button.microsoft-button {
+    width: 100%;
+  }
+
+  .register,
+  .register p {
+    width: 100%;
+    padding: 0 20px;
   }
 }

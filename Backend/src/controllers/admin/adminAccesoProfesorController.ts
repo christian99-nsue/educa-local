@@ -1,6 +1,7 @@
 import { db } from "../../config/db";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
+import { registrarActividad, getIpDeRequest } from "../../utils/actividadUtil";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -72,6 +73,14 @@ export const RestablecerPasswordProfesor = async (req: any, res: any) => {
         `,
       });
     }
+    await registrarActividad({
+      centroId,
+      usuarioId,
+      tipo: "password_reset",
+      titulo: "Restablecio contraseña de profesor",
+      descripcion: `Profesor: ${userRows[0].nombre}`,
+      ip: getIpDeRequest(req),
+    });
 
     res.json({
       passwordTemporal: passwordNueva,

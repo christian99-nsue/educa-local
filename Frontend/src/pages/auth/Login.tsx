@@ -174,6 +174,17 @@ const Login = () => {
     }
   };
 
+  const [googleWidth, setGoogleWidth] = useState(150);
+
+  useEffect(() => {
+    const updateGoogleWidth = () => {
+      setGoogleWidth(window.innerWidth <= 767 ? 350 : 150);
+    };
+    updateGoogleWidth();
+    window.addEventListener("resize", updateGoogleWidth);
+    return () => window.removeEventListener("resize", updateGoogleWidth);
+  }, []);
+
   return (
     <div className="login-container">
       {/* LEFT SIDE */}
@@ -204,15 +215,23 @@ const Login = () => {
         </div>
       </div>
       {/* RIGHT SIDE */}
+      {/* RIGHT SIDE */}
       <div className="login-right">
-        {/* TOP LANGUAGE */}
-        <div className="lang">
-          <FontAwesomeIcon icon={faGlobe} />
-          <select onChange={changeLanguage}>
-            <option value="es">Español</option>
-            <option value="en">English</option>
-          </select>
+        {/* TOP BAR: logo (solo visible en móvil) + selector de idioma */}
+        <div className="topbar">
+          <div className="mobile-logo">
+            <img src={logo} className="logo-img-mobile" alt="Educa Local" />
+            <span>EDUCA LOCAL</span>
+          </div>
+          <div className="lang">
+            <FontAwesomeIcon icon={faGlobe} />
+            <select onChange={changeLanguage}>
+              <option value="es">Español</option>
+              <option value="en">English</option>
+            </select>
+          </div>
         </div>
+
         <h1>{t("Iniciar sesión")}</h1>
         <p>{t("Bienvenido de nuevo")} 👋</p>
         <form onSubmit={handleLogin}>
@@ -295,7 +314,7 @@ const Login = () => {
               text="signin"
               shape="rectangular"
               logo_alignment="left"
-              width="150"
+              width={String(googleWidth)}
             />
           </div>
 

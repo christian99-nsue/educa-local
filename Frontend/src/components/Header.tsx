@@ -1,33 +1,51 @@
 import { getUser } from "../utils/auth";
 import avatar from "../assets/images/avatar-default.png";
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import NotificacionesDropdown from "./NotificacionesDropdown";
-import { ChevronDown, User, LogOut, Settings } from "lucide-react";
+import { ChevronDown, User, LogOut, Settings, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
 import CerrarSesionModal from "./CerrarSesionModal";
 
-const Header = () => {
-  const [user, setUser] = useState(getUser());
+interface HeaderProps {
+  onMenuClick: () => void;
+}
+
+const Header = ({ onMenuClick }: HeaderProps) => {
+  const user = getUser();
   const [modalCerrarSesion, setModalCerrarSesion] = useState(false);
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const actualizar = () => setUser(getUser());
-    window.addEventListener("perfil-actualizado", actualizar);
-    return () => window.removeEventListener("perfil-actualizado", actualizar);
-  }, []);
+    const manejarClickFuera = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuAbierto(false);
+      }
+    };
 
-  useEffect(() => {
-    const cerrar = () => setMenuAbierto(false);
-    if (menuAbierto) document.addEventListener("click", cerrar);
-    return () => document.removeEventListener("click", cerrar);
-  }, [menuAbierto]);
+    document.addEventListener("mousedown", manejarClickFuera);
+
+    return () => {
+      document.removeEventListener("mousedown", manejarClickFuera);
+    };
+  }, []);
 
   return (
     <div className="header">
-      <div className="header-left">{user?.centro?.nombre} </div>
-      <div className="header-right" onClick={(e) => e.stopPropagation()}>
+      <div className="header-brand">
+        <button
+          className="menu-toggle"
+          onClick={onMenuClick}
+          aria-label="Abrir menú"
+        >
+          <Menu size={20} />
+        </button>
+        <div className="header-left">{user?.centro?.nombre}</div>
+      </div>
+      <div className="header-right" ref={menuRef}>
+        {" "}
         <span>
           <NotificacionesDropdown />
         </span>
@@ -74,7 +92,6 @@ const Header = () => {
             </button>
           </div>
         )}
-
         {modalCerrarSesion && (
           <CerrarSesionModal
             onCancel={() => setModalCerrarSesion(false)}

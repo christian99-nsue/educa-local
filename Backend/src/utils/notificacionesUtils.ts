@@ -8,14 +8,28 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
+type TipoNotificacion =
+  | "tarea_publicada"
+  | "tarea_calificada"
+  | "material_publicado"
+  | "tarea_entregada"
+  | "alumno_registrado"
+  | "alumno_removido"
+  | "profesor_registrado"
+  | "asignatura_creada"
+  | "asignatura_editada"
+  | "profesor_asignado"
+  | "profesor_removido"
+  | "curso_creado"
+  | "curso_editado"
+  | "horario_editado"
+  | "password_reset"
+  | "calificaciones_registradas"
+  | "anuncio_publicado";
 
 interface CrearNotificacionParams {
   usuarioId: number;
-  tipo:
-    | "tarea_publicada"
-    | "tarea_calificada"
-    | "material_publicado"
-    | "tarea_entregada";
+  tipo: TipoNotificacion;
   titulo: string;
   mensaje: string;
   enlace?: string;

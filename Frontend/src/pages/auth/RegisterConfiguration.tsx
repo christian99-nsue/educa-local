@@ -72,7 +72,6 @@ const RegisterConfiguration = () => {
   const [errorSistemaCalificacion, setErrorSistemaCalificacion] = useState("");
   const [errorIdiomaSistema, setErrorIdiomaSistema] = useState("");
 
-
   //FUncion para mostrar los errores
   const validate = () => {
     let isValid = true;
@@ -248,8 +247,8 @@ const RegisterConfiguration = () => {
                 <option value="" disabled>
                   -- Selecciona una opción --
                 </option>
-                <option value="Sobre 10">Sobre 10</option>
-                <option value="Sobre 100">Sobre 100</option>
+                <option value="Sobre-10">Sobre 10</option>
+                <option value="Sobre-100">Sobre 100</option>
                 <option value="A-F">A - F</option>
               </select>
             </div>

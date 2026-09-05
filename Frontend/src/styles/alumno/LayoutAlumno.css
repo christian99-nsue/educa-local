@@ -308,3 +308,197 @@
   padding-top: 30px;
   padding-bottom: 30px;
 }
+
+/* --- Botón hamburguesa y logo móvil en el header (ocultos en desktop) --- */
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #003152;
+  padding: 4px;
+}
+
+.header-logo-mobile {
+  display: none;
+  font-size: 15px;
+  font-weight: 700;
+  color: #003152;
+  white-space: nowrap;
+}
+
+/* --- Fondo oscuro al abrir el sidebar en drawer --- */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 900;
+}
+
+/* --- Bottom nav: oculta por defecto (solo aparece en móvil) --- */
+.bottom-nav {
+  display: none;
+}
+
+/* ================= TABLET Y MÓVIL (hasta 767px) ================= */
+@media (max-width: 767px) {
+  .sidebar {
+    z-index: 1000; /* por encima del overlay (900) */
+  }
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  /* El sidebar se convierte en un panel deslizante (drawer) */
+  .sidebar {
+    width: 260px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+  .sidebar.abierta {
+    transform: translateX(0);
+  }
+
+  /* La zona derecha ocupa todo el ancho, ya no reserva espacio al sidebar */
+  .right-side-al {
+    margin-left: 0;
+    width: 100dvw;
+  }
+  .header {
+    left: 0;
+    width: 100dvw;
+  }
+}
+
+/* ================= MÓVIL (hasta 767px) ================= */
+@media (max-width: 767px) {
+  /* En móvil ocultamos el nombre del centro y mostramos el logo en su lugar */
+  .header-left {
+    display: none;
+  }
+  .header-logo-mobile {
+    display: block;
+  }
+
+  /* El avatar en el header se ve solo, sin nombre/rol, para ahorrar espacio */
+  .header-perfil small {
+    display: none;
+  }
+
+  .header {
+    padding: 10px 16px;
+  }
+
+  /* Espacio para que el contenido no quede tapado por la barra inferior */
+  .center {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 20px;
+    padding-bottom: 90px;
+    margin-top: 60px; /* alto aproximado del header en móvil */
+  }
+
+  /* Notificaciones a pantalla completa en vez de un dropdown pequeño */
+  .notif-dropdown {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    max-height: calc(100dvh - 150px);
+    border-radius: 0;
+    margin-top: 0;
+  }
+
+  /* --- Barra de navegación inferior --- */
+  .bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100dvw;
+    height: 62px;
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.06);
+    z-index: 800;
+    padding: 0 4px;
+  }
+
+  .bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    color: #757575;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex: 1;
+    padding: 6px 0;
+  }
+
+  .bottom-nav-item.active {
+    color: #003152;
+    font-weight: 700;
+  }
+}
+
+/* ================= TABLET (768px - 1023px) ================= */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sidebar {
+    width: 220px !important;
+    padding: 14px;
+  }
+
+  .right-side-al {
+    margin-left: 220px !important;
+    width: calc(100dvw - 220px) !important;
+  }
+
+  .header {
+    left: 220px !important;
+    width: calc(100dvw - 220px) !important;
+  }
+
+  .logo {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .profile img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .profile p {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .menu-title {
+    font-size: 14px;
+  }
+
+  .nav-item {
+    font-size: 11px;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+    width: 100%;
+  }
+}

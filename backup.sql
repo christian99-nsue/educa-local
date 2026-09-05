@@ -419,7 +419,7 @@ DROP TABLE IF EXISTS `notificaciones`;
 CREATE TABLE `notificaciones` (
   `id` int NOT NULL AUTO_INCREMENT,
   `usuario_id` int NOT NULL,
-  `tipo` enum('tarea_publicada','tarea_calificada','material_publicado','tarea_entregada') NOT NULL,
+  `tipo` enum('tarea_publicada','tarea_calificada','material_publicado','tarea_entregada','alumno_registrado','alumno_removido','profesor_registrado','asignatura_creada','asignatura_editada','profesor_asignado','profesor_removido','curso_creado','curso_editado','horario_editado','password_reset','calificaciones_registradas','anuncio_publicado') NOT NULL,
   `titulo` varchar(150) NOT NULL,
   `mensaje` varchar(500) NOT NULL,
   `enlace` varchar(255) DEFAULT NULL,

@@ -47,12 +47,12 @@ export const ObtenerDashboardAdmin = async (req: any, res: any) => {
       [centroId],
     );
 
-    const [tareasActivas]: any = await db.query(
-      `SELECT COUNT(*) AS total
-            FROM tareas t
-            JOIN curso_asignaturas ca ON ca.id = t.curso_asignatura_id
-            JOIN centro_cursos cc ON cc.id = ca.curso_id
-            WHERE cc.centro_id = ? AND t.fecha_entrega >= NOW()`,
+    const [horariosActivos]: any = await db.query(
+      `SELECT COUNT(DISTINCT cc.id) AS total
+          FROM centro_cursos cc
+          JOIN curso_asignaturas ca ON ca.curso_id = cc.id
+          JOIN horario_clases hc ON hc.curso_asignatura_id = ca.id
+          WHERE cc.centro_id = ?`,
       [centroId],
     );
 
@@ -61,7 +61,7 @@ export const ObtenerDashboardAdmin = async (req: any, res: any) => {
             FROM actividad_log
             WHERE centro_id = ?
             ORDER BY created_at DESC
-            LIMIT 10`,
+            LIMIT 5`,
       [centroId],
     );
 
@@ -70,7 +70,7 @@ export const ObtenerDashboardAdmin = async (req: any, res: any) => {
       totalAlumnos: totalAlumnos[0].total,
       totalProfesores: totalProfesores[0].total,
       totalCursos: totalCursos[0].total,
-      tareasActivas: tareasActivas[0].total,
+      horariosActivos: horariosActivos[0].total,
       actividadReciente: actividad.map((a: any) => ({
         tipo: a.tipo,
         icono: iconoPorTipo[a.tipo] ?? "alumno",

@@ -1,4 +1,5 @@
 import { db } from "../../config/db";
+import { registrarActividad, getIpDeRequest } from "../../utils/actividadUtil";
 
 const verificarAdmin = async (usuarioId: number, centroId: any) => {
   const [rows]: any = await db.query(
@@ -77,6 +78,15 @@ export const CrearCurso = async (req: any, res: any) => {
         ramaId || null,
       ],
     );
+
+    await registrarActividad({
+      centroId,
+      usuarioId,
+      tipo: "curso_creado",
+      titulo: "Creo un nuevo curso",
+      descripcion: nombreCompleto,
+      ip: getIpDeRequest(req),
+    });
 
     res.status(201).json({ id: result.insertId, curso: nombreCompleto });
   } catch (error) {

@@ -6,6 +6,15 @@ import {
   FolderPlus,
   Upload,
   type LucideIcon,
+  Megaphone,
+  KeyRound,
+  Calendar,
+  GraduationCap,
+  Users,
+  BookOpen,
+  UserMinus,
+  UserPlus,
+  UserCheck,
 } from "lucide-react";
 
 import { useNavigate } from "react-router-dom";
@@ -27,8 +36,20 @@ const iconoPorTipo: Record<string, LucideIcon> = {
   tarea_calificada: ClipboardCheck,
   material_publicado: FolderPlus,
   tarea_entregada: Upload,
+  alumno_registrado: UserPlus,
+  alumno_removido: UserMinus,
+  profesor_registrado: UserCheck,
+  asignatura_creada: BookOpen,
+  asignatura_editada: BookOpen,
+  profesor_asignado: Users,
+  profesor_removido: UserMinus,
+  curso_creado: GraduationCap,
+  curso_editado: GraduationCap,
+  horario_editado: Calendar,
+  password_reset: KeyRound,
+  calificaciones_registradas: ClipboardCheck,
+  anuncio_publicado: Megaphone,
 };
-
 function NotificacionesDropdown() {
   const [abierto, setAbierto] = useState(false);
   const [notificaciones, setNotificaciones] = useState<Notificacion[]>([]);

@@ -53,7 +53,7 @@ export const ObtenerDetalleCurso = async (req: any, res: any) => {
     );
 
     const [asignaturas]: any = await db.query(
-      `SELECT DISTINCT a.id, a.nombre
+      `SELECT DISTINCT a.id, a.nombre, a.codigo
        FROM curso_asignaturas ca
        JOIN asignaturas a ON a.id = ca.asignatura_id
        WHERE ca.curso_id = ?`,
@@ -111,6 +111,7 @@ export const ObtenerDetalleCurso = async (req: any, res: any) => {
       asignaturas: asignaturas.map((a: any) => ({
         id: a.id,
         nombre: a.nombre,
+        codigo: a.codigo,
       })),
       profesores: profesores.map((p: any) => ({
         id: p.id,

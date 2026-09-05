@@ -1,6 +1,6 @@
 import { db } from "../../config/db";
 import bcrypt from "bcrypt";
-import { registrarActividad } from "../../utils/actividadUtil";
+import { registrarActividad, getIpDeRequest } from "../../utils/actividadUtil";
 
 const generarPassword = () => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
@@ -140,12 +140,15 @@ export const CrearAlumnoNuevo = async (req: any, res: any) => {
       [cursoId],
     );
 
-    await registrarActividad(
+    await registrarActividad({
       centroId,
-      "alumno_registrado",
-      "Nuevo alumno registrado",
-      `${nombre} ${apellidos ?? ""} ha sido registrado como alumno`.trim(),
-    );
+      usuarioId: req.user.id,
+      tipo: "alumno_registrado",
+      titulo: "Nuevo alumno registrado",
+      descripcion:
+        `${nombre} ${apellidos ?? ""} ha sido registrado como alumno`.trim(),
+      ip: getIpDeRequest(req),
+    });
 
     res.status(201).json({
       id: result.insertId,
@@ -203,12 +206,15 @@ export const AnadirAlumnoExistente = async (req: any, res: any) => {
       [cursoId],
     );
 
-    await registrarActividad(
+    await registrarActividad({
       centroId,
-      "alumno_registrado",
-      "Alumno añadido al centro",
-      `${userRows[0].nombre} ${userRows[0].apellidos ?? ""} se ha unido al centro como alumno`.trim(),
-    );
+      usuarioId: req.user.id,
+      tipo: "alumno_registrado",
+      titulo: "Alumno añadido al centro",
+      descripcion:
+        `${userRows[0].nombre} ${userRows[0].apellidos ?? ""} se ha unido al centro como alumno`.trim(),
+      ip: getIpDeRequest(req),
+    });
 
     res.status(201).json({
       id: alumnoId,

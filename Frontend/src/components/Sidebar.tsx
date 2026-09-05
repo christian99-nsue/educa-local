@@ -16,9 +16,11 @@ import avatar from "../assets/images/avatar-default.png";
 
 interface SidebarProps {
   onCerrarSesionClick: () => void;
+  abierto: boolean;
+  onClose: () => void;
 }
 
-const Sidebar = ({ onCerrarSesionClick }: SidebarProps) => {
+const Sidebar = ({ onCerrarSesionClick, abierto, onClose }: SidebarProps) => {
   const [user, setUser] = useState(getUser());
   const centroActivo = getCentroActivo();
 
@@ -27,8 +29,9 @@ const Sidebar = ({ onCerrarSesionClick }: SidebarProps) => {
     window.addEventListener("perfil-actualizado", actualizar);
     return () => window.removeEventListener("perfil-actualizado", actualizar);
   }, []);
+
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${abierto ? "abierta" : ""}`}>
       <h2 className="logo">EDUCA LOCAL</h2>
       <div className="profile">
         <img
@@ -46,6 +49,7 @@ const Sidebar = ({ onCerrarSesionClick }: SidebarProps) => {
       <nav>
         <NavLink
           to="/alumno"
+          onClick={onClose}
           end
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
@@ -56,6 +60,7 @@ const Sidebar = ({ onCerrarSesionClick }: SidebarProps) => {
         </NavLink>
         <NavLink
           to="asignaturas"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }
@@ -65,6 +70,7 @@ const Sidebar = ({ onCerrarSesionClick }: SidebarProps) => {
         </NavLink>
         <NavLink
           to="tareas"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }
@@ -74,6 +80,7 @@ const Sidebar = ({ onCerrarSesionClick }: SidebarProps) => {
         </NavLink>
         <NavLink
           to="calificaciones"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }
@@ -83,6 +90,7 @@ const Sidebar = ({ onCerrarSesionClick }: SidebarProps) => {
         </NavLink>
         <NavLink
           to="horario"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }
@@ -92,6 +100,7 @@ const Sidebar = ({ onCerrarSesionClick }: SidebarProps) => {
         </NavLink>
         <NavLink
           to="perfil"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }

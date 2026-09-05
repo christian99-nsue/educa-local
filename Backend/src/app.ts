@@ -32,6 +32,7 @@ import adminAnadirProfesorRoutes from "./routes/admin/adminAnadirProfesorRoutes"
 import adminCrearCursoRoutes from "./routes/admin/adminCrearCursoRoutes";
 import adminHorariosBuilderRoutes from "./routes/admin/adminHorariosBuilderRoutes";
 import adminDetalleCursoRoutes from "./routes/admin/adminDetalleCursoRoutes";
+import adminActividadRoutes from "./routes/admin/adminActividadRoutes";
 
 const app = express();
 app.set("trust proxy", 1);
@@ -100,5 +101,6 @@ app.use("/api/admin/profesores/anadir", adminAnadirProfesorRoutes);
 app.use("/api/admin/cursos/crear", adminCrearCursoRoutes);
 app.use("/api/admin/horarios", adminHorariosBuilderRoutes);
 app.use("/api/admin/cursos", adminDetalleCursoRoutes);
+app.use("/api/admin/actividad", adminActividadRoutes);
 
 export default app;

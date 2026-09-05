@@ -1,7 +1,7 @@
 import { db } from "../../config/db";
 import supabase from "../../config/supabaseConfig";
 import { crearNotificacionesMasivas } from "../../utils/notificacionesUtils";
-import { registrarActividad } from "../../utils/actividadUtil";
+import { registrarActividad, getIpDeRequest } from "../../utils/actividadUtil";
 
 export const CrearTarea = async (req: any, res: any) => {
   const usuarioId = req.user.id;
@@ -111,12 +111,14 @@ export const CrearTarea = async (req: any, res: any) => {
 
     const curso = infoRows[0]?.curso ?? "su curso";
 
-    await registrarActividad(
+    await registrarActividad({
       centroId,
-      "tarea_publicada",
-      "Nueva tarea publicada",
-      `El profesor ${nombreProfesor} publico una nueva tarea en ${curso}`,
-    );
+      usuarioId: req.user.id,
+      tipo: "tarea_publicada",
+      titulo: "Nueva tarea publicada",
+      descripcion: `El profesor ${nombreProfesor} publico una nueva tarea en ${curso}`,
+      ip: getIpDeRequest(req),
+    });
 
     const [alumnosRows]: any = await db.query(
       `SELECT cu.user_id

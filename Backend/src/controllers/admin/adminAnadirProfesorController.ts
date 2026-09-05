@@ -1,6 +1,6 @@
 import { db } from "../../config/db";
 import bcrypt from "bcrypt";
-import { registrarActividad } from "../../utils/actividadUtil";
+import { registrarActividad, getIpDeRequest } from "../../utils/actividadUtil";
 
 const generarPassword = () => {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
@@ -194,12 +194,15 @@ export const CrearProfesorNuevo = async (req: any, res: any) => {
       [cursoAsignaturaIds],
     );
 
-    await registrarActividad(
+    await registrarActividad({
       centroId,
-      "profesor_registrado",
-      "Nuevo profesor registrado",
-      `El profesor ${nombre} ${apellidos ?? ""} ha sido registrado`.trim(),
-    );
+      usuarioId: req.user.id,
+      tipo: "profesor_registrado",
+      titulo: "Nuevo profesor registrado",
+      descripcion:
+        `El profesor ${nombre} ${apellidos ?? ""} ha sido registrado`.trim(),
+      ip: getIpDeRequest(req),
+    });
 
     res.status(201).json({
       id: result.insertId,
@@ -274,12 +277,15 @@ export const AnadirProfesorExistente = async (req: any, res: any) => {
       [cursoAsignaturaIds],
     );
 
-    await registrarActividad(
+    await registrarActividad({
       centroId,
-      "profesor_registrado",
-      "Profesor añadido al centro",
-      `El profesor ${userRows[0].nombre} ${userRows[0].apellidos ?? ""} se ha unido al centro`.trim(),
-    );
+      usuarioId: req.user.id,
+      tipo: "profesor_registrado",
+      titulo: "Profesor añadido al centro",
+      descripcion:
+        `El profesor ${userRows[0].nombre} ${userRows[0].apellidos ?? ""} se ha unido al centro`.trim(),
+      ip: getIpDeRequest(req),
+    });
 
     res.status(201).json({
       id: profesorId,

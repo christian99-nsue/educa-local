@@ -1,4 +1,5 @@
 import { db } from "../../config/db";
+import { getIpDeRequest, registrarActividad } from "../../utils/actividadUtil";
 
 const verificarAdmin = async (usuarioId: number, centroId: any) => {
   const [rows]: any = await db.query(
@@ -173,8 +174,9 @@ export const EliminarProfesor = async (req: any, res: any) => {
   const { profesorId } = req.params;
   const centroId = req.query.centroId;
 
-  if (!centroId)
+  if (!centroId) {
     return res.status(400).json({ error: "centroId es requerido" });
+  }
 
   try {
     if (!(await verificarAdmin(usuarioId, centroId))) {
@@ -183,26 +185,71 @@ export const EliminarProfesor = async (req: any, res: any) => {
         .json({ error: "No tienes permiso de administrador" });
     }
 
-    const [cuRows]: any = await db.query(
-      `SELECT id FROM centro_usuarios WHERE user_id = ? AND centro_id = ? AND rol_en_centro = 'profesor'`,
+    // Obtener los datos del profesor antes de eliminarlo
+    const [profesorRows]: any = await db.query(
+      `SELECT u.nombre, u.apellidos
+       FROM centro_usuarios cu
+       JOIN usuarios u ON u.id = cu.user_id
+       WHERE cu.user_id = ?
+         AND cu.centro_id = ?
+         AND cu.rol_en_centro = 'profesor'`,
       [profesorId, centroId],
     );
 
+    if (profesorRows.length === 0) {
+      return res.status(404).json({
+        error: "Profesor no encontrado en este centro",
+      });
+    }
+
+    const profesor = profesorRows[0];
+
+    // Obtener la relación centro_usuario
+    const [cuRows]: any = await db.query(
+      `SELECT id
+       FROM centro_usuarios
+       WHERE user_id = ?
+         AND centro_id = ?
+         AND rol_en_centro = 'profesor'`,
+      [profesorId, centroId],
+    );
+
+    // Eliminar asignaturas del profesor
     if (cuRows.length > 0) {
       await db.query(
-        `DELETE FROM profesor_asignaturas WHERE centro_usuario_id = ?`,
+        `DELETE FROM profesor_asignaturas
+         WHERE centro_usuario_id = ?`,
         [cuRows[0].id],
       );
     }
 
+    // Eliminar al profesor del centro
     await db.query(
-      `DELETE FROM centro_usuarios WHERE user_id = ? AND centro_id = ? AND rol_en_centro = 'profesor'`,
+      `DELETE FROM centro_usuarios
+       WHERE user_id = ?
+         AND centro_id = ?
+         AND rol_en_centro = 'profesor'`,
       [profesorId, centroId],
     );
 
-    res.json({ mensaje: "Profesor eliminado correctamente" });
+    // Registrar actividad
+    await registrarActividad({
+      centroId,
+      usuarioId: req.user.id,
+      tipo: "profesor_removido",
+      titulo: "Profesor removido",
+      descripcion:
+        `${profesor.nombre} ${profesor.apellidos ?? ""} ha sido removido como profesor`.trim(),
+      ip: getIpDeRequest(req),
+    });
+
+    res.json({
+      mensaje: "Profesor removido correctamente",
+    });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Error al eliminar el profesor" });
+    res.status(500).json({
+      error: "Error al remover el profesor",
+    });
   }
 };

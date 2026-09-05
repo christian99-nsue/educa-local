@@ -5,12 +5,13 @@ import {
   Users,
   UserCheck,
   Layers,
-  ClipboardList,
   Clock,
   UserPlus,
   BookOpen,
   FileText,
   ArrowRight,
+  Calendar,
+  UserMinus,
   type LucideIcon,
 } from "lucide-react";
 import "../../styles/admin/dashboardAdmin.css";
@@ -30,7 +31,7 @@ interface DashboardData {
   totalAlumnos: number;
   totalProfesores: number;
   totalCursos: number;
-  tareasActivas: number;
+  horariosActivos: number;
   actividadReciente: Actividad[];
 }
 
@@ -42,6 +43,13 @@ const iconoPorTipo: Record<
   profesor_registrado: { Icon: UserCheck, bg: "#f3e8ff", color: "#9333ea" },
   asignatura_creada: { Icon: BookOpen, bg: "#dbeafe", color: "#2563eb" },
   tarea_publicada: { Icon: FileText, bg: "#fef3c7", color: "#d97706" },
+  alumno_removido: { Icon: UserMinus, bg: "#fee2e2", color: "#dc2626" },
+  curso_creado: { Icon: Layers, bg: "#dbeafe", color: "#2563eb" },
+  curso_editado: { Icon: Layers, bg: "#fef3c7", color: "#d97706" },
+  asignatura_editada: { Icon: BookOpen, bg: "#fef3c7", color: "#d97706" },
+  profesor_removido: { Icon: UserMinus, bg: "#fee2e2", color: "#dc2626" },
+  tarea_calificada: { Icon: FileText, bg: "#dbeafe", color: "#2563eb" },
+  tarea_entregada: { Icon: FileText, bg: "#dbeafe", color: "#2563eb" },
 };
 
 const InicioAdmin = () => {
@@ -191,13 +199,13 @@ const InicioAdmin = () => {
             className="admin-summary-icono"
             style={{ background: "#fef3c7", color: "#d97706" }}
           >
-            <ClipboardList size={22} />
+            <Calendar size={22} />
           </div>
           <div>
-            <span>Tareas Activas</span>
-            <strong>{data.tareasActivas}</strong>
-            <a onClick={() => navigate("/admin/tareas")}>
-              Ver todas <ArrowRight size={12} />{" "}
+            <span>Horarios Activos</span>
+            <strong>{data.horariosActivos}</strong>
+            <a onClick={() => navigate("/admin/horarios")}>
+              Ver todos <ArrowRight size={12} />{" "}
             </a>
           </div>
         </div>

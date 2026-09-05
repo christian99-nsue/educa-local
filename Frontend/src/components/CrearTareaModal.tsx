@@ -75,12 +75,18 @@ function CrearTareaModal({ onClose, onCreated }: CrearTareaModalProps) {
     const token = localStorage.getItem("token");
     const centroActivo = getCentroActivo();
 
+    if (centroActivo.id === undefined) {
+      setError("No se ha seleccionado un centro activo");
+      setEnviando(false);
+      return;
+    }
+
     const formData = new FormData();
     formData.append("curso_asignatura_id", cursoAsignaturaId);
     formData.append("titulo", titulo);
     formData.append("descripcion", descripcion);
     formData.append("fecha_entrega", fechaLimite);
-    formData.append("centroId", centroActivo.id);
+    formData.append("centroId", String(centroActivo.id));
     formData.append("instrucciones", instrucciones);
     if (archivo) {
       formData.append("archivo", archivo);

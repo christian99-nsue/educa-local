@@ -44,6 +44,7 @@ import PerfilProfesorAdmin from "../pages/admin/PerfilProfesorAdmin";
 import EditarProfesorAdmin from "../pages/admin/EditarProfesorAdmin";
 import DetalleCursoAdmin from "../pages/admin/DetalleCursoAdmin";
 import EditarCursoAdmin from "../pages/admin/EditarCursoAdmin";
+import ActividadRecienteAdmin from "../pages/admin/ActividadRecienteAdmin";
 
 export default function AppRoutes() {
   return (
@@ -140,6 +141,7 @@ export default function AppRoutes() {
               path="cursos/:cursoId/editar"
               element={<EditarCursoAdmin />}
             />
+            <Route path="actividad" element={<ActividadRecienteAdmin />} />
           </Route>
         </Route>
       </Routes>

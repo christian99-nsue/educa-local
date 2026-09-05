@@ -8,6 +8,7 @@ import "../styles/profesor/LayoutProfesor.css";
 
 const LayoutProfesor = () => {
   const [modalCerrarSesion, setModalCerrarSesion] = useState(false);
+  const [sidebarAbierto, setSidebarAbierto] = useState(false);
   const navigate = useNavigate();
 
   const handleCerrarSesion = () => {
@@ -24,7 +25,7 @@ const LayoutProfesor = () => {
       {/*ZONA DERECHA */}
       <div className="right-side">
         {/* HEADER */}
-        <Header />
+        <Header onMenuClick={() => setSidebarAbierto((v) => !v)} />
         {/*CONTENIDO DINAMICO*/}
         <main className="center-pf">
           <Outlet />

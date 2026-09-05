@@ -1,4 +1,5 @@
 import { db } from "../../config/db";
+import { getIpDeRequest, registrarActividad } from "../../utils/actividadUtil";
 
 const verificarAdmin = async (usuarioId: number, centroId: any) => {
   const [rows]: any = await db.query(
@@ -146,8 +147,9 @@ export const EliminarAlumno = async (req: any, res: any) => {
   const { alumnoId } = req.params;
   const centroId = req.query.centroId;
 
-  if (!centroId)
+  if (!centroId) {
     return res.status(400).json({ error: "centroId es requerido" });
+  }
 
   try {
     if (!(await verificarAdmin(usuarioId, centroId))) {
@@ -156,14 +158,52 @@ export const EliminarAlumno = async (req: any, res: any) => {
         .json({ error: "No tienes permiso de administrador" });
     }
 
-    await db.query(
-      `DELETE FROM centro_usuarios WHERE user_id = ? AND centro_id = ? AND rol_en_centro = 'alumno'`,
+    // Obtener los datos del alumno antes de eliminar su relación
+    const [alumnos]: any = await db.query(
+      `SELECT u.nombre, u.apellidos
+       FROM centro_usuarios cu
+       JOIN usuarios u ON u.id = cu.user_id
+       WHERE cu.user_id = ?
+         AND cu.centro_id = ?
+         AND cu.rol_en_centro = 'alumno'`,
       [alumnoId, centroId],
     );
 
-    res.json({ mensaje: "Alumno eliminado correctamente" });
+    if (alumnos.length === 0) {
+      return res.status(404).json({
+        error: "Alumno no encontrado en este centro",
+      });
+    }
+
+    const alumno = alumnos[0];
+
+    // Eliminar al alumno del centro
+    await db.query(
+      `DELETE FROM centro_usuarios
+       WHERE user_id = ?
+         AND centro_id = ?
+         AND rol_en_centro = 'alumno'`,
+      [alumnoId, centroId],
+    );
+
+    // Registrar actividad
+    await registrarActividad({
+      centroId,
+      usuarioId: req.user.id,
+      tipo: "alumno_removido",
+      titulo: "Alumno eliminado",
+      descripcion:
+        `${alumno.nombre} ${alumno.apellidos ?? ""} ha sido eliminado como alumno`.trim(),
+      ip: getIpDeRequest(req),
+    });
+
+    res.json({
+      mensaje: "Alumno eliminado correctamente",
+    });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Error al eliminar el alumno" });
+    res.status(500).json({
+      error: "Error al eliminar el alumno",
+    });
   }
 };

@@ -32,6 +32,7 @@ interface Grupo {
 interface AsignaturaItem {
   id: number;
   nombre: string;
+  codigo: string | null;
 }
 
 interface ProfesorItem {
@@ -180,6 +181,11 @@ function DetalleCursoAdmin() {
   ) {
     columnasProfesores.push(profesoresAgrupados.slice(i, i + 5));
   }
+
+  const getIniciales = (nombreCompleto: string) => {
+    const partes = nombreCompleto.split(" ");
+    return `${partes[0]?.[0] ?? ""}${partes[1]?.[0] ?? ""}`.toUpperCase();
+  };
 
   const titulo = curso.rama
     ? `${curso.cursoBase} - ${curso.rama}`
@@ -402,7 +408,7 @@ function DetalleCursoAdmin() {
                         color={estilo.color}
                       />
                     </div>
-                    {a.nombre}
+                    {a.nombre} {a.codigo && ` (${a.codigo})`}
                   </div>
                 );
               })}
@@ -430,11 +436,17 @@ function DetalleCursoAdmin() {
             <div className="dca-profesores-grid">
               {profesoresAgrupados.slice(0, 5).map((p) => (
                 <div key={p.id} className="dca-profesor-item">
-                  <img
-                    src={p.fotoUrl || "/vite.svg"}
-                    alt={p.nombre}
-                    className="dca-profesor-avatar"
-                  />
+                  {p.fotoUrl ? (
+                    <img
+                      src={p.fotoUrl || "/vite.svg"}
+                      alt={p.nombre}
+                      className="dca-profesor-avatar"
+                    />
+                  ) : (
+                    <span className="admin-alumno-avatar">
+                      {getIniciales(p.nombre)}
+                    </span>
+                  )}
 
                   <div>
                     <strong>{p.nombre}</strong>
@@ -505,8 +517,7 @@ function DetalleCursoAdmin() {
                           color={estilo.color}
                         />
                       </div>
-
-                      {a.nombre}
+                      {a.nombre} {a.codigo && `(${a.codigo})`}
                     </div>
                   );
                 })}
@@ -525,11 +536,17 @@ function DetalleCursoAdmin() {
               <div className="dca-profesores-columna" key={columnaIndex}>
                 {columna.map((p) => (
                   <div key={p.id} className="dca-profesor-item">
-                    <img
-                      src={p.fotoUrl || "/vite.svg"}
-                      alt={p.nombre}
-                      className="dca-profesor-avatar"
-                    />
+                    {p.fotoUrl ? (
+                      <img
+                        src={p.fotoUrl || "/vite.svg"}
+                        alt={p.nombre}
+                        className="dca-profesor-avatar"
+                      />
+                    ) : (
+                      <span className="admin-alumno-avatar">
+                        {getIniciales(p.nombre)}
+                      </span>
+                    )}
 
                     <div>
                       <strong>{p.nombre}</strong>

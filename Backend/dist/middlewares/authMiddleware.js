@@ -15,8 +15,9 @@ const verifyToken = (req, res, next) => {
         req.user = decoded;
         next();
     }
-    catch (_b) {
-        res.status(401).json({ message: "Token inválido" });
+    catch (error) {
+        console.error("Error al verificar token:", error);
+        return res.status(401).json({ message: "Token inválido" });
     }
 };
 exports.verifyToken = verifyToken;

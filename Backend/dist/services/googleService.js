@@ -48,11 +48,11 @@ const googleLogin = (token) => __awaiter(void 0, void 0, void 0, function* () {
         nombre_del_curso: c.curso_nombre,
     }));
     const centrosUnicos = Array.from(new Map(centros.map((c) => [c.id, c])).values());
-    const tokenJWT = jsonwebtoken_1.default.sign({ id: user.id }, process.env.JWT_SECRET, {
-        expiresIn: "1d",
-    });
+    const token = jsonwebtoken_1.default.sign({
+        id: user.id,
+        centros: centrosUnicos,
+    }, process.env.JWT_SECRET, { expiresIn: "1d" });
     return {
-        token: tokenJWT,
         user: {
             id: user.id,
             email: user.email,
@@ -62,6 +62,7 @@ const googleLogin = (token) => __awaiter(void 0, void 0, void 0, function* () {
             foto_url: user.foto_url,
         },
         centros: centrosUnicos,
+        token,
     };
 });
 exports.googleLogin = googleLogin;

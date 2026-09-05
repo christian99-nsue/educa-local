@@ -38,9 +38,17 @@ function Asignaturas() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState("");
-  const [vistaLista, setVistaLista] = useState(false);
+  const [vistaLista, setVistaLista] = useState(() => window.innerWidth <= 767);
   const [error, setError] = useState("");
   const [filtroTareas, setFiltroTareas] = useState("todas");
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 767) setVistaLista(true);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const cargarAsignaturas = async () => {
@@ -161,52 +169,59 @@ function Asignaturas() {
                   navigate(`/alumno/asignaturas/${a.cursoAsignaturaId}`)
                 }
               >
-                <div
-                  className="row-icon"
-                  style={{ background: estilo.bg, color: estilo.color }}
-                >
-                  <FontAwesomeIcon
-                    icon={icono}
-                    size="xl"
-                    color={estilo.color}
-                  />
-                </div>
-                <div className="row-info">
-                  <h3>{a.nombre}</h3>
-                  <p>{a.profesor}</p>
-                  <p
-                    className="asignatura-tarea-pendiente"
-                    style={
-                      a.tareas_pendientes === 0
-                        ? { color: "#18B300" }
-                        : undefined
-                    }
+                <div className="row-top">
+                  <div
+                    className="row-icon"
+                    style={{ background: estilo.bg, color: estilo.color }}
                   >
-                    Tareas pendientes: {a.tareas_pendientes}
-                  </p>
-                </div>
-                <div className="row-asistencia">
-                  <span>Asistencia</span>
-                  <div className="row-asistencia-barra">
-                    <div className="progreso-bar-bg" style={{ flex: 1 }}>
-                      <div
-                        className="progreso-bar-fill"
-                        style={{
-                          width: `${a.asistencia}%`,
-                          background: estilo.color,
-                        }}
-                      />
-                    </div>
-                    <span className="row-porcentaje">{a.asistencia}%</span>
+                    <FontAwesomeIcon
+                      icon={icono}
+                      size="xl"
+                      color={estilo.color}
+                    />
+                  </div>
+                  <div className="row-info">
+                    <h3>{a.nombre}</h3>
+                    <p>{a.profesor}</p>
+                    <p
+                      className="asignatura-tarea-pendiente"
+                      style={
+                        a.tareas_pendientes === 0
+                          ? { color: "#18B300" }
+                          : undefined
+                      }
+                    >
+                      Tareas pendientes: {a.tareas_pendientes}
+                    </p>
+                  </div>
+                  <div className="row-chevron">
+                    <ChevronRight size={20} color="gray" />
                   </div>
                 </div>
-                <div className="row-nota">
-                  <span>Nota actual</span>
-                  <strong style={{ color: a.notaColor?.color ?? "#333" }}>
-                    {a.notaActual ?? "-"}
-                  </strong>
+
+                <div className="row-bottom">
+                  <div className="row-asistencia">
+                    <span>Asistencia</span>
+                    <div className="row-asistencia-barra">
+                      <div className="progreso-bar-bg" style={{ flex: 1 }}>
+                        <div
+                          className="progreso-bar-fill"
+                          style={{
+                            width: `${a.asistencia}%`,
+                            background: estilo.color,
+                          }}
+                        />
+                      </div>
+                      <span className="row-porcentaje">{a.asistencia}%</span>
+                    </div>
+                  </div>
+                  <div className="row-nota">
+                    <span>Nota actual</span>
+                    <strong style={{ color: a.notaColor?.color ?? "#333" }}>
+                      {a.notaActual ?? "-"}
+                    </strong>
+                  </div>
                 </div>
-                <ChevronRight size={20} color="gray" />
               </div>
             );
           })}
