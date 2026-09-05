@@ -1538,6 +1538,7 @@ textarea {
     margin-left: 0;
     margin-bottom: 0;
     width: 350px;
+    border: 1px solid #dadce0;
   }
   .google-button > div {
     width: 100% !important;

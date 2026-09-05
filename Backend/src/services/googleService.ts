@@ -54,7 +54,7 @@ export const googleLogin = async (token: string) => {
     new Map(centros.map((c: { id: number }) => [c.id, c])).values(),
   );
 
-  const token = jwt.sign(
+  const jwtToken = jwt.sign(
     {
       id: user.id,
       centros: centrosUnicos,
@@ -73,6 +73,6 @@ export const googleLogin = async (token: string) => {
       foto_url: user.foto_url,
     },
     centros: centrosUnicos,
-    token,
+    token: jwtToken,
   };
 };
