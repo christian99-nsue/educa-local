@@ -7,25 +7,32 @@
 export const validateEnvironment = (): void => {
   const missingVars: string[] = [];
 
-  // 1. Validar DB_TARGET
-  const dbTarget = (process.env.DB_TARGET || "local").toLowerCase();
+  // 1. Validar variables de BD según la configuración seleccionada
+  const configuredTarget = process.env.DB_TARGET?.toLowerCase();
   const validTargets = ["local", "railway"];
-  if (!validTargets.includes(dbTarget)) {
+  if (configuredTarget && !validTargets.includes(configuredTarget)) {
     console.error(
-      `❌ Error: DB_TARGET debe ser "local" o "railway", recibido: "${dbTarget}"`,
+      `❌ Error: DB_TARGET debe ser "local" o "railway", recibido: "${configuredTarget}"`,
     );
     process.exit(1);
   }
 
-  // 2. Validar variables de BD según el target
-  const suffix = dbTarget === "railway" ? "RAILWAY" : "LOCAL";
-  const dbVars = [
-    `DB_HOST_${suffix}`,
-    `DB_USER_${suffix}`,
-    `DB_PASSWORD_${suffix}`,
-    `DB_NAME_${suffix}`,
-    `DB_PORT_${suffix}`,
-  ];
+  const dbTarget = configuredTarget || "directa";
+  const suffix =
+    configuredTarget === "railway"
+      ? "RAILWAY"
+      : configuredTarget === "local"
+        ? "LOCAL"
+        : null;
+  const dbVars = suffix
+    ? [
+        `DB_HOST_${suffix}`,
+        `DB_USER_${suffix}`,
+        `DB_PASSWORD_${suffix}`,
+        `DB_NAME_${suffix}`,
+        `DB_PORT_${suffix}`,
+      ]
+    : ["DB_HOST", "DB_USER", "DB_PASSWORD", "DB_NAME", "DB_PORT"];
 
   dbVars.forEach((varName) => {
     const value = process.env[varName];
@@ -60,7 +67,7 @@ export const validateEnvironment = (): void => {
       console.error(`   - ${varName}`);
     });
     console.error(
-      "\n📝 Por favor, configura estas variables en tu archivo .env",
+      "\n📝 Configura estas variables en el entorno del servicio o en tu archivo .env",
     );
     process.exit(1);
   }
