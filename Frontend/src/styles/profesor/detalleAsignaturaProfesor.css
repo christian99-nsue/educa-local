@@ -27,6 +27,7 @@
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 20px;
   align-items: start;
+  min-width: 0;
 }
 
 .detalle-materiales-card {
@@ -35,6 +36,7 @@
   background-blend-mode: normal;
   box-shadow: 2px 2px 15px 2px rgba(100, 100, 100, 0.5);
   padding: 20px;
+  min-width: 0;
 }
 
 .detalle-materiales-header {
@@ -46,14 +48,20 @@
   gap: 10px;
 }
 
+.detalle-materiales-header > div:first-child {
+  min-width: 0;
+}
+
 .detalle-materiales-header h3 {
   font-size: 16px;
   margin-bottom: 4px;
+  overflow-wrap: anywhere;
 }
 
 .detalle-materiales-header p {
   font-size: 12px;
   color: #888;
+  overflow-wrap: anywhere;
 }
 
 .detalle-materiales-acciones {
@@ -111,6 +119,7 @@
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  min-width: 0;
 }
 
 .material-item:hover {
@@ -136,17 +145,20 @@
 
 .material-info strong {
   font-size: 13px;
+  overflow-wrap: anywhere;
 }
 
 .material-info span {
   font-size: 11px;
   color: #999;
+  overflow-wrap: anywhere;
 }
 
 .material-fecha {
   font-size: 11px;
   color: #999;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  text-align: right;
 }
 
 .material-mas {
@@ -281,6 +293,17 @@
 @media (max-width: 767px) {
   .detalle-layout {
     grid-template-columns: 1fr;
+  }
+
+  .detalle-header > div:last-child,
+  .detalle-materiales-acciones,
+  .material-info,
+  .material-fecha {
+    min-width: 0;
+  }
+
+  .material-item {
+    align-items: flex-start;
   }
 }
 
