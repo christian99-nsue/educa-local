@@ -117,7 +117,7 @@ export const GuardarCalificacion = async (req: any, res: any) => {
       [tareaId],
     );
 
-    crearNotificacion({
+    await crearNotificacion({
       usuarioId: Number(alumnoId),
       tipo: "tarea_calificada",
       titulo: "Tarea calificada",

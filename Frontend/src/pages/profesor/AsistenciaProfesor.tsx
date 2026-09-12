@@ -31,6 +31,7 @@ interface Alumno {
   id: number;
   nombre: string;
   apellidos: string;
+  foto_url: string | null;
   estado: "presente" | "ausente" | "justificado";
   observaciones: string;
 }
@@ -338,7 +339,7 @@ function AsistenciaProfesor() {
         </div>
       </div>
 
-      <div className="calificaciones-tabla-wrapper-pf">
+      <div className="asistencia-tabla-wrapper-as-pf">
         <div className="asistencia-tabla-header-as-pf">
           <div>
             <strong>Clase del {fechaFormateada}</strong>
@@ -357,8 +358,8 @@ function AsistenciaProfesor() {
         {loading ? (
           <p style={{ padding: 20 }}>Cargando alumnos...</p>
         ) : (
-          <div className="calificaciones-tabla-scroll-pf">
-            <table className="calificaciones-tabla-pf">
+          <div className="asistencia-tabla-scroll-as-pf">
+            <table className="asistencia-tabla-pf">
               <thead>
                 <tr>
                   <th>#</th>
@@ -372,9 +373,17 @@ function AsistenciaProfesor() {
                   <tr key={al.id}>
                     <td>{i + 1}</td>
                     <td className="col-estudiante-pf">
-                      <span className="avatar-iniciales-pf">
-                        {getIniciales(al.nombre, al.apellidos)}
-                      </span>
+                      {al.foto_url ? (
+                        <img
+                          src={al.foto_url}
+                          alt="Foto del estudiante"
+                          className="avatar-pf"
+                        />
+                      ) : (
+                        <span className="avatar-iniciales-pf">
+                          {getIniciales(al.nombre, al.apellidos)}
+                        </span>
+                      )}
                       {al.nombre} {al.apellidos}
                     </td>
                     <td>

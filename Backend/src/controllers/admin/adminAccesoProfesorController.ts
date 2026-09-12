@@ -1,15 +1,7 @@
 import { db } from "../../config/db";
 import bcrypt from "bcrypt";
-import nodemailer from "nodemailer";
 import { registrarActividad, getIpDeRequest } from "../../utils/actividadUtil";
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+import { sendEmail } from "../../services/emailService";
 
 const verificarAdmin = async (usuarioId: number, centroId: any) => {
   const [rows]: any = await db.query(
@@ -59,8 +51,7 @@ export const RestablecerPasswordProfesor = async (req: any, res: any) => {
     ]);
 
     if (enviarPorCorreo) {
-      await transporter.sendMail({
-        from: `"Educa Local" <${process.env.EMAIL_USER}>`,
+      await sendEmail({
         to: userRows[0].email,
         subject: "Tu contraseña ha sido restablecida",
         html: `

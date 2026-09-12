@@ -136,7 +136,7 @@ export const CrearTarea = async (req: any, res: any) => {
       [curso_asignatura_id],
     );
 
-    crearNotificacionesMasivas(
+    await crearNotificacionesMasivas(
       alumnosRows.map((a: any) => a.user_id),
       {
         tipo: "tarea_publicada",

@@ -206,7 +206,7 @@ export const EntregarTarea = async (req: any, res: any) => {
       [tareaId],
     );
 
-    crearNotificacionesMasivas(
+    await crearNotificacionesMasivas(
       profesoresRows.map((p: any) => p.user_id),
       {
         tipo: "tarea_entregada",

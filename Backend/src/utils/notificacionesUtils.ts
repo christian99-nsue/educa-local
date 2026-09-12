@@ -1,13 +1,5 @@
 import { db } from "../config/db";
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+import { sendEmail } from "../services/emailService";
 type TipoNotificacion =
   | "tarea_publicada"
   | "tarea_calificada"
@@ -56,8 +48,7 @@ export const crearNotificacion = async ({
 
     if (userRows.length > 0) {
       const { email, nombre } = userRows[0];
-      await transporter.sendMail({
-        from: `"Educa Local" <${process.env.EMAIL_USER}>`,
+      await sendEmail({
         to: email,
         subject: titulo,
         html: `
@@ -72,7 +63,7 @@ export const crearNotificacion = async ({
       });
     }
   } catch (error) {
-    console.log("Error al crear notificacion:", error);
+    console.error("Error al crear notificacion o enviar correo:", error);
   }
 };
 

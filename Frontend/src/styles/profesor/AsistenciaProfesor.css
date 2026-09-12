@@ -99,6 +99,11 @@
   box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
 }
 
+.asistencia-tabla-scroll-as-pf {
+  width: 100%;
+  overflow-x: auto;
+}
+
 .asistencia-tabla-header-as-pf {
   display: flex;
   justify-content: space-between;
@@ -129,9 +134,8 @@
 }
 
 .asistencia-tabla-pf {
-  overflow: hidden;
-  width: 90%;
-  min-width: 80%;
+  width: 100%;
+  min-width: 760px;
   border-collapse: collapse;
 }
 
@@ -188,11 +192,22 @@
   font-size: 12px;
 }
 
+.observaciones {
+  min-width: 260px;
+}
+
 .asistencia-total-pf {
   padding: 14px 20px;
   font-size: 13px;
   color: #555;
   border-top: 1px solid #eee;
+}
+
+.avatar-pf {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 @media (max-width: 767px) {
@@ -218,10 +233,6 @@
   .exportar-dropdown-as-pf button {
     display: flex;
     justify-content: center;
-  }
-
-  .asistencia-tabla-pf {
-    width: 100%;
   }
 
   .avatar-iniciales-pf {

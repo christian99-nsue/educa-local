@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Camera } from "lucide-react";
 import { getCentroActivo } from "../../utils/auth";
+import { getUser } from "../../utils/auth";
+import { setSecureUser } from "../../utils/secureStorage";
 import avatarDefault from "../../assets/images/avatar-default.png";
 import logoCentro from "../../assets/images/instituto.png";
 import "../../styles/admin/adminAjustes.css";
@@ -149,6 +151,11 @@ function AjustesAdmin() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Error al guardar");
+      if (data.fotoUrl) {
+        setSecureUser({ ...getUser(), foto_url: data.fotoUrl });
+        window.dispatchEvent(new Event("perfil-actualizado"));
+        setAdmin((prev) => (prev ? { ...prev, fotoUrl: data.fotoUrl } : prev));
+      }
       setExitoAdmin("Cambios guardados correctamente");
       setFotoAdminArchivo(null);
     } catch (err) {

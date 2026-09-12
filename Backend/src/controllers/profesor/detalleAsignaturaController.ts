@@ -294,7 +294,7 @@ export const SubirMaterial = async (req: any, res: any) => {
       [cursoAsignaturaId],
     );
 
-    crearNotificacionesMasivas(
+    await crearNotificacionesMasivas(
       alumnosRows.map((a: any) => a.user_id),
       {
         tipo: "material_publicado",

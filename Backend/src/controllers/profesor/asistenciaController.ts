@@ -42,7 +42,7 @@ export const AlumnosAsistencia = async (req: any, res: any) => {
     const { curso_id, rama_id } = caRows[0];
 
     const [alumnos]: any = await db.query(
-      `SELECT u.id, u.nombre, u.apellidos,
+      `SELECT u.id, u.nombre, u.apellidos, u.foto_url,
               a.estado, a.observaciones
        FROM centro_usuarios cu
        JOIN usuarios u ON u.id = cu.user_id
@@ -62,6 +62,7 @@ export const AlumnosAsistencia = async (req: any, res: any) => {
       id: al.id,
       nombre: al.nombre,
       apellidos: al.apellidos,
+      foto_url: al.foto_url,
       estado: al.estado || "presente",
       observaciones: al.observaciones || "",
     }));

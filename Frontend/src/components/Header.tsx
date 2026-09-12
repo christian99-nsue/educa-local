@@ -12,13 +12,14 @@ interface HeaderProps {
 }
 
 const Header = ({ onMenuClick }: HeaderProps) => {
-  const user = getUser();
+  const [user, setUser] = useState(getUser());
   const [modalCerrarSesion, setModalCerrarSesion] = useState(false);
   const [menuAbierto, setMenuAbierto] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const actualizarPerfil = () => setUser(getUser());
     const manejarClickFuera = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setMenuAbierto(false);
@@ -26,9 +27,11 @@ const Header = ({ onMenuClick }: HeaderProps) => {
     };
 
     document.addEventListener("mousedown", manejarClickFuera);
+    window.addEventListener("perfil-actualizado", actualizarPerfil);
 
     return () => {
       document.removeEventListener("mousedown", manejarClickFuera);
+      window.removeEventListener("perfil-actualizado", actualizarPerfil);
     };
   }, []);
 
