@@ -15,6 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendPasswordResetEmail = exports.sendEmail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const sendEmail = (_a) => __awaiter(void 0, [_a], void 0, function* ({ to, subject, html }) {
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+        throw new Error("SMTP no configurado: faltan EMAIL_USER o EMAIL_PASS");
+    }
     const transporter = nodemailer_1.default.createTransport({
         service: "gmail",
         auth: {
@@ -22,12 +25,23 @@ const sendEmail = (_a) => __awaiter(void 0, [_a], void 0, function* ({ to, subje
             pass: process.env.EMAIL_PASS,
         },
     });
-    yield transporter.sendMail({
-        from: `"Educa Local" <${process.env.EMAIL_USER}>`,
-        to,
-        subject,
-        html,
-    });
+    try {
+        yield transporter.sendMail({
+            from: `"Educa Local" <${process.env.EMAIL_USER}>`,
+            to,
+            subject,
+            html,
+        });
+    }
+    catch (error) {
+        console.error("Error SMTP al enviar correo:", {
+            code: error === null || error === void 0 ? void 0 : error.code,
+            responseCode: error === null || error === void 0 ? void 0 : error.responseCode,
+            command: error === null || error === void 0 ? void 0 : error.command,
+            message: error === null || error === void 0 ? void 0 : error.message,
+        });
+        throw error;
+    }
 });
 exports.sendEmail = sendEmail;
 const sendPasswordResetEmail = (email, resetLink) => __awaiter(void 0, void 0, void 0, function* () {

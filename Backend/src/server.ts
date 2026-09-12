@@ -1,8 +1,6 @@
+import "dotenv/config";
 import app from "./app";
-import dotenv from "dotenv";
 import { validateEnvironment } from "./config/envValidation";
-
-dotenv.config();
 
 // Validar variables de entorno requeridas
 validateEnvironment();

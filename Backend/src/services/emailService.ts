@@ -7,6 +7,10 @@ interface SendEmailParams {
 }
 
 export const sendEmail = async ({ to, subject, html }: SendEmailParams) => {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    throw new Error("SMTP no configurado: faltan EMAIL_USER o EMAIL_PASS");
+  }
+
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -15,12 +19,22 @@ export const sendEmail = async ({ to, subject, html }: SendEmailParams) => {
     },
   });
 
-  await transporter.sendMail({
-    from: `"Educa Local" <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    html,
-  });
+  try {
+    await transporter.sendMail({
+      from: `"Educa Local" <${process.env.EMAIL_USER}>`,
+      to,
+      subject,
+      html,
+    });
+  } catch (error: any) {
+    console.error("Error SMTP al enviar correo:", {
+      code: error?.code,
+      responseCode: error?.responseCode,
+      command: error?.command,
+      message: error?.message,
+    });
+    throw error;
+  }
 };
 
 export const sendPasswordResetEmail = async (
