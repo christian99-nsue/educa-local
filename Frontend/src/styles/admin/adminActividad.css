@@ -15,7 +15,7 @@
 .admin-actividad-tabla-card {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.1);
+  box-shadow: 2px 2px 4px 2px rgba(100, 100, 100, 0.5);
   overflow: hidden;
 }
 
@@ -31,4 +31,56 @@
   font-size: 12px;
   color: #999;
   margin-top: 2px;
+}
+
+@media (max-width: 767px) {
+  .admin-actividad-filtros {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .filtro-ad {
+    width: 100%;
+  }
+  .filtro-select-ad {
+    width: 100%;
+  }
+  .admin-actividad-header-tabla {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+  }
+  .buscador-ad {
+    width: 170px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .admin-actividad-filtros {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .filtro-ad {
+    width: 100%;
+  }
+  .filtro-select-ad {
+    width: 100%;
+  }
+
+  .calif-exportar-col {
+    width: 100%;
+  }
+  .btn-exportar-cal {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .exportar-dropdown-cal-pf {
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+  .exportar-dropdown-cal-pf button {
+    display: flex;
+    justify-content: center;
+  }
 }

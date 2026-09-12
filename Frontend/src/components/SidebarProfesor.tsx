@@ -16,8 +16,14 @@ import {
 
 interface SidebarProfesorProps {
   onCerrarSesionClick: () => void;
+  abierto: boolean;
+  onClose: () => void;
 }
-const SidebarProfesor = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
+const SidebarProfesor = ({
+  onCerrarSesionClick,
+  abierto,
+  onClose,
+}: SidebarProfesorProps) => {
   const [user, setUser] = useState(getUser());
 
   useEffect(() => {
@@ -27,7 +33,7 @@ const SidebarProfesor = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
   }, []);
 
   return (
-    <div className="sidebar-profesor">
+    <div className={`sidebar-profesor ${abierto ? "abierta" : ""}`}>
       <h2 className="logo-pf">EDUCA LOCAL</h2>
       <div className="profile-pf">
         <img
@@ -46,6 +52,7 @@ const SidebarProfesor = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
         <NavLink
           to="/profesor"
           end
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-pf active-pf" : "nav-item-pf"
           }
@@ -55,6 +62,7 @@ const SidebarProfesor = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
         </NavLink>
         <NavLink
           to="asignaturas"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-pf active-pf" : "nav-item-pf"
           }
@@ -64,6 +72,7 @@ const SidebarProfesor = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
         </NavLink>
         <NavLink
           to="tareas"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-pf active-pf" : "nav-item-pf"
           }
@@ -73,6 +82,7 @@ const SidebarProfesor = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
         </NavLink>
         <NavLink
           to="asistencia"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-pf active-pf" : "nav-item-pf"
           }
@@ -81,6 +91,7 @@ const SidebarProfesor = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
         </NavLink>
         <NavLink
           to="calificaciones"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-pf active-pf" : "nav-item-pf"
           }
@@ -90,6 +101,7 @@ const SidebarProfesor = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
         </NavLink>
         <NavLink
           to="horario"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-pf active-pf" : "nav-item-pf"
           }
@@ -99,6 +111,7 @@ const SidebarProfesor = ({ onCerrarSesionClick }: SidebarProfesorProps) => {
         </NavLink>
         <NavLink
           to="perfil"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-pf active-pf" : "nav-item-pf"
           }

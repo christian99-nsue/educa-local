@@ -274,3 +274,34 @@
   background: #fef3c7;
   color: #d97706;
 }
+
+@media (max-width: 767px) {
+  .btn-editar-perfil-admin svg {
+    display: none;
+  }
+  .btn-editar-perfil-admin {
+    padding: 5px;
+  }
+  .editar-profesor-tabs {
+    gap: 7px;
+  }
+  .dca-layout {
+    grid-template-columns: 1fr;
+  }
+  .dca-asignaturas-container {
+    display: block;
+  }
+  .editar-profesor-tabs {
+    gap: 3px;
+  }
+  .editar-curso-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .dca-layout {
+    grid-template-columns: 1fr;
+  }
+}

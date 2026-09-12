@@ -128,3 +128,15 @@
   white-space: nowrap;
   margin-left: auto;
 }
+
+@media (max-width: 767px) {
+  .admin-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .admin-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

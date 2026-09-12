@@ -120,3 +120,71 @@ button.btn-actualizar-perfil-alumno {
   cursor: pointer;
   color: #888;
 }
+
+/* ================= TABLET (768px - 1023px) =================
+   La tarjeta de "Cambiar contraseña" (3er hijo del layout) pasa
+   a la columna derecha, debajo de la foto. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .perfil-alumno-layout {
+    grid-template-columns: 1fr;
+  }
+  .perfil-alumno-foto-card {
+    order: -1;
+  }
+}
+
+/* ================= MÓVIL (hasta 767px) ================= */
+@media (max-width: 767px) {
+  .perfil-alumno-page h1 {
+    font-size: 20px;
+  }
+
+  /* Todo en una columna, con la foto primero */
+  .perfil-alumno-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .perfil-alumno-foto-card {
+    order: -1;
+  }
+
+  .perfil-alumno-form-card,
+  .perfil-alumno-foto-card,
+  .perfil-alumno-layout > :nth-child(3) {
+    width: 100%;
+    padding: 18px;
+  }
+
+  .perfil-alumno-form-card input,
+  .password-input-wrapper input {
+    font-size: 16px; /* evita el zoom automático de iOS al tocar el input */
+  }
+
+  /* Fila de "Centro / Curso / Asignatura / Código": la etiqueta se
+     encoge y el valor puede pasar a la línea siguiente sin romperse
+     a media palabra */
+  .perfil-group {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+  }
+
+  .perfil-group label {
+    width: 90px;
+    flex-shrink: 0;
+    font-size: 12px;
+  }
+
+  .perfil-alumno-valor {
+    font-size: 12px;
+    word-break: break-word;
+    flex: 1;
+  }
+
+  button.btn-actualizar-perfil-alumno {
+    width: 100%;
+    justify-content: center;
+  }
+}

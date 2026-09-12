@@ -182,7 +182,9 @@ const Login = () => {
     const updateGoogleWidth = () => {
       if (window.innerWidth <= 767) {
         const anchoReal = googleWrapperRef.current?.offsetWidth;
-        setGoogleWidth(anchoReal || 300);
+        setGoogleWidth(anchoReal || 350);
+      } else if (window.innerWidth <= 1100) {
+        setGoogleWidth(140);
       } else {
         setGoogleWidth(150);
       }

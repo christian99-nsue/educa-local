@@ -222,3 +222,15 @@
   gap: 8px;
   width: 100%;
 }
+
+@media (max-width: 767px) {
+  .horario-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .horario-layout {
+    grid-template-columns: 1fr;
+  }
+}

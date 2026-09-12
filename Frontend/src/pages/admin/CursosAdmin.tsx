@@ -199,7 +199,7 @@ function CursosAdmin() {
       </div>
 
       <div className="admin-alumnos-filtros">
-        <div className="buscador-ad">
+        <div className="buscador">
           <Search size={18} />
           <input
             placeholder="Buscar curso..."
@@ -256,7 +256,7 @@ function CursosAdmin() {
       </div>
 
       {totales && (
-        <div className="admin-cursos-summary-grid">
+        <div className="admin-summary-grid">
           <div className="admin-summary-card">
             <div
               className="admin-summary-icono"
@@ -311,85 +311,86 @@ function CursosAdmin() {
           </div>
         </div>
       )}
-
-      <div className="admin-alumnos-tabla-wrapper">
-        <table className="admin-alumnos-tabla">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Curso</th>
-              <th>Nivel</th>
-              <th>Alumnos</th>
-              <th>Asignaturas</th>
-              <th>Tutor / Responsable</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cursosPagina.map((c, i) => (
-              <tr key={c.id}>
-                <td>{(pagina - 1) * PAGE_SIZE + i + 1}</td>
-                <td>
-                  <strong>{c.curso}</strong>
-                </td>
-                <td>
-                  {c.nivel && (
-                    <span className="admin-badge admin-badge-azul">
-                      {c.nivel}
-                    </span>
-                  )}
-                </td>
-                <td>{c.totalAlumnos}</td>
-                <td>{c.totalAsignaturas}</td>
-                <td>
-                  {c.tutor ? (
-                    <div className="admin-alumno-col">
-                      <div className="admin-alumno-avatar">
-                        {c.tutor.fotoUrl ? (
-                          <img src={c.tutor.fotoUrl} alt={c.tutor.nombre} />
-                        ) : (
-                          <span>{getIniciales(c.tutor.nombre)}</span>
-                        )}
-                      </div>
-                      <span>{c.tutor.nombre}</span>
-                    </div>
-                  ) : (
-                    <span className="admin-badge-vacio">Sin asignar</span>
-                  )}
-                </td>
-                <td>
-                  <div className="admin-acciones">
-                    <button
-                      className="admin-accion-btn ver"
-                      onClick={() => navigate(`/admin/cursos/${c.id}`)}
-                    >
-                      <Eye size={14} />
-                    </button>
-                    <button
-                      className="admin-accion-btn editar"
-                      onClick={() => navigate(`/admin/cursos/${c.id}/editar`)}
-                    >
-                      <Pencil size={14} />
-                    </button>
-                    <button
-                      className="admin-accion-btn eliminar"
-                      onClick={() => setEliminarCurso(c)}
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {cursosPagina.length === 0 && (
+      <div className="calificaciones-tabla-wrapper-pf">
+        <div className="calificaciones-tabla-scroll-pf">
+          <table className="calificaciones-tabla-pf">
+            <thead>
               <tr>
-                <td colSpan={7} className="material-vacio">
-                  No se encontraron cursos.
-                </td>
+                <th>#</th>
+                <th>Curso</th>
+                <th>Nivel</th>
+                <th>Alumnos</th>
+                <th>Asignaturas</th>
+                <th>Tutor / Responsable</th>
+                <th>Acciones</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {cursosPagina.map((c, i) => (
+                <tr key={c.id}>
+                  <td>{(pagina - 1) * PAGE_SIZE + i + 1}</td>
+                  <td>
+                    <strong>{c.curso}</strong>
+                  </td>
+                  <td>
+                    {c.nivel && (
+                      <span className="admin-badge admin-badge-azul">
+                        {c.nivel}
+                      </span>
+                    )}
+                  </td>
+                  <td>{c.totalAlumnos}</td>
+                  <td>{c.totalAsignaturas}</td>
+                  <td>
+                    {c.tutor ? (
+                      <div className="admin-alumno-col">
+                        <div className="admin-alumno-avatar">
+                          {c.tutor.fotoUrl ? (
+                            <img src={c.tutor.fotoUrl} alt={c.tutor.nombre} />
+                          ) : (
+                            <span>{getIniciales(c.tutor.nombre)}</span>
+                          )}
+                        </div>
+                        <span>{c.tutor.nombre}</span>
+                      </div>
+                    ) : (
+                      <span className="admin-badge-vacio">Sin asignar</span>
+                    )}
+                  </td>
+                  <td>
+                    <div className="admin-acciones">
+                      <button
+                        className="admin-accion-btn ver"
+                        onClick={() => navigate(`/admin/cursos/${c.id}`)}
+                      >
+                        <Eye size={14} />
+                      </button>
+                      <button
+                        className="admin-accion-btn editar"
+                        onClick={() => navigate(`/admin/cursos/${c.id}/editar`)}
+                      >
+                        <Pencil size={14} />
+                      </button>
+                      <button
+                        className="admin-accion-btn eliminar"
+                        onClick={() => setEliminarCurso(c)}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {cursosPagina.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="material-vacio">
+                    No se encontraron cursos.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {cursosFiltrados.length > 0 && (

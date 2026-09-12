@@ -81,7 +81,7 @@ function HorarioAlumno() {
       }
       try {
         const res = await fetch(
-          `${API_URL}/api/horario/mi-horario?centroId=${centroActivo.id}`,
+          `${API_URL}/api/alumno/horario/mi-horario?centroId=${centroActivo.id}`,
           { headers: { Authorization: `Bearer ${token}` } },
         );
         const data = await res.json();

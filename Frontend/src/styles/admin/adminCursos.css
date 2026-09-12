@@ -11,17 +11,16 @@
 }
 
 .btn-agregar-curso {
-  display: flex;
-  align-items: center;
-  gap: 6px;
   background: rgb(202, 1, 1);
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 10px 16px;
   font-weight: 500;
+  padding: 10px 16px;
   cursor: pointer;
-  margin-left: auto;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
 }
 
 .btn-agregar-curso:hover {

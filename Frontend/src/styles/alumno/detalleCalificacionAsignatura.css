@@ -140,3 +140,37 @@
   padding: 8px 0;
   font-size: 13px;
 }
+
+@media (max-width: 767px) {
+  .detalle-calif-layout {
+    grid-template-columns: 1fr;
+  }
+  .detalle-calif-tabla th:nth-child(2),
+  .detalle-calif-tabla td:nth-child(2),
+  .detalle-calif-tabla th:nth-child(3),
+  .detalle-calif-tabla td:nth-child(3) {
+    display: none;
+  }
+  .calif-pill-td {
+    text-align: left;
+    width: 90px;
+  }
+  .detalle-calif-header-izq {
+    width: 100%;
+  }
+  .detalle-calif-promedio-box {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .detalle-calif-layout {
+    grid-template-columns: 1fr;
+  }
+  .detalle-calif-header-izq {
+    width: 100%;
+  }
+  .detalle-calif-promedio-box {
+    width: 100%;
+  }
+}

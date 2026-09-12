@@ -207,7 +207,7 @@ function DetalleCalificacionAsignatura() {
                   <td style={{ color: act.color?.color, fontWeight: 700 }}>
                     {act.tuPuntuacion}
                   </td>
-                  <td>
+                  <td className="calif-pill-td">
                     <span
                       className="calif-pill"
                       style={{

@@ -33,13 +33,21 @@ const estilos = [
 ];
 
 function AsignaturasProfesor() {
-  const [vistaLista, setVistaLista] = useState(false);
+  const [vistaLista, setVistaLista] = useState(() => window.innerWidth <= 767);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [busqueda, setBusqueda] = useState("");
   const [filtroPeriodo, setFiltroPeriodo] = useState("actual");
   const navigate = useNavigate();
   const [asignaturas, setAsignaturas] = useState<AsignaturaProfesor[]>([]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 767) setVistaLista(true);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const cargarAsignaturas = async () => {
@@ -81,7 +89,7 @@ function AsignaturasProfesor() {
   if (loading) return <p>Cargando asignaturas...</p>;
   if (error) {
     return (
-      <div className="content-pf asignaturas-estado asignaturas-error">
+      <div className="content asignaturas-estado asignaturas-error">
         <p>{error}</p>
         <p className="asignaturas-error-ayuda">
           {" "}
@@ -92,8 +100,8 @@ function AsignaturasProfesor() {
     );
   }
   return (
-    <div className="content-pf asignaturas-page-pf">
-      <div className="asignaturas-header-pf">
+    <div className="content asignaturas-page">
+      <div className="asignaturas-header">
         <div>
           <h1>Mis asignaturas</h1>
           <p>Gestiona todas tus asignaturas y clases</p>
@@ -106,8 +114,8 @@ function AsignaturasProfesor() {
           {vistaLista ? "Ver como grid" : "Ver como lista"}
         </button>
       </div>
-      <div className="asignaturas-filtro-pf">
-        <div className="buscador-pf">
+      <div className="asignaturas-filtros">
+        <div className="buscador">
           <Search size={18} />
           <input
             placeholder="Buscar asignatura"
@@ -115,9 +123,9 @@ function AsignaturasProfesor() {
             onChange={(e) => setBusqueda(e.target.value)}
           />
         </div>
-        <div className="filtro-pf">
+        <div className="filtro">
           <select
-            className="filtro-select-pf"
+            className="filtro-select"
             value={filtroPeriodo}
             onChange={(e) => setFiltroPeriodo(e.target.value)}
           >
@@ -160,7 +168,9 @@ function AsignaturasProfesor() {
                     <FontAwesomeIcon icon={faUsers} /> {a.total_alumnos} alumnos
                   </span>
                 </div>
-                <ChevronRight size={14} />
+                <div className="row-chevron">
+                  <ChevronRight size={20} color="gray" />
+                </div>
               </div>
             );
           })}

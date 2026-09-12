@@ -262,7 +262,7 @@ function HorariosListaAdmin() {
               )}
             </div>
 
-            <div className="admin-acciones">
+            <div className="admin-acciones-hr">
               <button
                 className="admin-accion-btn ver"
                 onClick={() => navigate(`/admin/horarios/${h.id}`)}

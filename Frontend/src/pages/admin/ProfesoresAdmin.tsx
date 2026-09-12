@@ -274,7 +274,7 @@ function ProfesoresAdmin() {
       )}
 
       <div className="admin-alumnos-filtros">
-        <div className="buscador-ad">
+        <div className="buscador">
           <Search size={18} />
           <input
             placeholder="Buscar profesor por nombre, correo o codigo..."
@@ -343,76 +343,78 @@ function ProfesoresAdmin() {
         </div>
       </div>
 
-      <div className="admin-alumnos-tabla-wrapper">
-        <table className="admin-alumnos-tabla">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Profesor</th>
-              <th>Codigo</th>
-              <th>Asignaturas que imparte</th>
-              <th>Cursos</th>
-              <th>Correo</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {profesoresPagina.map((p, i) => (
-              <tr key={p.id}>
-                <td>{(pagina - 1) * PAGE_SIZE + i + 1}</td>
-                <td>
-                  <div className="admin-alumno-col">
-                    <div className="admin-alumno-avatar">
-                      {p.fotoUrl ? (
-                        <img src={p.fotoUrl} alt={p.nombre} />
-                      ) : (
-                        <span>{getIniciales(p.nombre, p.apellidos)}</span>
-                      )}
-                    </div>
-                    <span>
-                      {p.nombre} {p.apellidos}
-                    </span>
-                  </div>
-                </td>
-                <td>{p.codigo ?? "-"}</td>
-                <td>{renderBadges(p.asignaturas, "admin-badge-azul")}</td>
-                <td>{renderBadges(p.cursos, "admin-badge-verde")}</td>
-                <td>{p.email}</td>
-                <td>
-                  <div className="admin-acciones">
-                    <button
-                      className="admin-accion-btn ver"
-                      onClick={() => navigate(`/admin/profesores/${p.id}`)}
-                    >
-                      <Eye size={14} />
-                    </button>
-                    <button
-                      className="admin-accion-btn editar"
-                      onClick={() =>
-                        navigate(`/admin/profesores/${p.id}/editar`)
-                      }
-                    >
-                      <Pencil size={14} />
-                    </button>
-                    <button
-                      className="admin-accion-btn eliminar"
-                      onClick={() => setEliminarProfesor(p)}
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {profesoresPagina.length === 0 && (
+      <div className="calificaciones-tabla-wrapper-pf">
+        <div className="calificaciones-tabla-scroll-pf">
+          <table className="calificaciones-tabla-pf">
+            <thead>
               <tr>
-                <td colSpan={7} className="material-vacio">
-                  No se encontraron profesores.
-                </td>
+                <th>#</th>
+                <th>Profesor</th>
+                <th>Codigo</th>
+                <th>Asignaturas que imparte</th>
+                <th>Cursos</th>
+                <th>Correo</th>
+                <th>Acciones</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {profesoresPagina.map((p, i) => (
+                <tr key={p.id}>
+                  <td>{(pagina - 1) * PAGE_SIZE + i + 1}</td>
+                  <td>
+                    <div className="admin-alumno-col">
+                      <div className="admin-alumno-avatar">
+                        {p.fotoUrl ? (
+                          <img src={p.fotoUrl} alt={p.nombre} />
+                        ) : (
+                          <span>{getIniciales(p.nombre, p.apellidos)}</span>
+                        )}
+                      </div>
+                      <span>
+                        {p.nombre} {p.apellidos}
+                      </span>
+                    </div>
+                  </td>
+                  <td>{p.codigo ?? "-"}</td>
+                  <td>{renderBadges(p.asignaturas, "admin-badge-azul")}</td>
+                  <td>{renderBadges(p.cursos, "admin-badge-verde")}</td>
+                  <td>{p.email}</td>
+                  <td>
+                    <div className="admin-acciones">
+                      <button
+                        className="admin-accion-btn ver"
+                        onClick={() => navigate(`/admin/profesores/${p.id}`)}
+                      >
+                        <Eye size={14} />
+                      </button>
+                      <button
+                        className="admin-accion-btn editar"
+                        onClick={() =>
+                          navigate(`/admin/profesores/${p.id}/editar`)
+                        }
+                      >
+                        <Pencil size={14} />
+                      </button>
+                      <button
+                        className="admin-accion-btn eliminar"
+                        onClick={() => setEliminarProfesor(p)}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {profesoresPagina.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="material-vacio">
+                    No se encontraron profesores.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {profesoresFiltrados.length > 0 && (

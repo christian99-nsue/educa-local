@@ -97,7 +97,7 @@
   box-shadow: 4px 6px 10px 4px rgba(100, 100, 100, 0.5);
 }
 
-.tarea-row .row-icon {
+.row-icon-tr {
   width: 48px;
   height: 48px;
   border-radius: 10px;
@@ -107,17 +107,17 @@
   flex-shrink: 0;
 }
 
-.tarea-row .row-info {
+.row-info-tr {
   flex: 1;
   min-width: 0;
 }
 
-.tarea-row .row-info h3 {
+.tarea-row .row-info-tr h3 {
   font-size: 16px;
   margin-bottom: 2px;
 }
 
-.tarea-row .row-info p {
+.tarea-row .row-info-tr p {
   font-size: 12px;
   color: #757575;
   margin: 0;
@@ -203,24 +203,120 @@
   cursor: not-allowed;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1100px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .tareas-summary-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  /* Con 5 tarjetas en una grid de 3 columnas, la fila 2 deja
+     "Entregadas" y "Calificadas" ocupando las dos primeras columnas,
+     igual que en tu mockup. No hace falta nada más para eso. */
+
+  .filtro-select-tarea {
+    width: 100%;
+  }
 }
 
-@media (max-width: 700px) {
+/* ================= MÓVIL (hasta 767px) ================= */
+@media (max-width: 767px) {
+  .tareas-page h1 {
+    font-size: 20px;
+  }
+
+  /* La primera tarjeta ("Total de tareas") ocupa todo el ancho,
+     las otras 4 se reparten en 2 columnas debajo */
   .tareas-summary-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
   }
 
+  .tareas-summary-grid .summary-card-tr:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .summary-card-tr {
+    height: auto;
+    min-height: 70px;
+    padding: 12px;
+    gap: 2px;
+  }
+
+  .tareas-summary-grid .summary-card-tr .icon-title {
+    font-size: 13px;
+  }
+
+  .tareas-summary-grid .summary-card-tr strong {
+    font-size: 18px;
+  }
+
+  .tareas-summary-grid .summary-card-tr .summary-sub {
+    font-size: 10px;
+  }
+
+  /* El select nativo de asignatura/estado, a todo el ancho y
+     con 16px para que el navegador no haga zoom al tocarlo */
+  .filtro-select-tarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  /* Tarjetas de la lista de tareas, más compactas */
   .tarea-row {
-    flex-wrap: wrap;
+    padding: 12px 14px;
+    gap: 10px;
   }
 
-  .row-dias,
+  .row-icon-tr {
+    width: 40px;
+    height: 40px;
+  }
+  .row-info-tr {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 100px;
+  }
+
+  .tarea-row .row-info-tr h3 {
+    font-size: 14px;
+  }
+
+  .tarea-row .row-info-tr p {
+    font-size: 11px;
+  }
+
   .tarea-estado {
-    min-width: auto;
+    min-width: 65px;
+    gap: 3px;
+    align-items: center;
+  }
+
+  .estado-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+
+  .tarea-nota {
+    font-size: 11px;
+    padding-right: 0;
+  }
+
+  .row-dias {
+    min-width: 60px;
+    font-size: 11px;
+    text-align: center;
+  }
+
+  /* Paginación: texto arriba, botones centrados debajo */
+  .tareas-paginacion {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  .paginacion-botones {
+    align-self: center;
   }
 }

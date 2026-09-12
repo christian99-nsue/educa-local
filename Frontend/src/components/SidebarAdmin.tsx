@@ -15,8 +15,14 @@ import {
 
 interface SidebarAdminProps {
   onCerrarSesionClick: () => void;
+  abierto: boolean;
+  onClose: () => void;
 }
-const SidebarAdmin = ({ onCerrarSesionClick }: SidebarAdminProps) => {
+const SidebarAdmin = ({
+  onCerrarSesionClick,
+  abierto,
+  onClose,
+}: SidebarAdminProps) => {
   const [user, setUser] = useState(getUser());
 
   useEffect(() => {
@@ -26,7 +32,7 @@ const SidebarAdmin = ({ onCerrarSesionClick }: SidebarAdminProps) => {
   }, []);
 
   return (
-    <div className="sidebar-admin">
+    <div className={`sidebar-admin ${abierto ? "abierta" : ""}`}>
       <h2 className="logo-ad">EDUCA LOCAL</h2>
       <div className="profile-ad">
         <img
@@ -45,6 +51,7 @@ const SidebarAdmin = ({ onCerrarSesionClick }: SidebarAdminProps) => {
         <NavLink
           to="/admin"
           end
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-ad active-ad" : "nav-item-ad"
           }
@@ -54,6 +61,7 @@ const SidebarAdmin = ({ onCerrarSesionClick }: SidebarAdminProps) => {
         </NavLink>
         <NavLink
           to="alumnos"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-ad active-ad" : "nav-item-ad"
           }
@@ -63,6 +71,7 @@ const SidebarAdmin = ({ onCerrarSesionClick }: SidebarAdminProps) => {
         </NavLink>
         <NavLink
           to="profesores"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-ad active-ad" : "nav-item-ad"
           }
@@ -71,7 +80,8 @@ const SidebarAdmin = ({ onCerrarSesionClick }: SidebarAdminProps) => {
           <span>Profesores</span>
         </NavLink>
         <NavLink
-          to="Cursos"
+          to="cursos"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-ad active-ad" : "nav-item-ad"
           }
@@ -81,6 +91,7 @@ const SidebarAdmin = ({ onCerrarSesionClick }: SidebarAdminProps) => {
 
         <NavLink
           to="horarios"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-ad active-ad" : "nav-item-ad"
           }
@@ -90,6 +101,7 @@ const SidebarAdmin = ({ onCerrarSesionClick }: SidebarAdminProps) => {
         </NavLink>
         <NavLink
           to="ajustes"
+          onClick={onClose}
           className={({ isActive }) =>
             isActive ? "nav-item-ad active-ad" : "nav-item-ad"
           }

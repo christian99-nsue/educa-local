@@ -1,8 +1,8 @@
 .admin-alumnos-header {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
 }
 
 .admin-alumnos-filtros {
@@ -101,11 +101,13 @@
   justify-content: center;
   font-size: 11px;
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .admin-alumno-avatar img {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
   object-fit: cover;
 }
 
@@ -256,4 +258,26 @@ p.perfil-alumno-valor-ad {
   padding: 6px 4px;
   font-size: 12px;
   cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .admin-alumnos-filtros,
+  .detalle-alumno-layout {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+  .buscador input {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .admin-alumnos-filtros,
+  .detalle-alumno-layout {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+  .filtro-select {
+    width: 100%;
+  }
 }

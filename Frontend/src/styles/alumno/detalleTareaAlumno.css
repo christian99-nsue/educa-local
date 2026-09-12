@@ -169,3 +169,16 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+@media (max-width: 767px) {
+  .dta-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .dta-layout {
+    grid-template-columns: 1fr;
+    margin-bottom: 20px;
+  }
+}

@@ -172,7 +172,7 @@ function HorarioProfesor() {
   }
 
   return (
-    <div className="content-pf horario-page">
+    <div className="content horario-page">
       <h1>Horario</h1>
       <p className="subtitle">
         Consulta tu horario de clases y actividades academicas.

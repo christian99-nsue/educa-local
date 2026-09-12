@@ -122,7 +122,7 @@ function DetalleTareaProfesor() {
   if (loading) return <p>Cargando tarea...</p>;
   if (error || !tarea) {
     return (
-      <div className="content-pf">
+      <div className="content">
         <p>{error || "No se pudo cargar la tarea"}</p>
       </div>
     );
@@ -139,7 +139,7 @@ function DetalleTareaProfesor() {
 
   const estilo = estilos[tarea.asignaturaId % estilos.length];
   return (
-    <div className="content-pf detalle-tarea-page">
+    <div className="content detalle-tarea-page">
       <div className="detalle-asig-breadcrumb">
         <span onClick={() => navigate("/profesor/tareas")}>Tareas</span>{" "}
         <ChevronRight size={12} /> <strong>{tarea.titulo}</strong>
@@ -164,7 +164,7 @@ function DetalleTareaProfesor() {
             <span className="tag-tipo">Tarea</span>
             <span>{tarea.asignatura}</span>
             <span>•</span>
-            <span>
+            <span className="tag-clase">
               {tarea.curso}
               {tarea.rama ? ` • ${tarea.rama}` : ""}
             </span>

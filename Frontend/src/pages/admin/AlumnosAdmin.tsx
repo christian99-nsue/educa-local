@@ -250,7 +250,7 @@ function AlumnosAdmin() {
       )}
 
       <div className="admin-alumnos-filtros">
-        <div className="buscador-ad">
+        <div className="buscador">
           <Search size={18} />
           <input
             placeholder="Buscar alumnos por nombre, correo o codigo..."
@@ -318,80 +318,81 @@ function AlumnosAdmin() {
           )}
         </div>
       </div>
-
-      <div className="admin-alumnos-tabla-wrapper">
-        <table className="admin-alumnos-tabla">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Alumno</th>
-              <th>Codigo</th>
-              <th>Curso</th>
-              <th>Correo</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {alumnosPagina.map((a, i) => (
-              <tr key={a.id}>
-                <td>{(pagina - 1) * PAGE_SIZE + i + 1}</td>
-                <td>
-                  <div className="admin-alumno-col">
-                    <div className="admin-alumno-avatar">
-                      {a.fotoUrl ? (
-                        <img src={a.fotoUrl} alt={a.nombre} />
-                      ) : (
-                        <span>{getIniciales(a.nombre, a.apellidos)}</span>
-                      )}
-                    </div>
-                    <span>
-                      {a.nombre} {a.apellidos}
-                    </span>
-                  </div>
-                </td>
-                <td>{a.codigo ?? "-"}</td>
-                <td>
-                  {a.curso ?? "-"}
-                  {a.rama && (
-                    <span className="admin-alumno-rama"> {a.rama}</span>
-                  )}
-                </td>
-                <td>{a.email}</td>
-                <td>
-                  <div className="admin-acciones">
-                    <button
-                      className="admin-accion-btn ver"
-                      onClick={() => navigate(`/admin/alumnos/${a.id}`)}
-                    >
-                      <Eye size={14} />
-                    </button>
-                    <button
-                      className="admin-accion-btn editar"
-                      onClick={() =>
-                        navigate(`/admin/alumnos/${a.id}?editar=1`)
-                      }
-                    >
-                      <Pencil size={14} />
-                    </button>
-                    <button
-                      className="admin-accion-btn eliminar"
-                      onClick={() => setEliminarAlumno(a)}
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {alumnosPagina.length === 0 && (
+      <div className="calificaciones-tabla-wrapper-pf">
+        <div className="calificaciones-tabla-scroll-pf">
+          <table className="calificaciones-tabla-pf">
+            <thead>
               <tr>
-                <td colSpan={6} className="material-vacio">
-                  No se encontraron alumnos.
-                </td>
+                <th>#</th>
+                <th>Alumno</th>
+                <th>Codigo</th>
+                <th>Curso</th>
+                <th>Correo</th>
+                <th>Acciones</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {alumnosPagina.map((a, i) => (
+                <tr key={a.id}>
+                  <td>{(pagina - 1) * PAGE_SIZE + i + 1}</td>
+                  <td>
+                    <div className="admin-alumno-col">
+                      <div className="admin-alumno-avatar">
+                        {a.fotoUrl ? (
+                          <img src={a.fotoUrl} alt={a.nombre} />
+                        ) : (
+                          <span>{getIniciales(a.nombre, a.apellidos)}</span>
+                        )}
+                      </div>
+                      <span>
+                        {a.nombre} {a.apellidos}
+                      </span>
+                    </div>
+                  </td>
+                  <td>{a.codigo ?? "-"}</td>
+                  <td>
+                    {a.curso ?? "-"}
+                    {a.rama && (
+                      <span className="admin-alumno-rama"> {a.rama}</span>
+                    )}
+                  </td>
+                  <td>{a.email}</td>
+                  <td>
+                    <div className="admin-acciones">
+                      <button
+                        className="admin-accion-btn ver"
+                        onClick={() => navigate(`/admin/alumnos/${a.id}`)}
+                      >
+                        <Eye size={14} />
+                      </button>
+                      <button
+                        className="admin-accion-btn editar"
+                        onClick={() =>
+                          navigate(`/admin/alumnos/${a.id}?editar=1`)
+                        }
+                      >
+                        <Pencil size={14} />
+                      </button>
+                      <button
+                        className="admin-accion-btn eliminar"
+                        onClick={() => setEliminarAlumno(a)}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {alumnosPagina.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="material-vacio">
+                    No se encontraron alumnos.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {alumnosFiltrados.length > 0 && (

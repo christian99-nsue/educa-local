@@ -276,8 +276,8 @@ function EditorHorarioAdmin() {
       </div>
 
       {vista === "semana" ? (
-        <div className="admin-horario-tabla-card">
-          <table className="admin-horario-tabla">
+        <div className="horario-tabla-wrapper">
+          <table className="horario-tabla">
             <thead>
               <tr>
                 <th className="col-hora">Hora</th>

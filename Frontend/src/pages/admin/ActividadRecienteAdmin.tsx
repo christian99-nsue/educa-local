@@ -326,11 +326,8 @@ function ActividadRecienteAdmin() {
         <div className="admin-actividad-header-tabla">
           <div>
             <h3>Historial de actividad</h3>
-            <p>
-              Mostrando 1 a {actividades.length} de {total} actividades
-            </p>
           </div>
-          <div className="buscador" style={{ width: 280 }}>
+          <div className="buscador-ad">
             <Search size={16} />
             <input
               placeholder="Buscar actividad..."
@@ -348,119 +345,115 @@ function ActividadRecienteAdmin() {
             {error}
           </p>
         ) : (
-          <table className="admin-alumnos-tabla">
-            <thead>
-              <tr>
-                <th>Fecha y hora</th>
-                <th>Usuario</th>
-                <th>Accion</th>
-                <th>Tipo</th>
-                <th>Detalle</th>
-                <th>Modulo</th>
-                <th>IP</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {actividades.map((a) => {
-                const { fecha, hora } = formatearFechaHora(a.createdAt);
-                const estilo = categoriaEstilo[a.categoria] ?? {
-                  bg: "#f3f4f6",
-                  color: "#666",
-                };
-                return (
-                  <tr key={a.id}>
-                    <td>
-                      <div>{fecha}</div>
-                      <span style={{ fontSize: 11, color: "#999" }}>
-                        {hora}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="admin-alumno-col">
-                        <div className="admin-alumno-avatar">
-                          {a.fotoUrl ? (
-                            <img src={a.fotoUrl} alt={a.usuario} />
-                          ) : (
-                            <span>{a.usuario[0]}</span>
-                          )}
+          <div className="calificaciones-tabla-scroll-pf">
+            <table className="calificaciones-tabla-pf">
+              <thead>
+                <tr>
+                  <th>Fecha y hora</th>
+                  <th>Usuario</th>
+                  <th>Accion</th>
+                  <th>Tipo</th>
+                  <th>Detalle</th>
+                  <th>Modulo</th>
+                  <th>IP</th>
+                </tr>
+              </thead>
+              <tbody>
+                {actividades.map((a) => {
+                  const { fecha, hora } = formatearFechaHora(a.createdAt);
+                  const estilo = categoriaEstilo[a.categoria] ?? {
+                    bg: "#f3f4f6",
+                    color: "#666",
+                  };
+                  return (
+                    <tr key={a.id}>
+                      <td>
+                        <div>{fecha}</div>
+                        <span style={{ fontSize: 11, color: "#999" }}>
+                          {hora}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="admin-alumno-col">
+                          <div className="admin-alumno-avatar">
+                            {a.fotoUrl ? (
+                              <img src={a.fotoUrl} alt={a.usuario} />
+                            ) : (
+                              <span>{a.usuario[0]}</span>
+                            )}
+                          </div>
+                          <div>
+                            <div>{a.usuario}</div>
+                            <span
+                              style={{
+                                fontSize: 11,
+                                color: "#999",
+                                textTransform: "capitalize",
+                              }}
+                            >
+                              {a.rol ?? "-"}
+                            </span>
+                          </div>
                         </div>
-                        <div>
-                          <div>{a.usuario}</div>
-                          <span
-                            style={{
-                              fontSize: 11,
-                              color: "#999",
-                              textTransform: "capitalize",
-                            }}
-                          >
-                            {a.rol ?? "-"}
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>{a.titulo}</td>
-                    <td>
-                      <span
-                        className="estado-pill"
-                        style={{ background: estilo.bg, color: estilo.color }}
-                      >
-                        {a.categoria}
-                      </span>
-                    </td>
-                    <td>{a.descripcion}</td>
-                    <td>{a.modulo}</td>
-                    <td>{a.ip ?? "-"}</td>
-                    <td className="col-chevron">
-                      <MoreVertical size={16} />
+                      </td>
+                      <td>{a.titulo}</td>
+                      <td>
+                        <span
+                          className="estado-pill"
+                          style={{ background: estilo.bg, color: estilo.color }}
+                        >
+                          {a.categoria}
+                        </span>
+                      </td>
+                      <td>{a.descripcion}</td>
+                      <td>{a.modulo}</td>
+                      <td>{a.ip ?? "-"}</td>
+                    </tr>
+                  );
+                })}
+                {actividades.length === 0 && (
+                  <tr>
+                    <td colSpan={8} className="material-vacio">
+                      No hay actividad en el rango seleccionado.
                     </td>
                   </tr>
-                );
-              })}
-              {actividades.length === 0 && (
-                <tr>
-                  <td colSpan={8} className="material-vacio">
-                    No hay actividad en el rango seleccionado.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
       {total > 0 && (
-          <div className="tareas-paginacion">
-            <span>
-              Mostrando {(pagina - 1) * 20 + 1} a {Math.min(pagina * 20, total)}{" "}
-              de {total} actividades
-            </span>
-            <div className="paginacion-botones">
+        <div className="tareas-paginacion">
+          <span>
+            Mostrando {(pagina - 1) * 20 + 1} a {Math.min(pagina * 20, total)}{" "}
+            de {total} actividades
+          </span>
+          <div className="paginacion-botones">
+            <button
+              disabled={pagina === 1}
+              onClick={() => setPagina((p) => Math.max(1, p - 1))}
+            >
+              {"<"}
+            </button>
+            {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((n) => (
               <button
-                disabled={pagina === 1}
-                onClick={() => setPagina((p) => Math.max(1, p - 1))}
+                key={n}
+                className={n === pagina ? "activo" : ""}
+                onClick={() => setPagina(n)}
               >
-                {"<"}
+                {n}
               </button>
-              {Array.from({ length: totalPaginas }, (_, i) => i + 1).map(
-                (n) => (
-                  <button
-                    key={n}
-                    className={n === pagina ? "activo" : ""}
-                    onClick={() => setPagina(n)}
-                  >
-                    {n}
-                  </button>
-                ),
-              )}
-              <button
-                disabled={pagina === totalPaginas}
-                onClick={() => setPagina((p) => Math.min(totalPaginas, p + 1))}
-              >
-                {">"}
-              </button>
-            </div>
+            ))}
+            <button
+              disabled={pagina === totalPaginas}
+              onClick={() => setPagina((p) => Math.min(totalPaginas, p + 1))}
+            >
+              {">"}
+            </button>
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 }

@@ -3,22 +3,22 @@ import {
   Home,
   BookOpen,
   ClipboardList,
-  BarChart2,
   MoreHorizontal,
+  Users,
 } from "lucide-react";
 
 interface BottomNavProps {
   onMasClick: () => void;
 }
 
-const BottomNav = ({ onMasClick }: BottomNavProps) => {
+const BottomNavProfesor = ({ onMasClick }: BottomNavProps) => {
   return (
     <nav className="bottom-nav">
       <NavLink
-        to="/alumno"
+        to="/profesor"
         end
         className={({ isActive }) =>
-          isActive ? "bottom-nav-item active" : "bottom-nav-item"
+          isActive ? "bottom-nav-item-pf active-pf" : "bottom-nav-item-pf"
         }
       >
         <Home size={18} />
@@ -28,7 +28,7 @@ const BottomNav = ({ onMasClick }: BottomNavProps) => {
       <NavLink
         to="asignaturas"
         className={({ isActive }) =>
-          isActive ? "bottom-nav-item active" : "bottom-nav-item"
+          isActive ? "bottom-nav-item-pf active-pf" : "bottom-nav-item-pf"
         }
       >
         <BookOpen size={18} />
@@ -38,7 +38,7 @@ const BottomNav = ({ onMasClick }: BottomNavProps) => {
       <NavLink
         to="tareas"
         className={({ isActive }) =>
-          isActive ? "bottom-nav-item active" : "bottom-nav-item"
+          isActive ? "bottom-nav-item-pf active-pf" : "bottom-nav-item-pf"
         }
       >
         <ClipboardList size={18} />
@@ -46,16 +46,16 @@ const BottomNav = ({ onMasClick }: BottomNavProps) => {
       </NavLink>
 
       <NavLink
-        to="calificaciones"
+        to="asistencia"
         className={({ isActive }) =>
-          isActive ? "bottom-nav-item active" : "bottom-nav-item"
+          isActive ? "bottom-nav-item-pf active-pf" : "bottom-nav-item-pf"
         }
       >
-        <BarChart2 size={18} />
-        <span>Calificaciones</span>
+        <Users size={18} />
+        <span>Asistencia</span>
       </NavLink>
 
-      <button className="bottom-nav-item" onClick={onMasClick}>
+      <button className="bottom-nav-item-pf" onClick={onMasClick}>
         <MoreHorizontal size={18} />
         <span>Más</span>
       </button>
@@ -63,4 +63,4 @@ const BottomNav = ({ onMasClick }: BottomNavProps) => {
   );
 };
 
-export default BottomNav;
+export default BottomNavProfesor;

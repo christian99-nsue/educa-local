@@ -198,3 +198,13 @@
   border: none;
   outline: none;
 }
+
+@media (max-width: 767px) {
+  .calificar-col-preview {
+    display: none;
+  }
+
+  .calificar-col-info {
+    width: 320px;
+  }
+}

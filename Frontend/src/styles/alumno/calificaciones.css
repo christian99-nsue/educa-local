@@ -136,3 +136,167 @@
   font-weight: 700;
   font-size: 14px;
 }
+
+/* ============ PANTALLAS MEDIANAS (hasta 1100px) ============
+   Los filtros y el botón de exportar tienen anchos fijos que no
+   caben cuando el contenido pierde espacio (tablet, sidebar, etc). */
+@media (max-width: 1100px) {
+  .calificaciones-filtros {
+    flex-wrap: wrap;
+  }
+
+  .filtro-select-cal {
+    width: 100%;
+  }
+
+  .filtro {
+    flex: 1 1 180px;
+  }
+}
+
+/* ================= TABLET (768px - 1023px) =================
+   Las 4 tarjetas ya caben en una fila, solo las compactamos un poco. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .calificaciones-summary-grid {
+    gap: 12px;
+  }
+
+  .calif-summary-card {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .calif-summary-icono {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+
+  .calif-summary-card strong {
+    font-size: 18px;
+  }
+  .calif-tabla-wrapper {
+    margin-bottom: 40px;
+  }
+}
+
+/* ================= MÓVIL (hasta 767px) ================= */
+@media (max-width: 767px) {
+  .calificaciones-page h1 {
+    font-size: 20px;
+  }
+
+  /* 4 tarjetas en 2 columnas */
+  .calificaciones-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .calif-summary-card {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .calif-summary-icono {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+  }
+
+  .calif-summary-label {
+    font-size: 11px;
+  }
+
+  .calif-summary-card strong {
+    font-size: 18px;
+  }
+
+  .calif-summary-sub {
+    font-size: 10px;
+  }
+
+  /* Filtros y botón de exportar apilados, a todo el ancho */
+  .calificaciones-filtros {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .filtro {
+    width: 100%;
+    flex: none;
+  }
+
+  .filtro-select-cal {
+    width: 100%;
+    font-size: 16px; /* evita el zoom automático de iOS al tocar el select */
+  }
+
+  .calif-exportar-col {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .btn-exportar-cal {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .exportar-dropdown-cal-pf {
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+  .exportar-dropdown-cal-pf button {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* --- Tabla: Asignatura, Promedio y la flecha; se ocultan
+     "Actividades calificadas" y "Estado" --- */
+  .calif-tabla th:nth-child(3),
+  .calif-tabla td:nth-child(3),
+  .calif-tabla th:nth-child(4),
+  .calif-tabla td:nth-child(4) {
+    display: none;
+  }
+
+  .calif-tabla th,
+  .calif-tabla td {
+    padding: 12px 14px;
+    font-size: 12px;
+  }
+
+  /* La celda de la flecha ocupa poco y no necesita padding lateral extra */
+  .calif-tabla td.col-chevron {
+    padding-left: 4px;
+    width: 24px;
+  }
+
+  .calif-tabla td.calif-promedio {
+    text-align: left;
+  }
+
+  .calif-icono {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+  }
+
+  .calif-asignatura-col {
+    gap: 8px;
+  }
+
+  .calif-asignatura-col strong {
+    font-size: 13px;
+  }
+
+  .calif-asignatura-col span {
+    font-size: 10px;
+  }
+
+  .calif-promedio {
+    font-size: 13px;
+  }
+}

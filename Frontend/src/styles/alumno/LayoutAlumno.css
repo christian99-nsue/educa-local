@@ -321,7 +321,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #003152;
+  color: #686868;
   padding: 4px;
 }
 
@@ -346,21 +346,18 @@
   display: none;
 }
 
-/* ================= TABLET Y MÓVIL (hasta 767px) ================= */
+/* ================= MÓVIL (hasta 767px) ================= */
 @media (max-width: 767px) {
   .sidebar {
     z-index: 1000; /* por encima del overlay (900) */
+    width: 260px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
   }
   .menu-toggle {
     display: inline-flex;
   }
 
-  /* El sidebar se convierte en un panel deslizante (drawer) */
-  .sidebar {
-    width: 260px;
-    transform: translateX(-100%);
-    transition: transform 0.25s ease;
-  }
   .sidebar.abierta {
     transform: translateX(0);
   }
@@ -370,22 +367,10 @@
     margin-left: 0;
     width: 100dvw;
   }
-  .header {
-    left: 0;
-    width: 100dvw;
-  }
 }
 
 /* ================= MÓVIL (hasta 767px) ================= */
 @media (max-width: 767px) {
-  /* En móvil ocultamos el nombre del centro y mostramos el logo en su lugar */
-  .header-left {
-    display: none;
-  }
-  .header-logo-mobile {
-    display: block;
-  }
-
   /* El avatar en el header se ve solo, sin nombre/rol, para ahorrar espacio */
   .header-perfil small {
     display: none;
@@ -457,18 +442,23 @@
 /* ================= TABLET (768px - 1023px) ================= */
 @media (min-width: 768px) and (max-width: 1023px) {
   .sidebar {
-    width: 220px !important;
+    width: 180px;
     padding: 14px;
   }
 
   .right-side-al {
-    margin-left: 220px !important;
-    width: calc(100dvw - 220px) !important;
+    margin-left: 180px;
+    width: calc(100dvw - 180px);
   }
 
   .header {
-    left: 220px !important;
-    width: calc(100dvw - 220px) !important;
+    left: 180px !important;
+    width: calc(100dvw - 180px) !important;
+  }
+
+  .center {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .logo {

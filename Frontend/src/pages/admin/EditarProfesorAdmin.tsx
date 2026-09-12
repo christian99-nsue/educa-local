@@ -510,7 +510,7 @@ function EditarProfesorAdmin() {
             return (
               <div key={a.profesorAsignaturaId} className="asignacion-item">
                 <div
-                  className="row-icon"
+                  className="row-icon-pf"
                   style={{ background: estilo.bg, color: estilo.color }}
                 >
                   <FontAwesomeIcon

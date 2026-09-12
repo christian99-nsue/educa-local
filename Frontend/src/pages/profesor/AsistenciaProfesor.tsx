@@ -270,7 +270,7 @@ function AsistenciaProfesor() {
   };
 
   return (
-    <div className="content-pf asistencia-page">
+    <div className="content asistencia-page">
       <h1>Asistencia</h1>
       <p className="subtitle">Gestiona la asistencia de tus clases</p>
 
@@ -338,7 +338,7 @@ function AsistenciaProfesor() {
         </div>
       </div>
 
-      <div className="asistencia-tabla-wrapper-as-pf">
+      <div className="calificaciones-tabla-wrapper-pf">
         <div className="asistencia-tabla-header-as-pf">
           <div>
             <strong>Clase del {fechaFormateada}</strong>
@@ -357,62 +357,64 @@ function AsistenciaProfesor() {
         {loading ? (
           <p style={{ padding: 20 }}>Cargando alumnos...</p>
         ) : (
-          <table className="asistencia-tabla-pf">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Estudiante</th>
-                <th>Estado</th>
-                <th>Observaciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {alumnos.map((al, i) => (
-                <tr key={al.id}>
-                  <td>{i + 1}</td>
-                  <td className="col-estudiante-pf">
-                    <span className="avatar-iniciales-pf">
-                      {getIniciales(al.nombre, al.apellidos)}
-                    </span>
-                    {al.nombre} {al.apellidos}
-                  </td>
-                  <td>
-                    <select
-                      className="estado-select-pf"
-                      value={al.estado}
-                      style={{
-                        background: estadoConfig[al.estado].bg,
-                        color: estadoConfig[al.estado].color,
-                      }}
-                      onChange={(e) =>
-                        actualizarEstado(
-                          al.id,
-                          e.target.value as Alumno["estado"],
-                        )
-                      }
-                    >
-                      <option value="presente">✓ Presente</option>
-                      <option value="ausente">✕ Ausente</option>
-                      <option value="justificado">⊖ Justificado</option>
-                    </select>
-                  </td>
-                  <td>
-                    <input
-                      className="observaciones-input-pf"
-                      placeholder="Observaciones (opcional)"
-                      value={al.observaciones}
-                      onChange={(e) =>
-                        actualizarObservaciones(al.id, e.target.value)
-                      }
-                    />
-                  </td>
+          <div className="calificaciones-tabla-scroll-pf">
+            <table className="calificaciones-tabla-pf">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Estudiante</th>
+                  <th>Estado</th>
+                  <th>Observaciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {alumnos.map((al, i) => (
+                  <tr key={al.id}>
+                    <td>{i + 1}</td>
+                    <td className="col-estudiante-pf">
+                      <span className="avatar-iniciales-pf">
+                        {getIniciales(al.nombre, al.apellidos)}
+                      </span>
+                      {al.nombre} {al.apellidos}
+                    </td>
+                    <td>
+                      <select
+                        className="estado-select-pf"
+                        value={al.estado}
+                        style={{
+                          background: estadoConfig[al.estado].bg,
+                          color: estadoConfig[al.estado].color,
+                        }}
+                        onChange={(e) =>
+                          actualizarEstado(
+                            al.id,
+                            e.target.value as Alumno["estado"],
+                          )
+                        }
+                      >
+                        <option value="presente">✓ Presente</option>
+                        <option value="ausente">✕ Ausente</option>
+                        <option value="justificado">⊖ Justificado</option>
+                      </select>
+                    </td>
+                    <td className="observaciones">
+                      <input
+                        className="observaciones-input-pf"
+                        placeholder="Observaciones (opcional)"
+                        value={al.observaciones}
+                        onChange={(e) =>
+                          actualizarObservaciones(al.id, e.target.value)
+                        }
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
 
-        <div className="asistencia-total-pf">
+        <div className="calificaciones-total-pf">
           Total estudiantes: <strong>{alumnos.length}</strong>
         </div>
       </div>

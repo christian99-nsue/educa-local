@@ -115,25 +115,100 @@
 
 /*CENTER*/
 
-.center-pf {
-  padding-left: 40px;
-  padding-right: 40px;
-  margin-top: 40px;
-  padding-top: 30px;
-  padding-bottom: 30px;
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 900;
 }
 
 @media (max-width: 767px) {
   .sidebar-profesor {
-    display: none;
+    width: 260px;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 1000;
   }
+
+  .sidebar-profesor.abierta {
+    transform: translateX(0);
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
   .right-side {
     margin-left: 0;
+    width: 100dvw;
   }
+
+  .bottom-nav-item-pf {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    color: #757575;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex: 1;
+    padding: 6px 0;
+  }
+
+  .bottom-nav-item-pf.active-pf {
+    color: #df0000;
+    font-weight: 700;
+  }
+}
+
+/* ================= TABLET (768px - 1023px) ================= */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sidebar-profesor {
+    width: 180px;
+    padding: 14px;
+  }
+
+  .right-side {
+    margin-left: 180px;
+    width: calc(100dvw - 180px);
+  }
+
   .header {
+    left: 180px !important;
+    width: calc(100dvw - 180px) !important;
+  }
+
+  .logo-pf {
     width: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
+    font-size: 14px;
+  }
+
+  .profile-pf img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .profile-pf p {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .menu-title-pf {
+    font-size: 14px;
+  }
+
+  .nav-item-pf {
+    font-size: 11px;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+    width: 100%;
   }
 }

@@ -235,7 +235,7 @@ function PerfilProfesorAdmin() {
             return (
               <div key={a.asignatura} className="ppa-asignatura-item">
                 <div
-                  className="row-icon"
+                  className="row-icon-pf"
                   style={{ background: estilo.bg, color: estilo.color }}
                 >
                   <FontAwesomeIcon
@@ -267,46 +267,52 @@ function PerfilProfesorAdmin() {
         {horasUnicas.length === 0 ? (
           <p className="material-vacio">Sin horario asignado.</p>
         ) : (
-          <table className="admin-alumnos-tabla">
-            <thead>
-              <tr>
-                <th>Hora</th>
-                {DIAS.map((d) => (
-                  <th key={d}>{d}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {horasUnicas.map((hora) => (
-                <tr key={hora}>
-                  <td>{hora.slice(0, 5)}</td>
-                  {DIAS.map((d) => {
-                    const clase = perfil.horarioResumen[d]?.find(
-                      (c) => c.horaInicio === hora,
-                    );
-                    return (
-                      <td key={d}>
-                        {clase ? (
-                          <div>
-                            <strong style={{ fontSize: 12 }}>
-                              {clase.asignatura}
-                            </strong>
-                            <p
-                              style={{ fontSize: 11, color: "#999", margin: 0 }}
-                            >
-                              {clase.curso}
-                            </p>
-                          </div>
-                        ) : (
-                          "–"
-                        )}
-                      </td>
-                    );
-                  })}
+          <div className="calificaciones-tabla-scroll-pf">
+            <table className="calificaciones-tabla-pf">
+              <thead>
+                <tr>
+                  <th>Hora</th>
+                  {DIAS.map((d) => (
+                    <th key={d}>{d}</th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {horasUnicas.map((hora) => (
+                  <tr key={hora}>
+                    <td>{hora.slice(0, 5)}</td>
+                    {DIAS.map((d) => {
+                      const clase = perfil.horarioResumen[d]?.find(
+                        (c) => c.horaInicio === hora,
+                      );
+                      return (
+                        <td key={d}>
+                          {clase ? (
+                            <div>
+                              <strong style={{ fontSize: 12 }}>
+                                {clase.asignatura}
+                              </strong>
+                              <p
+                                style={{
+                                  fontSize: 11,
+                                  color: "#999",
+                                  margin: 0,
+                                }}
+                              >
+                                {clase.curso}
+                              </p>
+                            </div>
+                          ) : (
+                            "–"
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
         <p
           className="ppa-ver-completo"

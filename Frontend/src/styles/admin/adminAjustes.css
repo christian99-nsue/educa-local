@@ -162,3 +162,17 @@
   object-fit: cover;
   border-radius: 50%;
 }
+
+@media (max-width: 767px) {
+  .admin-ajustes-grid-admin,
+  .admin-ajustes-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .admin-ajustes-grid-admin,
+  .admin-ajustes-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}

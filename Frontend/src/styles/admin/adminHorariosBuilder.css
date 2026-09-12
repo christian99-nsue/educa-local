@@ -169,6 +169,11 @@
   display: inline-block;
 }
 
+.admin-acciones-hr {
+  display: flex;
+  gap: 6px;
+}
+
 .horario-lista-dia-bloque {
   padding: 20px;
   border-bottom: 1px solid #eee;
@@ -177,4 +182,39 @@
 .horario-lista-dia-bloque h3 {
   font-size: 14px;
   margin-bottom: 12px;
+}
+
+@media (max-width: 767px) {
+  .horarios-lista-badge,
+  .horarios-lista-fila-detalle {
+    display: none;
+  }
+  .horarios-lista-fila {
+    width: 100%;
+    gap: 0px;
+  }
+  .admin-acciones-hr {
+    position: relative;
+    right: 30px;
+  }
+
+  .editor-horario-toolbar {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+  .horario-toggle-vista {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .editor-horario-toolbar {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+  .horario-toggle-vista {
+    display: flex;
+    justify-content: center;
+  }
 }

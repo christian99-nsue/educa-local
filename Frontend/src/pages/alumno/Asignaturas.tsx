@@ -146,7 +146,7 @@ function Asignaturas() {
         </div>
         <div className="filtro">
           <select
-            className="filtro-select"
+            className="filtro-select filtro-select-tablet"
             value={filtroTareas}
             onChange={(e) => setFiltroTareas(e.target.value)}
           >

@@ -291,7 +291,7 @@ function DetalleAsignaturaProfesor() {
   if (loading && !detalle) return <p>Cargando asignatura...</p>;
   if (error && !detalle) {
     return (
-      <div className="content-pf">
+      <div className="content">
         <p>{error}</p>
       </div>
     );
@@ -301,7 +301,7 @@ function DetalleAsignaturaProfesor() {
   const estilo = estilos[detalle.asignaturaId % estilos.length];
 
   return (
-    <div className="content-pf detalle-asignatura-page">
+    <div className="content detalle-asignatura-page">
       <div className="detalle-asig-breadcrumb">
         <span onClick={() => navigate("/profesor/asignaturas")}>
           Mis Asignaturas

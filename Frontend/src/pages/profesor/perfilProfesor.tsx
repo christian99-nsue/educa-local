@@ -146,14 +146,14 @@ function PerfilProfesor() {
   if (loading) return <p>Cargando perfil...</p>;
   if (!perfil) {
     return (
-      <div className="content-pf">
+      <div className="content">
         <p>{error || "No se pudo cargar el perfil"}</p>
       </div>
     );
   }
 
   return (
-    <div className="content-pf perfil-page">
+    <div className="content perfil-page">
       <h1>Mi perfil</h1>
       <p className="subtitle">Informacion de tu cuenta.</p>
       <div className="perfil-container">

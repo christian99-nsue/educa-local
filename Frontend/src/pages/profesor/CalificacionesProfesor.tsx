@@ -338,17 +338,17 @@ function CalificacionesProfesor() {
   };
 
   return (
-    <div className="content-cal-pf calificaciones-page">
+    <div className="content calificaciones-page">
       <h1>Calificaciones</h1>
       <p className="subtitle">
         Vista global de las calificaciones de todos tus grupos y asignaturas
       </p>
 
-      <div className="calificaciones-filtros-pf">
-        <div className="filtro-col-cal-pf">
+      <div className="asistencia-filtros-pf">
+        <div className="filtro-col-as-pf">
           <label>Asignatura</label>
           <select
-            className="filtro-select-cal-pf"
+            className="filtro-select-as-pf"
             value={asignaturaNombre}
             onChange={(e) => setAsignaturaNombre(e.target.value)}
           >
@@ -360,10 +360,10 @@ function CalificacionesProfesor() {
           </select>
         </div>
 
-        <div className="filtro-col-cal-pf">
+        <div className="filtro-col-as-pf">
           <label>Grupo / Clase</label>
           <select
-            className="filtro-select-cal-pf"
+            className="filtro-select-as-pf"
             value={cursoAsignaturaId}
             onChange={(e) => setCursoAsignaturaId(e.target.value)}
           >

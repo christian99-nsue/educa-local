@@ -126,7 +126,7 @@ function TareasProfesor() {
   }
 
   return (
-    <div className="content-pf tareas-profesor-page">
+    <div className="content tareas-profesor-page">
       <div className="tareas-profesor-header">
         <div>
           <h1>Tareas</h1>
@@ -152,9 +152,9 @@ function TareasProfesor() {
             }}
           />
         </div>
-        <div className="filtro-tarea-pf">
+        <div className="filtro">
           <select
-            className="filtro-select-tarea-pf"
+            className="filtro-select"
             value={filtroAsignatura}
             onChange={(e) => {
               setFiltroAsignatura(e.target.value);
@@ -196,7 +196,7 @@ function TareasProfesor() {
                   {t.rama && <span className="sub">{t.rama}</span>}
                 </td>
                 <td>{formatearFecha(t.fechaEntrega)}</td>
-                <td>
+                <td className="td-entrega">
                   {t.entregasRealizadas}/{t.totalAlumnos}
                 </td>
                 <td>

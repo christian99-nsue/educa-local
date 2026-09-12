@@ -72,10 +72,10 @@ function TareaCard({
 
   return (
     <div className="tarea-row" onClick={onClick}>
-      <div className="row-icon" style={{ background: bgColor, color }}>
+      <div className="row-icon-tr" style={{ background: bgColor, color }}>
         <FontAwesomeIcon icon={icono} size="2xl" />
       </div>
-      <div className="row-info">
+      <div className="row-info-tr">
         <h3>{titulo}</h3>
         <p>Asignatura: {asignatura}</p>
         <p>Fecha de entrega: {fechaFormateada}</p>

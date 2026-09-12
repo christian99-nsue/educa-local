@@ -277,3 +277,15 @@
   font-size: 14px;
   margin-bottom: 20px;
 }
+
+@media (max-width: 767px) {
+  .detalle-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .detalle-layout {
+    grid-template-columns: 1fr;
+  }
+}

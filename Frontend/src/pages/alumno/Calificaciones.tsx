@@ -156,7 +156,7 @@ function Calificaciones() {
 
   return (
     <div className="content calificaciones-page">
-      <h1>Mis Calificaciones</h1>
+      <h1>Mis calificaciones</h1>
       <p className="subtitle">
         Consulta tu rendimiento academico por asignatura y actividad.
       </p>

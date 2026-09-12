@@ -182,3 +182,15 @@
 .detalle-asig-info-row span {
   color: #888;
 }
+
+@media (max-width: 767px) {
+  .detalle-asig-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .detalle-asig-layout {
+    grid-template-columns: 1fr;
+  }
+}
