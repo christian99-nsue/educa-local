@@ -18,13 +18,20 @@ const sendEmail = (_a) => __awaiter(void 0, [_a], void 0, function* ({ to, subje
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
         throw new Error("SMTP no configurado: faltan EMAIL_USER o EMAIL_PASS");
     }
-    const transporter = nodemailer_1.default.createTransport({
-        service: "gmail",
+    const smtpOptions = {
+        host: process.env.SMTP_HOST || "smtp.gmail.com",
+        port: Number(process.env.SMTP_PORT || 587),
+        secure: process.env.SMTP_SECURE === "true",
+        family: 4,
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 15000,
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
         },
-    });
+    };
+    const transporter = nodemailer_1.default.createTransport(smtpOptions);
     try {
         yield transporter.sendMail({
             from: `"Educa Local" <${process.env.EMAIL_USER}>`,

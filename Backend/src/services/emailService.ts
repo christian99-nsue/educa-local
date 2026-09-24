@@ -11,13 +11,22 @@ export const sendEmail = async ({ to, subject, html }: SendEmailParams) => {
     throw new Error("SMTP no configurado: faltan EMAIL_USER o EMAIL_PASS");
   }
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
+  const smtpOptions: import("nodemailer/lib/smtp-transport").Options & {
+    family: 4;
+  } = {
+    host: process.env.SMTP_HOST || "smtp.gmail.com",
+    port: Number(process.env.SMTP_PORT || 587),
+    secure: process.env.SMTP_SECURE === "true",
+    family: 4,
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-  });
+  };
+  const transporter = nodemailer.createTransport(smtpOptions);
 
   try {
     await transporter.sendMail({
